@@ -1,0 +1,29 @@
+[[algorithm-overview]]
+= 算法和数据结构
+include::attributes.adoc[]
+
+== 简介
+
+数据结构是一门研究算法的学科
+
+程序 = 数据结构 + 算法
+
+include::structure.adoc[leveloffset=+1]
+//
+//include::algorithm/sort.adoc[leveloffset=+1]
+//
+//include::algorithm/simple.adoc[leveloffset=+1]
+//
+//include::algorithm/recursive.adoc[leveloffset=+1]
+//
+//include::algorithm/array.adoc[leveloffset=+1]
+//
+//include::algorithm/list.adoc[leveloffset=+1]
+//
+//include::algorithm/stack.adoc[leveloffset=+1]
+//
+//include::algorithm/queue.adoc[leveloffset=+1]
+//
+//include::algorithm/graph.adoc[leveloffset=+1]
+//
+//include::algorithm/other.adoc[leveloffset=+1]
