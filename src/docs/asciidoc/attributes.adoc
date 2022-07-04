@@ -14,5 +14,5 @@
 :revdate: {localdate}
 
 
-:java-code: {rootProject}/src/main/java/com/jcohy/sample/algorithm
-:go-code: {rootProject}/src/main/go/com/jcohy/sample/algorithm
+:java-code: {rootProject}/src/main/java/com/jcohy/sample
+:go-code: {rootProject}/src/main/go/com/jcohy/sample

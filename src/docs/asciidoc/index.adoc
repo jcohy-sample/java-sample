@@ -1,29 +1,77 @@
-[[algorithm-overview]]
-= 算法和数据结构
+[[java-overview]]
+= Java 基础
 include::attributes.adoc[]
 
-== 简介
+== Java 的现状
 
-数据结构是一门研究算法的学科
+2020 年是 Java 诞生的第 25 个年头。Oracle 表示，目前 java 仍然流行编程语言，广泛使用在企业中。目前全世界有超过 69％ 的专职开发人员使用 Java，全世界有 510 亿台活动 Java 虚拟机(JVM)在部署中，目前 Java 主要被用于分析，数据管理，大数据，DevOps，移动，持续开发工具和聊天机器人等服务。
 
-程序 = 数据结构 + 算法
+== 历史版本的主要新特性
 
-include::structure.adoc[leveloffset=+1]
+在过去的这些年中，Java 在过去增强功能的推动下为用户提供了超过二十年的创新。例如:
+
+* JDK 5:enum、泛型、自动装箱与拆箱、可变参数、增强循环等
+* JDK 6:支持脚本语言、JDBC4.0API
+* JDK 7:支持try-with-resources、switch语句块增加String支持、NIO2.0包
+* JDK 8:lambda表达式、Stream API、新的日期时间的API、方法引用、构造器引用
+* JDK 9:模块化系统、jshell
+* JDK 10:局部变量的类型推断
+* JDK 11:ZGC的引入、Epsilon GC
+* JDK 12:switch表达式、Shenandoah GC、增强G1
+* JDK 13:switch表达式引入yield、文本块
+* JDK 14:instanceof 模式匹配、Records、弃用 Parallel Scavenge+Serial GC组合、删除CMS GC
+* JDK 15:数字签名算法、密封类、隐藏类、模式匹配、ZGC、外部存储器访问 API、Record
+* JDK 16:适用于 instanceof 的模式匹配、Record、Unix-Domain 套接字通道、打包工具、默认强封装 JDK 内部元素、向量 API（孵化器）
+* JDK 17:switch 的模式匹配、密封类、大图标访问新 API、外部函数和内存 API、统一日志支持异步日志刷新
+
+== 近期版本发布及维护时间
+
+=== JDK 发版路线图:
+
+image::{oss-images}/JdkSupport.png[]
+
+=== Java SE 支持路线图:
+
+image::{oss-images}/javaSESupport.png[]
+
+=== 历年版本对应的 JEPS
+
+image::{oss-images}/JepPerRelease.png[]
+
+=== 名词解释
+
+* 孵化器模块(Incubator/孵化版/实验版):将 尚未定稿的 API 和工具先交给开发者使用,以获得反馈,并用这些反馈 进一步改进 Java 平台的质量.
+
+* 预览特性(Preview/预览版):是 规格已经成型、实现已经确定,但还未最终定稿的功能.它们 出现在 Java 中的目的是收集在真实世界中使用后的反馈信息,促进这些功能的最终定稿.这些特性可能会随时改变,根据反馈结果, 这些特性甚至可能会被移除,**但通常所有预览特性最后都会在 Java 中固定下来**
+
+//include::java/java8.adoc[leveloffset=+1]
 //
-//include::algorithm/sort.adoc[leveloffset=+1]
+//include::java/java9.adoc[leveloffset=+1]
 //
-//include::algorithm/simple.adoc[leveloffset=+1]
+//include::java/java10.adoc[leveloffset=+1]
 //
-//include::algorithm/recursive.adoc[leveloffset=+1]
+//include::java/java11.adoc[leveloffset=+1]
 //
-//include::algorithm/array.adoc[leveloffset=+1]
+//include::java/java12.adoc[leveloffset=+1]
 //
-//include::algorithm/list.adoc[leveloffset=+1]
+//include::java/java13.adoc[leveloffset=+1]
 //
-//include::algorithm/stack.adoc[leveloffset=+1]
+//include::java/java14.adoc[leveloffset=+1]
 //
-//include::algorithm/queue.adoc[leveloffset=+1]
+//include::java/java15.adoc[leveloffset=+1]
 //
-//include::algorithm/graph.adoc[leveloffset=+1]
+//include::java/java16.adoc[leveloffset=+1]
 //
-//include::algorithm/other.adoc[leveloffset=+1]
+//include::java/java17.adoc[leveloffset=+1]
+//
+//include::java/ArrayList.adoc[leveloffset=+1]
+//
+//include::java/HashMap.adoc[leveloffset=+1]
+//
+//include::java/LinkedHashMap.adoc[leveloffset=+1]
+//
+//include::java/HashSet.adoc[leveloffset=+1]
+//
+//include::java/juc.adoc[leveloffset=+1]
+//
+//include::java/nio.adoc[leveloffset=+1]
