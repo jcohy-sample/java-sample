@@ -1,3 +1,5 @@
+apply plugin: "java-library"
+
 description = "jcohy-study-sample"
 
 group = "com.jcohy.sample"

@@ -1,4 +1,4 @@
-package org.jcohy.sample;
+package com.jcohy.sample;
 
 /**
  * 描述: .
