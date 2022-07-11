@@ -5,6 +5,7 @@ description = "jcohy-study-sample"
 group = "com.jcohy.sample"
 version = "1.0.0"
 
+
 repositories {
     maven { url = 'https://maven.aliyun.com/repository/central'}
     maven { url = 'https://repo.spring.io/libs-milestone'}
@@ -13,7 +14,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'commons-codec:commons-codec'
     implementation('org.junit.jupiter:junit-jupiter')
+    implementation('org.junit.jupiter:junit-jupiter-engine')
 }
 
 configure(rootProject) { abjects ->

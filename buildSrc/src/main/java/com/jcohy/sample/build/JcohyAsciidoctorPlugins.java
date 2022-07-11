@@ -1,6 +1,8 @@
 package com.jcohy.sample.build;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.jcohy.convention.conventions.ConventionsPlugin;
@@ -11,6 +13,7 @@ import org.asciidoctor.gradle.jvm.AsciidoctorJPlugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginContainer;
+import org.gradle.api.tasks.compile.JavaCompile;
 
 /**
  * Copyright: Copyright (c) 2021 <a href="https://www.jcohy.com" target="_blank">jcohy.com</a>
@@ -29,10 +32,18 @@ public class JcohyAsciidoctorPlugins implements Plugin<Project> {
         plugins.apply(AsciidoctorJPlugin.class);
         plugins.apply(ConventionsPlugin.class);
         plugins.apply(DeployedPlugin.class);
+        configureJavaCompileConventions(project);
         plugins.withType(AsciidoctorJPlugin.class,(asciidoctorPlugin) -> {
             project.getTasks().withType(AbstractAsciidoctorTask.class, (asciidoctorTask) -> {
                 configureAsciidoctorTask(project, asciidoctorTask);
             });
+        });
+    }
+
+    private void configureJavaCompileConventions(Project project) {
+        project.getTasks().withType(JavaCompile.class, compile -> {
+            compile.setSourceCompatibility("11");
+            compile.setTargetCompatibility("11");
         });
     }
 

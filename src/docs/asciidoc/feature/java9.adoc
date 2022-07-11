@@ -1,19 +1,19 @@
 [[java-9-feature]]
-= Java9 新特性
+= Java 9 新特性
 
 [[java-9-feature-overview]]
-== Java9 新特性一览
-Java 9 正式发布于 2017 年 9 月 21 日 .作为 Java8 之后 3 年半才发布的新版本,Java 9 带 来了很多重大的变化.其中最重要的改动是 Java 平台模块系统的引入.除此之外,还有一些新的特性. 本文对 Java9 中包含的新特性做了概括性的介绍,可以帮助你快速了解 Java 9.
-java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系统、可交互的 REPL 工具: jshell,JDK 编译工具,Java 公共 API 和私有代码,以及安全增强、扩展提升、性能管理改善等.可以说Java 9是一个庞大的系统工程,完全做了一个整体改变.
+== Java 9 新特性一览
+Java 9 正式发布于 2017 年 9 月 21 日 .作为 Java 8 之后 3 年半才发布的新版本,Java 9 带 来了很多重大的变化.其中最重要的改动是 Java 平台模块系统的引入.除此之外,还有一些新的特性. 本文对 Java 9 中包含的新特性做了概括性的介绍,可以帮助你快速了解 Java 9.
+java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系统、可交互的 REPL 工具: jshell,JDK 编译工具,Java 公共 API 和私有代码,以及安全增强、扩展提升、性能管理改善等.可以说 Java 9 是一个庞大的系统工程,完全做了一个整体改变.
 
 
-此版本为 "功能性" 版本,并非长期支持版本.Oracle 宣布这些版本只有短期支持(六个月).目前最新的 LTC 版本为 java11.目前官网已经不提供 java9 的下载.
+此版本为 "功能性" 版本,并非长期支持版本.Oracle 宣布这些版本只有短期支持(六个月).目前最新的 LTC 版本为 java11.目前官网已经不提供 java 9 的下载.
 详情参考 <<java-11-feature>>
 
 资料来源:  http://openjdk.java.net/projects/jdk9/
 
 [[java-9-feature-tbl]]
-.Java9 新特性一览
+.Java 9 新特性一览
 |===
 | 新特性| 翻译
 
@@ -200,6 +200,11 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 | 299: http://openjdk.java.net/jeps/299[Reorganize Documentation] | 整理文档
 |===
 
+[NOTE]
+====
+由于 Java 9 特性众多，这里不做一一介绍，只介绍比较重要有意义的特性
+====
+
 [[java-9-feature-jigsaw]]
 == 模块化系统 Jigsaw > Modularity
 
@@ -210,7 +215,7 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 - 220: Modular Run-Time Images
 
-- 260: Encapsulate Most Internal APIs
+- 260: Encapsulate Most Internal APIs 
 
 - 261: Module System
 
@@ -221,7 +226,7 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 Java 平台模块系统,也就是 Project Jigsaw,把模块化开发实践引入到了 Java 平台中.在引入了模块系统之后,JDK 被重新组织成 94 个模块.Java 应用可以通过新增的 jlink 工具,创建出只包含所依赖的 JDK 模块的自定义运行时镜像.这样可以极大的减少 Java 运行时环境的大小.这对于目前流行的不可变基础设施的实践来说,镜像的大小的减少可以节省很多存储空间和带宽资源 .
 
-模块化开发的实践在软件开发领域并不是一个新的概念.Java 开发社区已经使用这样的模块化实践有相当长的一段时间.主流的构建工具,包括 `Apache Maven` 和 `Gradle` 都支持把一个大的项目划分成若干个子项目.子项目之间通过不同的依赖关系组织在一起.每个子项目在构建之后都会产生对应的 JAR 文件. 在 Java9 中 ,已有的这些项目可以很容易的升级转换为 Java 9 模块 ,并保持原有的组织结构不变.
+模块化开发的实践在软件开发领域并不是一个新的概念.Java 开发社区已经使用这样的模块化实践有相当长的一段时间.主流的构建工具,包括 `Apache Maven` 和 `Gradle` 都支持把一个大的项目划分成若干个子项目.子项目之间通过不同的依赖关系组织在一起.每个子项目在构建之后都会产生对应的 JAR 文件. 在 Java 9 中 ,已有的这些项目可以很容易的升级转换为 Java 9 模块 ,并保持原有的组织结构不变.
 
 Java 9 模块的重要特征是在其工件(artifact)的根目录中包含了一个描述模块的 module-info.class 文 件. 工件的格式可以是传统的 JAR 文件或是 Java 9 新增的 JMOD 文件.这个文件由根目录中的源代码文件 module-info.java 编译而来.该模块声明文件可以描述模块的不同特征.模块声明文件中可以包含的内容如下:
 
@@ -235,7 +240,7 @@ Java 9 模块的重要特征是在其工件(artifact)的根目录中包含了一
 === 使用
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
 module com.jcohy.sample {
     exports com.jcohy.sample;
@@ -266,93 +271,114 @@ module com.jcohy.sample {
 === 使用举例
 
 
-1、调出jshell
+1、调出 jshell
 
-```shell
+[source,shell]
+----
 jshell
-```
+----
 
 2、获取帮助
 
-```shell
+[source,shell]
+----
 jshell> /help intro
-```
+----
 
 3、基本使用
 
-```shell
+[source,shell]
+----
 jshell> int add(int x, int y) {
     ...> return x + y;
     ...> }
  | 已创建 方法 add(int,int)
-```
+----
 接着就可以在 jshell 中直接使用这个方法
 
-```shell
+[source,shell]
+----
 jshell> add(1, 2)
 $19 ==> 3
-```
+----
 
 4、导入包
 
-```shell
+[source,shell]
+----
 jshell> import java.util.*
-```
+----
 
 5、查看默认导入的包
 
-```shell
+[source,shell]
+----
 jshell> /imports
-```
+----
+
 6、代码补全
-	TAB键
+TAB 键
+
 7、列出当前 session 里所有有效的代码片段
 
-```shell
+[source,shell]
+----
 jshell> /list
-```
+----
 8、查看当前 session 下所有创建过的变量
 
-```shell
+[source,shell]
+----
 jshell> /var
-```
+----
 
 9、查看当前 session 下所有创建过的方法
 
-```shell
+[source,shell]
+----
 jshell> /methods
-```
+----
+
 10、从外部文件加载源代码
-```shell
+
+[source,shell]
+----
 jshell> /open E:\hello.java
-```
+----
+
 11、没有受检异常(编译时异常)
-```shell
+
+[source,shell]
+----
 jshell> URL url = new URL("http://www.baidu.com");
 url ==> http://www.baidu.com
-```
+----
+
 说明: 本来应该强迫我们捕获一个 `IOException`,但却没有出现.因为 `jShell` 在后台为我们隐藏了.
-12、退出Jshell
-```shell
+
+12、退出 Jshell
+
+[source,shell]
+----
 jshell> /exit
  | 再见
-```
+----
 
 [[java-9-feature-jar]]
-== 多版本兼容jar包
+== 多版本兼容 jar 包
 
 [[java-9-feature-jar-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 238: Multi-Release JAR Files
 
-当一个新版本的Java出现的时候,你的库用户要花费数年时间才会切换到这个新的版本.这就意味着库得去向后兼容你想要支持的最老的Java版本(许多情况下就是Java 6 或者 Java7).这实际上意味着未来的很长一段时间,你都不能在库中运用Java 9所提供的新特性.幸运的是,多版本兼容jar功能能让你创建仅在特定版本的Java环境中运行库程序选择使用的class版本.
+当一个新版本的 Java 出现的时候,你的库用户要花费数年时间才会切换到这个新的版本.这就意味着库得去向后兼容你想要支持的最老的 Java 版本(许多情况下就是 Java 6 或者 Java 7).这实际上意味着未来的很长一段时间,你都不能在库中运用Java 9 所提供的新特性.幸运的是,多版本兼容 jar 功能能让你创建仅在特定版本的 Java 环境中运行库程序选择使用的 class 版本.
 
 [[java-9-feature-jar-overview]]
 === 概述
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
 jar root
   - A.class
@@ -374,10 +400,10 @@ jar root
 [[java-9-feature-jar-use]]
 === 使用
 
-1、创建一个类,使用java 9 版本语法
+1、创建一个类,使用 Java 9 版本语法
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
 import java.util.Set;
 /**
@@ -392,10 +418,10 @@ public class Generator {
 }
 ----
 
-2、创建一个同名类,使用java 8版本语法
+2、创建一个同名类,使用 Java 8 版本语法
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
 import java.util.Set;
 import java.util.HashSet;
@@ -413,7 +439,7 @@ public class Generator {
 3、创建测试类
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
 public class Application {
    public static void testMultiJar(){
@@ -440,86 +466,51 @@ jar --create --main-class=Application --file multijar.jar -C build . --release 9
 === 接口的私有方法
 
 [[java-9-feature-grammar-interface-feature]]
-==== 官方Feature
+==== 官方 Feature
 
 213: Milling Project Coin
 
-Java 8中规定接口中的方法除了抽象方法之外,还可以定义静态方法和默认的方法.一定程度上,扩展了接口的功能,此时的接口更像是一个抽象类.
-在Java 9中,接口更加的灵活和强大,连方法的访问权限修饰符都可以声明为private的了,此时方法将不会成为你对外暴露的API的一部分.
+Java 8 中规定接口中的方法除了抽象方法之外,还可以定义静态方法和默认的方法.一定程度上,扩展了接口的功能,此时的接口更像是一个抽象类.
+在 Java 9 中,接口更加的灵活和强大,连方法的访问权限修饰符都可以声明为 private 的了,此时方法将不会成为你对外暴露的 API 的一部分.
 
 [[java-9-feature-grammar-diamond]]
 === 钻石操作符
 
-我们将能够与匿名实现类共同使用钻石操作符(diamond operator),在java 8中如下的操作是会报错的:
+我们将能够与匿名实现类共同使用钻石操作符(diamond operator),在 Java 8 中如下的操作是会报错的:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
-    private List<String> flattenStrings(List<String>... lists) {
-        Set<String> set = new HashSet<>(){};
-        for(List<String> list : lists) {
-            set.addAll(list);
-        }
-        return new ArrayList<>(set);
-    }
+include::{java-code}/java9/Tests.java[tag=interface1]
 ----
 
 编译报错信息: `'<>'` cannot be used with anonymous classes
 
 [[java-9-feature-grammar-try]]
-=== try语句
+=== try 语句
 
-在 java 8 之前,我们习惯于这样处理资源的关闭:
+在 Java 8 之前,我们习惯于这样处理资源的关闭:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
-InputStreamReader reader = null;
-try{
-    reader = new InputStreamReader(System.in);
-    //流的操作
-    reader.read();
-}catch (IOException e){
-    e.printStackTrace();
-}finally{
-    if(reader != null){
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
+include::{java-code}/java9/Tests.java[tag=resource1]
 ----
 
 java 8 中,可以实现资源的自动关闭,但是要求执行后必须关闭的所有资源必须在 try 子句中初始化,否则编译不通过.如下例所示:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
-try(InputStreamReader reader = new InputStreamReader(System.in)){
-
-}catch (IOException e){
-    e.printStackTrace();
-}
+include::{java-code}/java9/Tests.java[tag=resource2]
 ----
 
 java 9 中,用资源语句编写 `try` 将更容易,我们可以在 `try` 子句中使用已经初始化过的资源,此时的资源是 `final` 的:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-public void test3(){
-    //jdk 1.9
-    InputStreamReader reader = new  InputStreamReader(System.in);
-    OutputStreamWriter writer = new OutputStreamWriter(System.out);
-    try(reader;writer){
-        //reader是final的,不可再被赋值
-        //reader = null;
-    }catch (IOException e){
-        e.printStackTrace();
-    }
-}
+include::{java-code}/java9/Tests.java[tag=resource3]
 ----
 
 [[java-9-feature-grammar-underscope]]
@@ -528,7 +519,7 @@ public void test3(){
 在 java 8 中,标识符可以独立使用 `_` 来命名:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
 String _ = "hello";
 System.out.println(_);
@@ -540,21 +531,21 @@ System.out.println(_);
 == String 存储结构变更
 
 [[java-9-feature-string-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * JEP 254: Compact Strings
 
 [[java-9-feature-string-motivation]]
 === 动机
 
-String 类的在 jdk8 之前的实现是采用的 char 数组来存储的,每个字符使用两个字节(十六位).然而, 从许多不同的应用程序收集到的数据表明,字符串是堆使用的主要组成部分,而且,大多数 String 对象仅包含 Latin-1 这样的拉丁字符. 这样的字符仅需要一个字节的存储空间,因此此类 String 对象的内部char数组中的一半空间都没有使用.
+String 类的在 jdk8 之前的实现是采用的 char 数组来存储的,每个字符使用两个字节(十六位).然而, 从许多不同的应用程序收集到的数据表明,字符串是堆使用的主要组成部分,而且,大多数 String 对象仅包含 Latin-1 这样的拉丁字符. 这样的字符仅需要一个字节的存储空间,因此此类 String 对象的内部 char 数组中的一半空间都没有使用.
 
 [[java-9-feature-string-impl]]
 === 实现
 
 我们建议将 String 类的内部表示形式从 UTF-16 字符数组更改为字节数组,再加上一个 `encoding-flag` 字段.新的 String 类将存储基于字符串内容编码为 `ISO-8859-1/Latin-1`(每个字符一个字节)或 UTF-16(每个字符两个字节)的字符.`encoding-flag` 字段将指示使用哪种编码.
 与字符串相关的类(例如 `AbstractStringBuilder`,`StringBuilder` 和 `StringBuffer`)将更新为使用相同的表示形式,HotSpot VM的固有字符串操作也将使用相同的表示形式.
-这纯粹是实现更改,不更改现有的公共接口.没有计划添加任何新的公共API或其他接口.
+这纯粹是实现更改,不更改现有的公共接口.没有计划添加任何新的公共 API 或其他接口.
 
 [[java-9-feature-collections]]
 === 集合工厂方法
@@ -567,76 +558,48 @@ String 类的在 jdk8 之前的实现是采用的 char 数组来存储的,每个
 在集合上,Java 9 增加 了 `List.of()、Set.of()、Map.of()` 和 `Map.ofEntries()` 等工厂方法来创建不可变集合 ,如下所示.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-List.of();
-List.of("Hello", "World");
-List.of(1, 2, 3);
-Set.of();
-Set.of("Hello", "World");
-Set.of(1, 2, 3);
-Map.of();
-Map.of("Hello", 1, "World", 2);
+include::{java-code}/java9/Tests.java[tag=collection1]
 ----
 
 [[java-9-feature-stream]]
-=== 增强的StreamAPI
+=== 增强的 Stream API
 
 Stream 中增加了新的方法 `ofNullable`、`dropWhile`、`takeWhile` 和 `iterate`.在 如下代码中,流中包含了从 1 到 5 的 元素.断言检查元素是否为奇数.第一个元素 1 被删除,结果流中包含 4 个元素.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-@Test
-public void testDropWhile() throws Exception {
-    final long count = Stream.of(1, 2, 3, 4, 5)
-        .dropWhile(i -> i % 2 != 0)
-        .count();
-    assertEquals(4, count);
-}
+include::{java-code}/java9/Tests.java[tag=testDropWhile]
 ----
 
 `Collectors` 中增加了新的方法 `filtering` 和 `flatMapping`.在 如下代码中,对于输入的 `String` 流 ,先通过 `flatMapping` 把 `String` 映射成 `Integer` 流 ,再把所有的 `Integer` 收集到一个集合中.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-@Test
-public void testFlatMapping() throws Exception {
-    final Set<Integer> result = Stream.of("a", "ab", "abc")
-        .collect(Collectors.flatMapping(v -> v.chars().boxed(),
-            Collectors.toSet()));
-    assertEquals(3, result.size());
-}
+include::{java-code}/java9/Tests.java[tag=testFlatMapping]
 ----
 
 `Optional` 类中新增了 `ifPresentOrElse`、`or` 和 `stream` 等方法.在 如下代码中,Optional 流中包含 3 个 元素,其中只有 2 个有值.在使用 `flatMap` 之后,结果流中包含了 2 个值.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-@Test
-public void testStream() throws Exception {
-    final long count = Stream.of(
-        Optional.of(1),
-        Optional.empty(),
-        Optional.of(2)
-    ).flatMap(Optional::stream)
-        .count();
-    assertEquals(2, count);
-}
+include::{java-code}/java9/Tests.java[tag=testStream]
 ----
 
 [[java-9-feature-multi-images]]
-== 多分辨率图像API
+== 多分辨率图像 API
 
 [[java-9-feature-multi-images-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 251: Multi-Resolution Images
 * 263: HiDPI Graphics on Windows and Linux
 
-在 `Mac` 上,JDK已经支持视网膜显示,但在 `Linux` 和 `Windows` 上,它并没有.在那里,Java程序在当前的高分辨率屏幕上可能看起来很小,不能使用它们.这是因为像素用于这些系统的大小计算(无论像素实际有多大).毕竟,高分辨率显示器的有效部分是像素非常小.
+在 `Mac` 上,JDK 已经支持视网膜显示,但在 `Linux` 和 `Windows` 上,它并没有.在那里,Java 程序在当前的高分辨率屏幕上可能看起来很小,不能使用它们.这是因为像素用于这些系统的大小计算(无论像素实际有多大).毕竟,高分辨率显示器的有效部分是像素非常小.
 
 JEP 263 以这样的方式扩展了JDK,即 `Windows` 和 `Linux` 也考虑到像素的大小.为此,使用比现在更多的现代 API: Direct2D for Windows和GTK +,而不是 Xlib for Linux.图形,窗口和文本由此自动缩放.
 
@@ -653,85 +616,70 @@ JEP 251 还提供处理多分辨率图像的能力,即包含不同分辨率的�
 * `MultiResolutionImage` 的基础实现是 `java.awt.image.BaseMultiResolutionImage`
 
 [[java-9-feature-http]]
-== 全新的HTTP客户端API
+== 全新的 HTTP 客户端 API
 
 [[java-9-feature-http-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 110: HTTP 2 Client
 
 HTTP/1.1 和 HTTP/2 的主要区别是如何在客户端和服务器之间构建和传输数据.HTTP/1.1 依赖于请求/响应周期. HTTP/2 允许服务器 "push" 数据: 它可以发送比客户端请求更多的数据. 这使得它可以优先处理并发送对于首先加载网页至关重要的数据.
 
-Java 9中有新的方式来处理HTTP调用.它提供了一个新的HTTP客户端(`HttpClient`),它将替代仅适用于 blocking 模式的 `HttpURLConnection` (`HttpURLConnection` 是在HTTP 1.0的时代创建的,并使用了协议无关的方法),并提供对 WebSocket 和 HTTP/2 的支持.
+Java 9 中有新的方式来处理 HTTP 调用.它提供了一个新的 HTTP 客户端( `HttpClient` ),它将替代仅适用于 blocking 模式的 `HttpURLConnection` (`HttpURLConnection` 是在 HTTP 1.0 的时代创建的,并使用了协议无关的方法),并提供对 WebSocket 和 HTTP/2 的支持.
 
 此外,HTTP 客户端还提供 API 来处理 HTTP/2 的特性,比如流和服务器推送等功能.
 
-全新的 HTTP 客户端API可以从 `jdk.incubator.httpclient` 模块中获取.因为在默认情况下,这个模块是不能根据 `classpath` 获取的,需要使用 `add modules` 命令选项配置这个模块,将这个模块添加到 `classpath` 中.
+全新的 HTTP 客户端 API 可以从 `jdk.incubator.httpclient` 模块中获取.因为在默认情况下,这个模块是不能根据 `classpath` 获取的,需要使用 `add modules` 命令选项配置这个模块,将这个模块添加到 `classpath` 中.
 
 [[java-9-feature-http-use]]
 === 使用
 
-[[java-9-feature-deprecation]]
-== Deprecated的相关API
-
-[[java-9-feature-deprecation-feature]]
-=== 官方Feature
-
-* 211: Elide Deprecation Warnings on Import Statements
-* 214: Remove GC Combinations Deprecated in JDK 8
-* 277: Enhanced Deprecation
-* 289: Deprecate the Applet API
-* 291: Deprecate the Concurrent Mark Sweep (CMS) Garbage Collector
-
-Java 9 废弃或者移除了几个不常用的功能.其中最主要的是 `Applet` API,现在是标记为废弃的.随着对安全要求的提高,主流浏览器已经取消对 Java 浏览器插件的支持.HTML5 的出现也进一步加速了它的消亡.
-开发者现在可以使用像 Java Web Start 这样的技术来代替 `Applet`,它可以实现从浏览器启动应用程序或者安装应用程序.同时,`appletviewer` 工具也被标记为废弃.
-
 [[java-9-feature-compilation]]
-== 智能Java编译工具
+== 智能 Java 编译工具
 
 [[java-9-feature-compilation-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 139: Enhance javac to Improve Build Speed.
 * 199: Smart Java Compilation, Phase Two
 
-智能 java 编译工具( sjavac )的第一个阶段始于 JEP139 这个项目,用于在多核处理器情况下提升JDK的编译速度.如今,这个项目已经进入第二阶段,即 JEP199,其目的是改进Java编译工具,并取代目前JDK编译工具 javac,继而成为Java环境默认的通用的智能编译工具.
-JDK 9 还更新了javac 编译器以便能够将 java 9 代码编译运行在低版本 Java 中.
+智能 java 编译工具( sjavac )的第一个阶段始于 JEP139 这个项目,用于在多核处理器情况下提升 JDK 的编译速度.如今,这个项目已经进入第二阶段,即 JEP199,其目的是改进 Java 编译工具,并取代目前 JDK 编译工具 javac,继而成为 Java 环境默认的通用的智能编译工具.
+JDK 9 还更新了 javac 编译器以便能够将 java 9 代码编译运行在低版本 Java 中.
 
 [[java-9-feature-logging]]
-== 统一的JVM日志系统
+== 统一的 JVM 日志系统
 
 [[java-9-feature-logging-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 158: Unified JVM Logging
 * 271: Unified GC Logging
 
-日志是解决问题的唯一有效途径: 曾经很难知道导致JVM性能问题和导致JVM崩溃的根本原因.不同的JVM日志的碎片化和日志选项(例如: JVM组件对于日志使用的是不同的机制和规则),这使得JVM难以进行调试.
+日志是解决问题的唯一有效途径: 曾经很难知道导致 JVM 性能问题和导致 JVM 崩溃的根本原因.不同的 JVM 日志的碎片化和日志选项(例如: JVM 组件对于日志使用的是不同的机制和规则),这使得 JVM 难以进行调试.
 
-解决该问题最佳方法: 对所有的JVM组件引入一个单一的系统,这些JVM组件支持细粒度的和易配置的JVM日志.
+解决该问题最佳方法: 对所有的 JVM 组件引入一个单一的系统,这些 JVM 组件支持细粒度的和易配置的 JVM 日志.
 
-Java 9 中 ,JVM 有了统一的日志记录系统,可以使用新的命令行选项-Xlog 来控制 JVM 上 所有组件的日志记录.该日志记录系统可以设置输出的日志消息的标签、级别、修饰符和输出目标等.Java 9 移除了在 Java 8 中 被废弃的垃圾回收器配置组合,
+Java 9 中 ,JVM 有了统一的日志记录系统,可以使用新的命令行选项 `-Xlog` 来控制 JVM 上 所有组件的日志记录.该日志记录系统可以设置输出的日志消息的标签、级别、修饰符和输出目标等.Java 9 移除了在 Java 8 中 被废弃的垃圾回收器配置组合,
 同时 把 G1 设为默认的垃圾回收器实现.另外,CMS 垃圾回收器已经被声明为废弃.Java 9 也增加了很多可以通过 `jcmd` 调用的诊断命令.
 
 [[java-9-feature-html5]]
 == javadoc 的 HTML5 支持
 
 [[java-9-feature-html5-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 224: HTML5 Javadoc
 * 225: Javadoc Search
 
-jdk 8 : 生成的java帮助文档是在HTML 4 中,而HTML 4 已经是很久的标准了.
+jdk 8 : 生成的 java 帮助文档是在 HTML 4 中,而 HTML 4 已经是很久的标准了.
 
-jdk 9 : javadoc的输出,现在符合兼容HTML 5 标准.
+jdk 9 : javadoc 的输出,现在符合兼容 HTML 5 标准.
 
 [[java-9-feature-nashorn]]
-== Javascript引擎升级: Nashorn
+== Javascript 引擎升级: Nashorn
 
 [[java-9-feature-nashorn-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 236: Parser API for Nashorn
 * 292: Implement Selected ECMAScript 6 Features in Nashorn
@@ -743,7 +691,7 @@ JDK 9 包含一个用来解析 Nashorn 的 `ECMAScript` 语法树的 API.这个 
 == javadoc 的 HTML5 支持
 
 [[java-9-feature-dynamic-compilation-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 243: Java-Level JVM Compiler Interface
 
@@ -758,53 +706,39 @@ JIT(Just-in-time)编译器可以在运行时将热点编译成本地代码,速�
 在 JDK 9 中, AOT(JEP 295: Ahead-of-Time Compilation)作为实验特性被引入进来,开发者可以利用新的 jaotc 工具将重点代码转换成类似类库一样的文件.虽然仍处于试验阶段,但这个功能使得 Java 应用在被虚拟机启动之前能够先将 Java 类编译为原生代码.此功能旨在改进小型和大型应用程序的启动时间,同时对峰值性能的影响很小.
 但是 Java 技术供应商 Excelsior 的营销总监 Dmitry Leskov 担心 AoT 编译技术不够成熟,希望 Oracle 能够等到 Java 10 时有个更稳定版本才发布.
 
-另外 JVMCI (JEP 243: Java-Level JVM Compiler Interface)等特性,对于整个编程语言的发展,可能都具有非常重要的意义,虽然未必引起了广泛关注.目前 Graal Core API 已经被集成进入 Java 9,虽然还只是初始一小步,但是完全用 Java 语言来实现的可靠的、高性能的动态编译器,似乎不再是遥不可及,这是 Java 虚拟机开发工程师的福音.
+另外 JVMCI (JEP 243: Java-Level JVM Compiler Interface) 等特性,对于整个编程语言的发展,可能都具有非常重要的意义,虽然未必引起了广泛关注.目前 Graal Core API 已经被集成进入 Java 9,虽然还只是初始一小步,但是完全用 Java 语言来实现的可靠的、高性能的动态编译器,似乎不再是遥不可及,这是 Java 虚拟机开发工程师的福音.
 
 与此同时,随着 Truffle 框架和 Substrate VM 的发展,已经让个别信心满满的工程师高呼 "One VM to Rule Them All!" , 也许就在不远的将来 Ploygot 以一种另类的方式成为现实.
 
 [[java-9-feature-ProcessHandle]]
-== 进程API
+== 进程 API
 
-Java 9 增加了 `ProcessHandle` 接口,可以对原生进程进行管理,尤其适合于管理长时间运行的进程.在使用 `ProcessBuilder` 来启动一个进程之后,可以通过 `Process.toHandle()` 方法来得到一个 `ProcessHandle` 对象的实例.通过 `ProcessHandle` 可以获取到由 `ProcessHandle.Info` 表示的进程的基本信息,如命令行参数、可执行文件路径和启动时间等.`ProcessHandle` 的 `onExit()` 方法返回一个 `CompletableFuture<ProcessHandle>` 对象,
+Java 9 增加了 `ProcessHandle` 接口,可以对原生进程进行管理,尤其适合于管理长时间运行的进程.在使用 `ProcessBuilder` 来启动一个进程之后,可以通过 `Process.toHandle()` 方法来得到一个 `ProcessHandle` 对象的实例.通过 `ProcessHandle` 可以获取到由 `ProcessHandle.Info` 表示的进程的基本信息,如命令行参数、可执行文件路径和启动时间等. `ProcessHandle` 的 `onExit()` 方法返回一个 `CompletableFuture<ProcessHandle>` 对象,
 可以在进程结束时执行自定义的动作. 下面代码 中给出了进程 API 的使用示例.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-final ProcessBuilder processBuilder = new ProcessBuilder("top")
-    .inheritIO();
-final ProcessHandle processHandle = processBuilder.start().toHandle();
-processHandle.onExit().whenCompleteAsync((handle, throwable) -> {
-    if (throwable == null) {
-        System.out.println(handle.pid());
-    } else {
-        throwable.printStackTrace();
-    }
-});
+include::{java-code}/java9/Process.java[]
 ----
 
 [[java-9-feature-loggerfinder]]
-== 平台日志API和服务
+== 平台日志 API 和服务
 
 Java 9 允许为 JDK 和应用配置同样的日志实现.新增的 `System.LoggerFinder` 用来管理 JDK 使 用的日志记录器实现.JVM 在运行时只有一个系统范围的 `LoggerFinder` 实例.`LoggerFinder` 通 过服务查找机制来加载日志记录器实现.
 默认情况下,JDK 使用 `java.logging` 模块中的 `java.util.logging` 实现.通过 `LoggerFinder` 的 `getLogger()` 方法就可以获取到表示日志记录器的 `System.Logger` 实现.应用同样可以使用 `System.Logger` 来记录日志.
 这样就保证了 JDK 和应用使用同样的日志实现.我们也可以通过添加自己的 `System.LoggerFinder` 实现来让 JDK 和应用使用 SLF4J 等其他日志记录框架. 如下代码中给出了平台日志 API 的使用示例.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-public class Main {
-    private static final System.Logger LOGGER = System.getLogger("Main");
-    public static void main(final String[] args) {
-        LOGGER.log(Level.INFO, "Run!");
-    }
-}
+include::{java-code}/java9/Log.java[]
 ----
 
 [[java-9-feature-reactor]]
 == 响应式流
 
-响应式编程的思想最近得到了广泛的流行. 在 Java 平台上有流行的响应式库 `RxJava` 和 `Reactor`.响应式流规范的出发点是提供一个带非阻塞负压( non-blocking backpressure ) 的异步流处理规范.响应式流规范的核心接口已经添加到了 Java9 中的 `java.util.concurrent.Flow` `类中.
+响应式编程的思想最近得到了广泛的流行. 在 Java 平台上有流行的响应式库 `RxJava` 和 `Reactor`.响应式流规范的出发点是提供一个带非阻塞负压( non-blocking backpressure ) 的异步流处理规范.响应式流规范的核心接口已经添加到了 Java 9 中的 `java.util.concurrent.Flow` `类中.
 
 `Flow` 中包含了 `Flow.Publisher`、`Flow.Subscriber`、`Flow.Subscription` 和 `Flow.Processor` 等 4 个核心接口.Java 9 还提供了 `SubmissionPublisher` 作为 `Flow.Publisher` 的一个实现.RxJava 2 和 `Reactor` 都可以很方便的 与 `Flow` 类的核心接口进行互操作.
 
@@ -815,32 +749,41 @@ public class Main {
 通过变量句柄,可以在变量上进行各种操作.这些操作称为访问模式.不同的访问模式尤其在内存排序上的不同语义.目前一共有 31 种 访问模式,而每种访问模式都 在 `VarHandle` 中 有对应的方法.
 这些方法可以对变量进行读取、写入、原子更新、数值原子更新和比特位原子操作等.`VarHandle` 还可以用来访问数组中的单个元素,以及把 `byte[]` 数组 和 `ByteBuffer` 当成是不同原始类型的数组来访问.
 
+=== 访问模式（Access Modes）
+VarHandle 文档中定义了以下几种访问类别：plain、opaque、release/acquire、volatile。它们提供了由低到高的一致性保证级别：
+
+* plain: 不确保内存可见性，opaque、release/acquire、volatile是可以保证内存可见的。
+* opaque: 保证程序执行顺序，但不保证其它线程的可见顺序。
+* release/acquire 保证程序执行顺序，`setRelease` 确保前面的 `load` 和 `store` 不会被重排序到后面，但不确保后面的 `load` 和 `store` 重排序到前面；`getAcquire` 确保后面的 `load` 和 `store` 不会被重排序到前面，但不确保前面的 load 和 `store` 被重排序。
+* volatile: 确保程序执行顺序，且保证变量之间不被重排序。
+
+VarHandle 定义了以下五种访问模式，结合上面的一致性保证级别，提供了超多的方法。
+
+* Read access mode：get, getVolatile, getAcquire 和 getOpaque.
+* Write access mode：set, setVolatile, setRelease 和 setOpaque.
+* Atomic update access mode：compareAndSet, compareAndExchangeAcquire, compareAndExchange, compareAndExchangeRelease, getAndSet, getAndSetAcquire, getAndSetRelease, etc.
+* Numeric atomic update access mode：getAndAdd, getAndAddAcquire, getAndAddRelease.
+* Bitwise atomic update access mode：getAndBitwiseOr, getAndBitwiseOrAcquire, getAndBitwiseOrRelease, getAndBitwiseAnd, getAndBitwiseAndAcquire, getAndBitwiseAndRelease, getAndBitwiseXor, getAndBitwiseXorAcquire, getAndBitwiseXorRelease, etc.
+
 在如下代码 中,我们创建了访问 `HandleTarget` 类中的域 `count` 的变量句柄,并在其上进行读取操作.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-public class HandleTarget {
-    public int count = 1;
-}
-public class VarHandleTest {
-    private HandleTarget handleTarget = new HandleTarget();
-    private VarHandle varHandle;
-    @Before
-    public void setUp() throws Exception {
-        this.handleTarget = new HandleTarget();
-        this.varHandle = MethodHandles
-            .lookup()
-            .findVarHandle(HandleTarget.class, "count", int.class);
-    }
-    @Test
-    public void testGet() throws Exception {
-        assertEquals(1, this.varHandle.get(this.handleTarget));
-        assertEquals(1, this.varHandle.getVolatile(this.handleTarget));
-        assertEquals(1, this.varHandle.getOpaque(this.handleTarget));
-        assertEquals(1, this.varHandle.getAcquire(this.handleTarget));
-    }
-}
+include::{java-code}/java9/VarHandleTest.java[]
+----
+
+累加器实现：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 8
+----
+include::{java-code}/java9/CounterPlusWithJava8.java[]
+----
+[source,java,indent=0,subs="verbatim,quotes",role="secondary"]
+.Java 9
+----
+include::{java-code}/java9/CounterPlusWithJava9.java[]
 ----
 
 [[java-9-feature-method]]
@@ -859,42 +802,19 @@ public class VarHandleTest {
 在 下面代码中,我们使用 `iteratedLoop` 来创建一个遍历 String 类型迭代器的方法句柄,并计算所有字符串的长度的总和.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-public class IteratedLoopTest {
-    static int body(final int sum, final String value) {
-        return sum + value.length();
-    }
-    @Test
-    public void testIteratedLoop() throws Throwable {
-        final MethodHandle iterator = MethodHandles.constant(
-            Iterator.class,
-            List.of("a", "bc", "def").iterator());
-        final MethodHandle init = MethodHandles.zero(int.class);
-        final MethodHandle body = MethodHandles
-            .lookup()
-            .findStatic(
-                IteratedLoopTest.class,
-                "body",
-                MethodType.methodType(
-                    int.class,
-                    int.class,
-                    String.class));
-        final MethodHandle iteratedLoop = MethodHandles
-            .iteratedLoop(iterator, init, body);
-        assertEquals(6, iteratedLoop.invoke());
-    }
-}
+include::{java-code}/java9/IteratedLoopTest.java[]
 ----
 
 [[java-9-feature-concurrency]]
 == 并发
 
-在并发方面,类 `CompletableFuture` 中增加了几个新的方法.`completeAsync` 使用一个异步任务来获取结果并完成该 `CompletableFuture`.`orTimeout` 在 `CompletableFuture` 没有在给定的超时时间之前完成,使用 `TimeoutException` 异常来完成 `CompletableFuture`.
+在并发方面,类 `CompletableFuture` 中增加了几个新的方法.`completeAsync` 使用一个异步任务来获取结果并完成该 `CompletableFuture`. `orTimeout` 在 `CompletableFuture` 没有在给定的超时时间之前完成,使用 `TimeoutException` 异常来完成 `CompletableFuture`.
 `completeOnTimeout` 与 `orTimeout` 类似,只不过它在超时时使用给定的值来完成 `CompletableFuture`.新的 `Thread.onSpinWait` 方法在当前线程需要使用忙循环来等待时,可以提高等待的效率.
 
 [[java-9-feature-io]]
-== I/O流新特性
+== I/O 流新特性
 
 类 `java.io.InputStream` 中增加了新的方法来读取和复制 `InputStream` 中包含的数据.
 
@@ -905,34 +825,9 @@ public class IteratedLoopTest {
 如下代码中给出了这些新方法的使用示例.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-public class TestInputStream {
-    private InputStream inputStream;
-    private static final String CONTENT = "Hello World";
-    @Before
-    public void setUp() throws Exception {
-        this.inputStream =
-            TestInputStream.class.getResourceAsStream("/input.txt");
-    }
-    @Test
-    public void testReadAllBytes() throws Exception {
-        final String content = new String(this.inputStream.readAllBytes());
-        assertEquals(CONTENT, content);
-    }
-    @Test
-    public void testReadNBytes() throws Exception {
-        final byte[] data = new byte[5];
-        this.inputStream.readNBytes(data, 0, 5);
-        assertEquals("Hello", new String(data));
-    }
-    @Test
-    public void testTransferTo() throws Exception {
-        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        this.inputStream.transferTo(outputStream);
-        assertEquals(CONTENT, outputStream.toString());
-    }
-}
+include::{java-code}/java9/TestInputStream.java[]
 ----
 
 `ObjectInputFilter` 可以对 `ObjectInputStream` 中包含的内容进行检查,来确保其中包含的数据是合法的.可以使用 `ObjectInputStream` 的方法 `setObjectInputFilter` 来设置.`ObjectInputFilter` 在进行检查时,可以检查如对象图的最大深度、对象引用的最大数量、输入流中的最大字节数和数组的最大长度等限制,也可以对包含的类的名称进行限制.
@@ -943,20 +838,28 @@ public class TestInputStream {
 Java 9 新增了 4 个 `SHA-3` 哈希算法,`SHA3-224`、`SHA3-256`、`SHA3-384` 和 `SHA3-512`.另外也增加了通过 `java.security.SecureRandom` 生成使用 `DRBG` 算法的强随机数. 如下代码中给出了 `SHA-3` 哈希算法的使用示例
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java9
+.Java 9
 ----
-import org.apache.commons.codec.binary.Hex;
-public class SHA3 {
-    public static void main(final String[] args) throws NoSuchAlgorithmException {
-        final MessageDigest instance = MessageDigest.getInstance("SHA3-224");
-        final byte[] digest = instance.digest("".getBytes());
-        System.out.println(Hex.encodeHexString(digest));
-    }
-}
+include::{java-code}/java9/SHA3.java[]
 ----
 
 [[java-9-feature-desktop]]
 == 用户界面
 
 类 `java.awt.Desktop` 增加了新的与桌面进行互动的能力.可以使用 `addAppEventListener` 方法来添加不同应用事件的监听器,包括应用变为前台应用、应用隐藏或显示、屏幕和系统进入休眠与唤醒、以及 用户会话的开始和终止等.
-还可以在显示关于窗口和配置窗口时,添加自定义的逻辑.在用户要求退出应用时,可以通过自定义处理器来接受或拒绝退出请求.在 A WT 图像支持方面,可以在应用中使用多分辨率图像.
+还可以在显示关于窗口和配置窗口时,添加自定义的逻辑.在用户要求退出应用时,可以通过自定义处理器来接受或拒绝退出请求.在 AWT 图像支持方面,可以在应用中使用多分辨率图像.
+
+[[java-9-feature-deprecation]]
+== Deprecated 的相关 API
+
+[[java-9-feature-deprecation-feature]]
+=== 官方 Feature
+
+* 211: Elide Deprecation Warnings on Import Statements
+* 214: Remove GC Combinations Deprecated in JDK 8
+* 277: Enhanced Deprecation
+* 289: Deprecate the Applet API
+* 291: Deprecate the Concurrent Mark Sweep (CMS) Garbage Collector
+
+Java 9 废弃或者移除了几个不常用的功能.其中最主要的是 `Applet` API,现在是标记为废弃的.随着对安全要求的提高,主流浏览器已经取消对 Java 浏览器插件的支持.HTML5 的出现也进一步加速了它的消亡.
+开发者现在可以使用像 Java Web Start 这样的技术来代替 `Applet`,它可以实现从浏览器启动应用程序或者安装应用程序.同时,`appletviewer` 工具也被标记为废弃.
