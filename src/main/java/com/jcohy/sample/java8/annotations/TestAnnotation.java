@@ -20,14 +20,14 @@ public class TestAnnotation {
         Class<TestAnnotation> clazz = TestAnnotation.class;
         Method m1 = clazz.getMethod("show");
         MyAnnotation[] myAnnotations = m1.getAnnotationsByType(MyAnnotation.class);
-        for(MyAnnotation myAnnotation: myAnnotations){
+        for (MyAnnotation myAnnotation : myAnnotations) {
             System.out.println(myAnnotation);
         }
     }
 
     @MyAnnotation("hello")
     @MyAnnotation("world")
-    public void show(){
+    public void show() {
 
     }
 }

@@ -63,9 +63,9 @@ public class LambdaTest {
     // 语法格式四: 有两个以上参数,并且有返回值,并且 Lambda 体中有多条语句
     @Test
     public void lambda4() {
-        Comparator<Integer> comparable = (x,y) -> {
+        Comparator<Integer> comparable = (x, y) -> {
             System.out.println("函数式编程");
-            return Integer.compare(x,y);
+            return Integer.compare(x, y);
         };
     }
     // end::lambda4[]
@@ -74,7 +74,7 @@ public class LambdaTest {
     // 语法格式五: 若 Lambda 体中只有一条语句,return 和大括号都可以省略不写
     @Test
     public void lambda5() {
-        Comparator<Integer> comparator = (x,y) -> Integer.compare(x,y);
+        Comparator<Integer> comparator = (x, y) -> Integer.compare(x, y);
     }
     // end::lambda5[]
 

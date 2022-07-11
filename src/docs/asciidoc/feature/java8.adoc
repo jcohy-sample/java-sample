@@ -5,24 +5,38 @@
 - 代码更少(增加了新的语法Lambda 表达式)
 - 强大的Stream API
 - 便于并行
-- 最大化减少空指针异常Optional
+- 最大化减少空指针异常 Optional
+
+[[java-8-feature-class]]
+== 示例中的实体类
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Employee
+----
+include::{java-code}/java8/Employee.java[]
+----
+[source,java,indent=0,subs="verbatim,quotes",role="secondary"]
+.Status
+----
+include::{java-code}/java8/Status.java[]
+----
 
 [[java-8-feature-lambda]]
 == Lambda 表达式
 
-Lambda 是一个匿名函数,我们可以把Lambda 表达式理解为是一段可以传递的代码(将代码像数据一样进行传递).可以写出更简洁、更灵活的代码.作为一种更紧凑的代码风格,使Java的语言表达能力得到了提升.
+Lambda 是一个匿名函数,我们可以把 Lambda 表达式理解为是一段可以传递的代码(将代码像数据一样进行传递).可以写出更简洁、更灵活的代码.作为一种更紧凑的代码风格,使 Java 的语言表达能力得到了提升.
 
 [[java-8-feature-lambda-gramer]]
-=== Lambda表达式的基础语法
+=== Lambda 表达式的基础语法
 
 
-java8中引入了新的操作符 `->`,该操作符称为箭头操作符或者Lambda操作符
+java8 中引入了新的操作符 `->`,该操作符称为箭头操作符或者 Lambda 操作符
 
 箭头操作符将表达式拆分成两部分
 
 **左侧: Lambda 表达式的参数列表**
 
-**右侧: Lambda 表达式中所需执行的功能,即 Lambda体**
+**右侧: Lambda 表达式中所需执行的功能,即 Lambda 体**
 
 语法格式一: 无参数,无返回值: **() -> System.out.println("hello world")**;
 
@@ -90,7 +104,7 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction2]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/Func1.java
+include::{java-code}/java8/lambda/Func1.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
@@ -104,7 +118,7 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction3]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/Func2.java
+include::{java-code}/java8/lambda/Func2.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
@@ -160,7 +174,7 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/ConsumerTest.java
+include::{java-code}/java8/function/ConsumerTest.java[]
 ----
 
 [[java-8-feature-function-inside-sample-supplier]]
@@ -171,7 +185,7 @@ include::{java-code}/java8/function/ConsumerTest.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/SupplierTest.java
+include::{java-code}/java8/function/SupplierTest.java[]
 ----
 
 [[java-8-feature-function-inside-sample-function]]
@@ -182,7 +196,7 @@ include::{java-code}/java8/function/SupplierTest.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/FunctionTest.java
+include::{java-code}/java8/function/FunctionTest.java[]
 ----
 
 [[java-8-feature-function-inside-sample-predicate]]
@@ -193,7 +207,7 @@ include::{java-code}/java8/function/FunctionTest.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/PredicateTest.java
+include::{java-code}/java8/function/PredicateTest.java[]
 ----
 
 [[java-8-feature-function-other]]
@@ -273,7 +287,7 @@ include::{java-code}/java8/method/MethodTest.java[tag=method02]
 [[java-8-feature-method-array-reference]]
 === 数组引用
 
-**格式: type[] :: new**
+**格式: type[]::new**
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
@@ -297,9 +311,11 @@ Stream 是 Java8 中处理集合的关键抽象概念,它可以指定你希望�
 
 [NOTE]
 ====
-.Stream 自己不会存储元素.
-.Stream 不会改变源对象.相反,他们会返回一个持有结果的新Stream.
-.Stream 操作是延迟执行的.这意味着他们会等到需要结果的时候才执行.
+Stream 自己不会存储元素.
+
+Stream 不会改变源对象.相反,他们会返回一个持有结果的新 Stream.
+
+Stream 操作是延迟执行的.这意味着他们会等到需要结果的时候才执行.
 ====
 
 [[java-8-feature-stream-use]]
@@ -575,7 +591,7 @@ Collector 接口中方法的实现决定了如何对流执行收集操作(如收
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/stream/EndStream.java
+include::{java-code}/java8/stream/EndStream.java[]
 ----
 
 [[java-8-feature-stream-type]]
@@ -605,13 +621,13 @@ image::{oss-images}/java-fork-join.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/fork_join/ForkJoinCalculate.java
+include::{java-code}/java8/fork_join/ForkJoinCalculate.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/fork_join/TestForkJoin.java
+include::{java-code}/java8/fork_join/TestForkJoin.java[]
 ----
 
 [[java-8-feature-stream-exercise]]
@@ -622,7 +638,7 @@ include::{java-code}/java8/fork_join/TestForkJoin.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/Trader.java
+include::{java-code}/java8/sample/Trader.java[]
 ----
 
 交易类
@@ -630,7 +646,7 @@ include::{java-code}/java8/sample/Trader.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/Transaction.java
+include::{java-code}/java8/sample/Transaction.java[]
 ----
 
 测试类
@@ -638,7 +654,7 @@ include::{java-code}/java8/sample/Transaction.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/TestTransaction.java
+include::{java-code}/java8/sample/TestTransaction.java[]
 ----
 
 1)、给定一个数字列表,如何返回一个由每个数的平方构成的列表呢? 给定[1,2,3,4,5], 应该返回[1,4,9,16,25].
@@ -646,7 +662,7 @@ include::{java-code}/java8/sample/TestTransaction.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/LambdaTest.java
+include::{java-code}/java8/sample/LambdaTest.java[]
 ----
 
 2)、怎样用 map 和 reduce 方法数一数流中有多少个 Employee 呢?
@@ -654,10 +670,8 @@ include::{java-code}/java8/sample/LambdaTest.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/MapReduce.java
+include::{java-code}/java8/sample/MapReduce.java[]
 ----
-
-
 
 [[java-8-feature-optional]]
 == Optional 容器
@@ -677,7 +691,7 @@ include::{java-code}/java8/sample/MapReduce.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/optional/TestOptional.java
+include::{java-code}/java8/optional/TestOptional.java[]
 ----
 
 [[java-8-feature-default-method]]
@@ -756,7 +770,7 @@ Java8 中,接口中允许添加静态方法
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/TestLocalDateTime.java
+include::{java-code}/java8/date/TestLocalDateTime.java[]
 ----
 
 [[java-8-feature-date-instant]]
@@ -767,7 +781,7 @@ include::{java-code}/java8/date/TestLocalDateTime.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/InstantTest.java
+include::{java-code}/java8/date/InstantTest.java[]
 ----
 
 [[java-8-feature-date-duration]]
@@ -780,7 +794,7 @@ Period:用于计算两个 "日期" 间隔
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/DurationPeriod.java
+include::{java-code}/java8/date/DurationPeriod.java[]
 ----
 
 [[java-8-feature-date-operation]]
@@ -792,7 +806,7 @@ include::{java-code}/java8/date/DurationPeriod.java
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/TemporalAdjuster.java
+include::{java-code}/java8/date/TemporalAdjuster.java[]
 ----
 
 [[java-8-feature-date-format]]
@@ -802,7 +816,7 @@ include::{java-code}/java8/date/TemporalAdjuster.java
 
 - 预定义的标准格式
 - 语言环境相关的格式
-- 自定义的格式**
+- 自定义的格式
 
 Java8 中加入了对时区的支持,带时区的时间为分别为:
 **ZonedDate、ZonedTime、ZonedDateTime**
@@ -815,7 +829,7 @@ of(id) : 用指定的时区信息获取ZoneId 对象
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/FormatDateTest.java
+include::{java-code}/java8/date/FormatDateTest.java[]
 ----
 
 [[java-8-feature-date-convert]]
@@ -861,17 +875,17 @@ Java 8 对注解处理提供了两点改进: 可重复的注解及可用于类�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/MyAnnotations.java
+include::{java-code}/java8/annotations/MyAnnotations.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/MyAnnotation.java
+include::{java-code}/java8/annotations/MyAnnotation.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/TestAnnotation.java
+include::{java-code}/java8/annotations/TestAnnotation.java[]
 ----

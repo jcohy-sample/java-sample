@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
  */
 public class PredicateTest {
 
-    public List<String> filterStr(List<String> list, Predicate<String> pre){
+    public List<String> filterStr(List<String> list, Predicate<String> pre) {
         List<String> strList = new ArrayList<>();
-        for(String str:list){
-            if(pre.test(str)){
+        for (String str : list) {
+            if (pre.test(str)) {
                 strList.add(str);
             }
         }
@@ -29,10 +29,10 @@ public class PredicateTest {
     }
 
     @Test
-    public void predicate(){
-        List<String> list = Arrays.asList("hellsssso","world","atcj","jcohy");
+    public void predicate() {
+        List<String> list = Arrays.asList("hellsssso", "world", "atcj", "jcohy");
         List<String> str = filterStr(list, (x) -> x.length() > 4);
-        for(String str1 :str){
+        for (String str1 : str) {
             /**
              * result:
              * hellsssso

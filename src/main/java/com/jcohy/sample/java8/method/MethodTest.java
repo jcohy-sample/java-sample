@@ -27,7 +27,7 @@ public class MethodTest {
         Consumer<String> consumer1 = System.out::println;
 
         //例如:
-        BinaryOperator<Double> binaryOperator = (x,y) ->Math.pow(x,y);
+        BinaryOperator<Double> binaryOperator = (x, y) -> Math.pow(x, y);
         //等同于:
         BinaryOperator<Double> binaryOperator1 = Math::pow;
 
@@ -46,12 +46,13 @@ public class MethodTest {
             this.name = name;
         }
     }
+
     @Test
     void method02() {
         //例如:
-        Function<Integer,MyClass> fun = (n) -> new MyClass(n);
+        Function<Integer, MyClass> fun = (n) -> new MyClass(n);
         //等同于
-        Function<Integer,MyClass> fun2 = MyClass::new;
+        Function<Integer, MyClass> fun2 = MyClass::new;
     }
     // end::method02[]
 
@@ -59,9 +60,9 @@ public class MethodTest {
     @Test
     void method03() {
         // 例如:
-        Function<Integer,Integer[]> fun = (n) -> new Integer[n];
+        Function<Integer, Integer[]> fun = (n) -> new Integer[n];
         // 等同于
-        Function<Integer,Integer[]> fun2 = Integer[]::new;
+        Function<Integer, Integer[]> fun2 = Integer[]::new;
     }
     // end::method03[]
 }

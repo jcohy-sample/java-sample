@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.jcohy.sample.java8.Employee;
+import com.jcohy.sample.java8.Status;
 import org.junit.jupiter.api.Test;
 
 
@@ -29,11 +31,11 @@ public class MapReduce {
     );
 
     @Test
-    public void test2(){
+    public void test2() {
         Optional<Integer> count = emps.stream()
                 .map((e) -> 1)
                 .reduce(Integer::sum);
-
+        // result: 7
         System.out.println(count.get());
     }
 }

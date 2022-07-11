@@ -41,7 +41,7 @@ public class CreateStream {
     // tag::createStreamByValue[]
     @Test
     void createStreamByValue() {
-        Stream<Integer> stream2 = Stream.of(1,2,3,4,5,6);
+        Stream<Integer> stream2 = Stream.of(1, 2, 3, 4, 5, 6);
     }
     // end::createStreamByValue[]
 
