@@ -43,7 +43,7 @@ image::{oss-images}/JepPerRelease.png[]
 
 * 预览特性(Preview/预览版):是 规格已经成型、实现已经确定,但还未最终定稿的功能.它们 出现在 Java 中的目的是收集在真实世界中使用后的反馈信息,促进这些功能的最终定稿.这些特性可能会随时改变,根据反馈结果, 这些特性甚至可能会被移除,**但通常所有预览特性最后都会在 Java 中固定下来**
 
-//include::java/java8.adoc[leveloffset=+1]
+include::feature/java8.adoc[leveloffset=+1]
 //
 //include::java/java9.adoc[leveloffset=+1]
 //
