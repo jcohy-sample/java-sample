@@ -634,6 +634,8 @@ Java 9 中有新的方式来处理 HTTP 调用.它提供了一个新的 HTTP 客
 [[java-9-feature-http-use]]
 === 使用
 
+<<java-11-feature-httpclient>>
+
 [[java-9-feature-compilation]]
 == 智能 Java 编译工具
 

@@ -13,7 +13,7 @@ Java 11 已于 2018 年 9 月 25 日正式发布,之前在 Java 10 新特性介�
 本文主要针对 Java 11 中的新特性展开介绍,让您快速了解 Java 11 带来的变化.
 
 
-资料来源:  http://openjdk.java.net/projects/jdk/11/
+资料来源: http://openjdk.java.net/projects/jdk/11/
 
 [[java-11-feature-overview-tbl]]
 .Java11 新特性一览
@@ -24,7 +24,7 @@ Java 11 已于 2018 年 9 月 25 日正式发布,之前在 Java 10 新特性介�
 
 | 309: http://openjdk.java.net/jeps/309[Dynamic Class-File Constants] | 动态类文件常量
 
-| 315: http://openjdk.java.net/jeps/315[Improve Aarch64 Intrinsics] | 改善Aarch64本征
+| 315: http://openjdk.java.net/jeps/315[Improve Aarch64 Intrinsics] | 改善 Aarch64 本征
 
 | 318: http://openjdk.java.net/jeps/318[Epsilon: A No-Op Garbage Collector] | Epsilon: 低开销垃圾回收器
 
@@ -130,18 +130,18 @@ public class EpsilonTest {
 [[java-11-feature-remove-module]]
 == 删除 JavaEE 和 CORBA 模块
 
-在 java11 中移除了不太使用的 JavaEE 模块和 CORBA 技术
-CORBA 来自于二十世纪九十年代,Oracle说,现在用CORBA开发现代Java应用程序已经没有意义了,维护 CORBA 的成本已经超过了保留它带来的好处.
+在 Java 11 中移除了不太使用的 JavaEE 模块和 CORBA 技术
+CORBA 来自于二十世纪九十年代,Oracle 说,现在用 CORBA 开发现代 Java 应用程序已经没有意义了,维护 CORBA 的成本已经超过了保留它带来的好处.
 
-但是删除 CORBA 将使得那些依赖于JDK提供部分 CORBA API 的 CORBA 实现无法运行.目前还没有第三方 CORBA 版本,也不确定是否会有第三方愿意接手 CORBA API 的维护工作.
+但是删除 CORBA 将使得那些依赖于 JDK 提供部分 CORBA API 的 CORBA 实现无法运行.目前还没有第三方 CORBA 版本,也不确定是否会有第三方愿意接手 CORBA API 的维护工作.
 
-在 java11 中将 java9 标记废弃的 Java EE 及 CORBA 模块移除掉,具体如下:
+在 Java 11 中将 java 9 标记废弃的 Java EE 及 CORBA 模块移除掉,具体如下:
 
-(1)xml相关的,
+(1) xml 相关的,
 
 `java.xml.ws`,`java.xml.bind`,`java.xml.ws`,`java.xml.ws.annotation`,`jdk.xml.bind`,`jdk.xml.ws` 被移除,只剩下 `java.xml`,`java.xml.crypto,jdk.xml.dom` 这几个模块;
 
-(2)
+(2) 其他，
 
 `java.corba`,
 `java.se.ee`,
