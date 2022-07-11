@@ -18,16 +18,20 @@ import org.junit.jupiter.api.Test;
 public class InstantTest {
     // Instant : 时间戳. (使用 Unix 元年  1970年1月1日 00:00:00 所经历的毫秒值)
     @Test
-    public void test2(){
+    public void test2() {
         Instant ins = Instant.now();  //默认使用 UTC 时区
+        // result: 2022-07-11T03:02:32.739257200Z
         System.out.println(ins);
 
         OffsetDateTime odt = ins.atOffset(ZoneOffset.ofHours(8));
-        System.out.println(odt);
 
+        // result: 2022-07-11T11:02:32.739257200+08:00
+        System.out.println(odt);
+        // result: 739257200
         System.out.println(ins.getNano());
 
         Instant ins2 = Instant.ofEpochSecond(5);
+        // result: 1970-01-01T00:00:05Z
         System.out.println(ins2);
     }
 }

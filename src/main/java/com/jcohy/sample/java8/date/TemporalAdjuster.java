@@ -19,14 +19,17 @@ public class TemporalAdjuster {
 
     //4. TemporalAdjuster : 时间校正器
     @Test
-    public void test4(){
+    public void test4() {
         LocalDateTime ldt = LocalDateTime.now();
+        // result: 2022-07-11T11:04:16.224972600
         System.out.println(ldt);
 
         LocalDateTime ldt2 = ldt.withDayOfMonth(10);
+        // result: 2022-07-10T11:04:16.224972600
         System.out.println(ldt2);
 
         LocalDateTime ldt3 = ldt.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+        // result: 2022-07-17T11:04:16.224972600
         System.out.println(ldt3);
 
         //自定义: 下一个工作日
@@ -35,15 +38,15 @@ public class TemporalAdjuster {
 
             DayOfWeek dow = ldt4.getDayOfWeek();
 
-            if(dow.equals(DayOfWeek.FRIDAY)){
+            if (dow.equals(DayOfWeek.FRIDAY)) {
                 return ldt4.plusDays(3);
-            }else if(dow.equals(DayOfWeek.SATURDAY)){
+            } else if (dow.equals(DayOfWeek.SATURDAY)) {
                 return ldt4.plusDays(2);
-            }else{
+            } else {
                 return ldt4.plusDays(1);
             }
         });
-
+        // result: 2022-07-12T11:04:16.224972600
         System.out.println(ldt5);
     }
 }

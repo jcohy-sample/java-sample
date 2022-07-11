@@ -22,7 +22,7 @@ import static java.lang.annotation.ElementType.TYPE;
  * @since 2022.0.1
  */
 @Repeatable(MyAnnotations.class)
-@Target({TYPE, FIELD,METHOD,PARAMETER,CONSTRUCTOR,LOCAL_VARIABLE})
+@Target({TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE})
 @Retention(RetentionPolicy.RUNTIME)
 @interface MyAnnotation {
 

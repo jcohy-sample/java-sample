@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class FunctionTest {
 
 
-    public String strHandler(String str, Function<String,String> function){
+    public String strHandler(String str, Function<String, String> function) {
         return function.apply(str);
     }
 

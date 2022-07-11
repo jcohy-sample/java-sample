@@ -1,4 +1,4 @@
-package com.jcohy.sample.java8.sample;
+package com.jcohy.sample.java8;
 
 /**
  * 描述: .
@@ -10,6 +10,6 @@ package com.jcohy.sample.java8.sample;
  * @since 2022.0.1
  */
 public enum Status {
-    BUSY,FREE,VOCATION
+    BUSY, FREE, VOCATION
 
 }

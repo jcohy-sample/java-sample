@@ -1,5 +1,7 @@
 package com.jcohy.sample.java8.optional;
 
+import java.util.Optional;
+
 /**
  * 描述: .
  * <p>
@@ -10,4 +12,21 @@ package com.jcohy.sample.java8.optional;
  * @since 2022.0.1
  */
 public class NewMan {
+
+    private Optional<Godness> godness;
+
+    public NewMan() {
+    }
+
+    public NewMan(Optional<Godness> godness) {
+        this.godness = godness;
+    }
+
+    public Optional<Godness> getGodness() {
+        return this.godness;
+    }
+
+    public void setGodness(Optional<Godness> godness) {
+        this.godness = godness;
+    }
 }

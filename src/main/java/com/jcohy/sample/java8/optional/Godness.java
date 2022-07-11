@@ -9,6 +9,19 @@ package com.jcohy.sample.java8.optional;
  * @version 2022.0.1 2022/7/9:18:17
  * @since 2022.0.1
  */
-public class Godness
-{
+public class Godness {
+
+    private String name;
+
+    public Godness(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

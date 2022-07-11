@@ -10,4 +10,7 @@ package com.jcohy.sample.java8.optional;
  * @since 2022.0.1
  */
 public class Man {
+    public Godness getGod() {
+        return null;
+    }
 }

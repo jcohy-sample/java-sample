@@ -22,7 +22,7 @@ public class DurationPeriod {
     //Duration : 用于计算两个 "时间" 间隔
     //Period : 用于计算两个 "日期" 间隔
     @Test
-    public void test3(){
+    public void test3() {
         Instant ins1 = Instant.now();
 
         System.out.println("--------------------");
@@ -32,7 +32,7 @@ public class DurationPeriod {
         }
 
         Instant ins2 = Instant.now();
-
+        // result: 所耗费时间为: PT1.0043964S
         System.out.println("所耗费时间为: " + Duration.between(ins1, ins2));
 
         System.out.println("----------------------------------");
@@ -41,8 +41,11 @@ public class DurationPeriod {
         LocalDate ld2 = LocalDate.of(2011, 1, 1);
 
         Period pe = Period.between(ld2, ld1);
+        // result: 11
         System.out.println(pe.getYears());
+        // result: 6
         System.out.println(pe.getMonths());
+        // result: 10
         System.out.println(pe.getDays());
     }
 }

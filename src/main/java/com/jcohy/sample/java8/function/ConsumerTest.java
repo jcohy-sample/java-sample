@@ -23,7 +23,7 @@ public class ConsumerTest {
     @Test
     void consumer1() {
         // result: 吃饭花费了2.0元
-        happy(2,(x) -> System.out.println("吃饭花费了" + x +"元"));
+        happy(2, (x) -> System.out.println("吃饭花费了" + x + "元"));
     }
     // end::consumer1[]
 }

@@ -17,11 +17,19 @@ import org.junit.jupiter.api.Test;
 public class LambdaTest {
 
     @Test
-    public void test1(){
-        Integer[] arrays = new Integer[]{1,2,3,4,5};
+    public void test1() {
+        Integer[] arrays = new Integer[]{1, 2, 3, 4, 5};
         Arrays.stream(arrays)
                 .map((x) -> x * x)
                 .collect(Collectors.toList())
+                /**
+                 * result:
+                 * 1
+                 * 4
+                 * 9
+                 * 16
+                 * 25
+                 */
                 .forEach(System.out::println);
     }
 }

@@ -19,9 +19,9 @@ public class SupplierTest {
 
     // tag::supplier[]
     //获取指定个数数字
-    public List<Integer> getNumList(int num, Supplier<Integer> supplier){
+    public List<Integer> getNumList(int num, Supplier<Integer> supplier) {
         List<Integer> list = new ArrayList<>();
-        for(int i=0;i<num;i++){
+        for (int i = 0; i < num; i++) {
             Integer integer = supplier.get();
             list.add(integer);
         }
@@ -29,9 +29,9 @@ public class SupplierTest {
     }
 
     @Test
-    public void supplier(){
-        List<Integer> numList = getNumList(10, () -> (int)(Math.random() * 100) );
-        for (Integer integer:numList ) {
+    public void supplier() {
+        List<Integer> numList = getNumList(10, () -> (int) (Math.random() * 100));
+        for (Integer integer : numList) {
             /**
              * result:
              * 27

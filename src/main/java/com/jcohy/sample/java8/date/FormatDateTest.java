@@ -23,16 +23,18 @@ public class FormatDateTest {
 
     //6.ZonedDate、ZonedTime、ZonedDateTime :  带时区的时间或日期
     @Test
-    public void test7(){
+    public void test7() {
         LocalDateTime ldt = LocalDateTime.now(of("Asia/Shanghai"));
+        // result: 2022-07-11T11:01:58.521871100
         System.out.println(ldt);
 
         ZonedDateTime zdt = ZonedDateTime.now(of("US/Pacific"));
+        // result: 2022-07-10T20:01:58.523869200-07:00[US/Pacific]
         System.out.println(zdt);
     }
 
     @Test
-    public void test6(){
+    public void test6() {
         Set<String> set = getAvailableZoneIds();
         set.forEach(System.out::println);
     }
@@ -40,7 +42,7 @@ public class FormatDateTest {
 
     //5. DateTimeFormatter : 解析和格式化日期或时间
     @Test
-    public void test5(){
+    public void test5() {
 //		DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss E");
