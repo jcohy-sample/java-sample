@@ -4,7 +4,7 @@
 [[java-9-feature-overview]]
 == Java9 新特性一览
 Java 9 正式发布于 2017 年 9 月 21 日 .作为 Java8 之后 3 年半才发布的新版本,Java 9 带 来了很多重大的变化.其中最重要的改动是 Java 平台模块系统的引入.除此之外,还有一些新的特性. 本文对 Java9 中包含的新特性做了概括性的介绍,可以帮助你快速了解 Java 9.
-java 9 提供了超过150项新功能特性,包括备受期待的模块化系统、可交互的 REPL 工具: jshell,JDK 编译工具,Java 公共 API 和私有代码,以及安全增强、扩展提升、性能管理改善等.可以说Java 9是一个庞大的系统工程,完全做了一个整体改变.
+java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系统、可交互的 REPL 工具: jshell,JDK 编译工具,Java 公共 API 和私有代码,以及安全增强、扩展提升、性能管理改善等.可以说Java 9是一个庞大的系统工程,完全做了一个整体改变.
 
 
 此版本为 "功能性" 版本,并非长期支持版本.Oracle 宣布这些版本只有短期支持(六个月).目前最新的 LTC 版本为 java11.目前官网已经不提供 java9 的下载.
@@ -210,7 +210,7 @@ java 9 提供了超过150项新功能特性,包括备受期待的模块化系统
 
 - 220: Modular Run-Time Images
 
-- 260: Encapsulate Most Internal APIs 
+- 260: Encapsulate Most Internal APIs
 
 - 261: Module System
 
@@ -281,15 +281,15 @@ jshell> /help intro
 3、基本使用
 
 ```shell
-jshell> int add(int x, int y) { 
-    ...> return x + y; 
-    ...> } 
+jshell> int add(int x, int y) {
+    ...> return x + y;
+    ...> }
  | 已创建 方法 add(int,int)
 ```
-接着就可以在 jshell 中直接使用这个方法 
+接着就可以在 jshell 中直接使用这个方法
 
 ```shell
-jshell> add(1, 2) 
+jshell> add(1, 2)
 $19 ==> 3
 ```
 
