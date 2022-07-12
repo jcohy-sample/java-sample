@@ -162,7 +162,7 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/MyFunctionInterface.java
+include::{java-code}/java8/function/MyFunctionInterface.java[]
 ----
 ====
 
