@@ -34,49 +34,61 @@ java 8 中引入了新的操作符 `->`,该操作符称为箭头操作符或者 
 
 箭头操作符将表达式拆分成两部分
 
+[NOTE]
+====
+(parameters) -> expression
+
+(parameters) -> { statements; }
+
+() -> expression
+
 **左侧: Lambda 表达式的参数列表**
 
 **右侧: Lambda 表达式中所需执行的功能,即 Lambda 体**
+====
 
-语法格式一: 无参数,无返回值: **() -> System.out.println("hello world")**;
-
+编写 lambda 表达式规则::
+. 规则一: 无参数,无返回值: **() -> System.out.println("hello world")**;
++
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
 include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda1]
 ----
 
-语法格式二: 有一个参数参数,无返回值: **(x) -> System.out.println(x)**;
-
+. 规则二: 有一个参数参数,无返回值: **(x) -> System.out.println(x)**;
++
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
 include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda2]
 ----
 
-语法格式三: 若只有一个参数,小括号可以省略不写
-
+. 规则三: 若只有一个参数,小括号可以省略不写
++
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
 include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda3]
 ----
 
-语法格式四: 有两个以上参数,并且有返回值,并且 Lambda 体中有多条语句
+. 规则四: 有两个以上参数,并且有返回值,并且 Lambda 体中有多条语句
++
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
 include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda4]
 ----
 
-语法格式五: 若 Lambda 体中只有一条语句,return 和大括号都可以省略不写
+. 规则五: 若 Lambda 体中只有一条语句,return 和大括号都可以省略不写
++
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
 include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda5]
 ----
 
-语法格式六: Lambda 表达式的参数列表的数据类型可以省略不写,因为 JVM 编译器可以通过上下文推断,数据类型,即 "类型推断"
+. 规则六: Lambda 表达式的参数列表的数据类型可以省略不写,因为 JVM 编译器可以通过上下文推断,数据类型,即 "类型推断"
 
 [[java-8-feature-lambda-function]]
 === Lambda 表达式需要 "函数式接口" 的支持
@@ -137,8 +149,25 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
 - 你可以通过 Lambda 表达式来创建该接口的对象.(若 Lambda 表达式抛出一个受检异常,那么该异常需要在目标接口的抽象方法上进行声明).
 - 我们可以在任意函数式接口上使用 `@FunctionalInterface` 注解,这样做可以检查它是否是一个函数式接口,同时 javadoc 也会包含一条声明,说明这个接口是一个函数式接口.
 
+[NOTE]
+====
+注意：及时省略了 `@FunctionalInterface` 注解，函数接口也是可用的，这个注解仅用于通知编译器在接口内强制执行单个抽象方法
+
+此外，由于默认方法不是 abstract ，我们可以根据需要向函数接口添加默认方法
+
+另一个要记住的关键点是，如果函数接口重写了 `java.lang.Object` 的公共方法之一，这写方法不会计入接口的抽象方法计数，因为接口的任何实现都将有一个来自  `java.lang.Object` 的实现或其他。
+
+如下,是一个完全有效的函数接口
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java8/function/MyFunctionInterface.java
+----
+====
+
 [[java-8-feature-function-inside]]
-=== Java 8中内置的四大核心函数式接口
+=== Java 8 中内置的四大核心函数式接口
 
 [[java-8-feature-function-core-interface-tbl]]
 .核心函数式接口
@@ -261,7 +290,6 @@ include::{java-code}/java8/function/PredicateTest.java[]
 - 对象::实例方法
 - 类::静态方法
 - 类::实例方法
-
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
