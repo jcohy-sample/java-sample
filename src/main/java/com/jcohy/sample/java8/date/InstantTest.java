@@ -24,7 +24,6 @@ public class InstantTest {
         System.out.println(ins);
 
         OffsetDateTime odt = ins.atOffset(ZoneOffset.ofHours(8));
-
         // result: 2022-07-11T11:02:32.739257200+08:00
         System.out.println(odt);
         // result: 739257200

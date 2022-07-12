@@ -1,6 +1,9 @@
 package com.jcohy.sample.java8.date;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,33 +21,10 @@ public class TestLocalDateTime {
     //1. LocalDate、LocalTime、LocalDateTime
     @Test
     public void test1() {
-        LocalDateTime ldt = LocalDateTime.now();
-        // result: 2022-07-11T11:05:11.209797400
-        System.out.println(ldt);
-
-        LocalDateTime ld2 = LocalDateTime.of(2016, 11, 21, 10, 10, 10);
-        // result: 2016-11-21T10:10:10
-        System.out.println(ld2);
-
-        LocalDateTime ldt3 = ld2.plusYears(20);
-        // result: 2036-11-21T10:10:10
-        System.out.println(ldt3);
-
-        LocalDateTime ldt4 = ld2.minusMonths(2);
-        // result: 2016-09-21T10:10:10
-        System.out.println(ldt4);
-
-        // result: 2022
-        System.out.println(ldt.getYear());
-        // result: 7
-        System.out.println(ldt.getMonthValue());
-        // result: 11
-        System.out.println(ldt.getDayOfMonth());
-        // result: 11
-        System.out.println(ldt.getHour());
-        // result: 5
-        System.out.println(ldt.getMinute());
-        // result: 11
-        System.out.println(ldt.getSecond());
+		LocalDateTime localDateTime = LocalDateTime.now();
+		System.out.println(localDateTime.toString());      //2022-07-13T00:58:22.315248
+		System.out.println(localDateTime.getDayOfMonth()); //13
+		System.out.println(localDateTime.getHour());       //0
+		System.out.println(localDateTime.getNano());       //315248000
     }
 }

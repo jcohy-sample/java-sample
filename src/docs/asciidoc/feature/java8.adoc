@@ -149,6 +149,7 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
 - 你可以通过 Lambda 表达式来创建该接口的对象.(若 Lambda 表达式抛出一个受检异常,那么该异常需要在目标接口的抽象方法上进行声明).
 - 我们可以在任意函数式接口上使用 `@FunctionalInterface` 注解,这样做可以检查它是否是一个函数式接口,同时 javadoc 也会包含一条声明,说明这个接口是一个函数式接口.
 
+
 [NOTE]
 ====
 注意：及时省略了 `@FunctionalInterface` 注解，函数接口也是可用的，这个注解仅用于通知编译器在接口内强制执行单个抽象方法
@@ -164,6 +165,12 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
 ----
 include::{java-code}/java8/function/MyFunctionInterface.java[]
 ----
+
+此外，默认方法和静态方法也不会被计算在内。也即函数式接口还可以具有以下方法：
+
+. 默认方法
+. 静态方法
+. 从对象类继承的公共方法
 ====
 
 [[java-8-feature-function-inside]]
@@ -726,7 +733,7 @@ include::{java-code}/java8/optional/TestOptional.java[]
 == 接口中的默认方法与静态方法
 
 
-Java 8中允许接口中包含具有具体实现的方法,该方法称为 "默认方法" ,默认方法使用default关键字修饰.
+Java 8中允许接口中包含具有具体实现的方法,该方法称为 "默认方法" ,默认方法使用 `default` 关键字修饰.
 
 Java 8 中,接口中允许添加静态方法
 
@@ -736,13 +743,130 @@ Java 8 中,接口中允许添加静态方法
 - 选择父类中的方法.如果一个父类提供了具体的实现,那么接口中具有相同名称和参数的默认方法会被忽略.
 - 接口冲突.如果一个父接口提供一个默认方法,而另一个接口也提供了一个具有相同名称和参数列表的方法(不管方法是否是默认方法),那么必须覆盖该方法来解决冲突
 
+默认方法使我们能够为库的接口引入新功能，并确保与为旧版本的这些接口编写的代码进行二进制兼容。
+
+例如：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java8/function/Moveable.java[]
+----
+
+Moveable 接口定义了方法 `move()`，并提供了默认实现。如果任何类实现此接口，则无需实现自己的 `move()` 方法。它可以直接调用 `instance.move()`。例如:
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java8/function/Moveable.java[]
+----
+
+如果我们实现了 `move()` 方法，那么他将调用自己实现的方法。如下：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java8/function/Moveable.java[]
+----
+
+静态默认方法：您可以在接口中定义静态默认方法，这些方法将适用于实现此接口的所有类实例。这使您可以更轻松地在库中组织助手方法；您可以将特定于同一接口的静态方法保留在同一接口中，而不是在单独的类中。这使您可以在类中定义方法，同时与所有子类共享。
+
+** 它们为您提供了一种非常理想的功能，无需触摸其代码即可向多个类添加功能。只需在接口中添加一个默认方法，它们都会实现。**
+
+[[java-8-feature-default-method-need]]
+=== Java 8 为什么需要默认方法
+
+最简单的答案是在 Java 中启用 lambda 表达式的功能。 Lambda 表达式本质上是函数式接口的类型。 为了无缝支持 lambda 表达式，必须修改所有核心类。 但是这些像 `java.util.List` 这样的核心类不仅在 JDK 类中实现，而且在成千上万的客户端代码中也实现了。 核心类中任何不兼容的更改肯定会适得其反，并且根本不会被接受。
+
+默认方法打破了这种僵局，并允许在核心类中添加对函数接口的支持。 让我们看一个例子。 以下是已添加到 `java.lang.Iterable` 的方法。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+default void forEach(Consumer<? super T> action) {
+  Objects.requireNonNull(action);
+  for (T t : this) {
+    action.accept(t);
+  }
+}
+----
+
+在 java 8 之前，如果你对一个 Java 集合进行迭代，那么你将获得一个迭代器实例并调用它的 `next` 方法，直到 `hasNext()` 返回 `false`。这样的代码我们在日常编程中已经使用了数千次。 语法也总是相同的。 那么我们能否让它变得紧凑，只需要一行代码就可以像以前一样为我们完成工作。 上面的函数就是这样做的。
+
+现在要对列表中的每个项目进行迭代并执行一些简单的操作，您需要做的就是：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+import java.util.ArrayList;
+import java.util.List;
+
+public class Animal implements Moveable{
+    public static void main(String[] args){
+        List<Animal> list = new ArrayList();
+        list.add(new Animal());
+        list.add(new Animal());
+        list.add(new Animal());
+
+        //Iterator code reduced to one line
+        list.forEach((Moveable p) -> p.move());
+    }
+}
+----
+
+这里，在 `List` 中添加了一个额外的方法，而不会破坏它的任何自定义实现。
+
+[[java-8-feature-default-method-conflict]]
+=== 调用默认方法时如何解决冲突？
+
+在 Java 中，一个类可以实现 N 个接口。此外，一个接口也可以扩展另一个接口。如果在两个接口中声明了一样的默认方法，这些接口由一个类实现。那么显然，类会混淆调用哪个方法。
+
+此冲突解决的规则如下：
+
+. 首先匹配类中的重写方法。如果类重写了此方法，那么将会调用类中重写的方法。
+. 选择 "最具体的默认提供接口" 中签名相同的方法。 这意味着如果类 Animal 实现了两个接口，即 Moveable 和 Walkable，并且 Walkable 扩展了 Moveable。 然后 Walkable 是这里最具体的接口，如果方法签名匹配，将从这里选择默认方法。
+. 如果 Moveable 和 Walkable 是独立的接口，那么就会发生严重的冲突情况，编译器会报错，无法判断。 您必须通过提供额外信息来帮助编译器，即应该从哪个接口调用默认方法。 例如
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+Walkable.super.move();
+//or
+Moveable.super.move();
+----
+
 [[java-8-feature-date]]
 == 新时间日期 API
+
+新的日期和时间API/类（https://jcp.org/en/jsr/detail?id=310[JSR-310]），也称为 ThreeTen，只是改变了我们在 Java 应用程序中处理日期的方式。
+
+`Date` 类已经过时了。现在在替换 Date 类的新类是 `LocalDate`、`LocalTime` 和 `LocalDateTime`。
+
+* LocalDate 类表示一个日期。 没有时间或时区的信息。
+* LocalTime 类表示一个时间。 没有日期或时区的信息。
+* LocalDateTime 类表示日期和时间。 没有时区信息。
+
+如果我们想将日期与时区一起使用，那么 Lambda 会为我们提供额外的三个与上述类似的类，即 `OffsetDate`、`OffsetTime` 和 `OffsetDateTime`。
+
+时区偏移可以用 “+05:30” 或 “Asia/Shanghai” 格式表示。 这是通过使用另一个类（即 `ZoneId`）来完成的。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+LocalDate localDate = LocalDate.now();
+LocalTime localTime = LocalTime.of(12, 20);
+LocalDateTime localDateTime = LocalDateTime.now();
+
+OffsetDateTime offsetDateTime = OffsetDateTime.now();
+ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("Asia/Shanghai"));
+----
+
 
 [[java-8-feature-date-localdatetime]]
 === LocalDate、LocalTime、LocalDateTime
 
-类的实例是不可变的对象,分别表示使用ISO-8601日历系统的日期、时间、日期和时间.它们提供了简单的日期或时间,并不包含当前的时间信息.也不包含与时区相关的信息.
+
+类的实例是不可变的对象,分别表示使用 ISO-8601 日历系统的日期、时间、日期和时间.它们提供了简单的日期或时间,并不包含当前的时间信息.也不包含与时区相关的信息.
 
 [[java-8-feature-date-localdatetime-tbl]]
 .LocalDate、LocalTime、LocalDateTime
@@ -796,15 +920,36 @@ Java 8 中,接口中允许添加静态方法
 |===
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.TestLocalDate
+----
+include::{java-code}/java8/date/TestLocalDate.java[]
+----
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.TestLocalTime
+----
+include::{java-code}/java8/date/TestLocalTime.java[]
+----
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.TestLocalDateTime
 ----
 include::{java-code}/java8/date/TestLocalDateTime.java[]
+----
+
+如果我们想将日期与时区一起使用，那么 Lambda 会为我们提供额外的三个与上述类似的类，即 `OffsetDate`、`OffsetTime` 和 `OffsetDateTime`。
+时区偏移可以用 “+08:00” 或 “Asia/Shanghai” 格式表示。 这是通过使用另一个类（即 `ZoneId`）来完成的。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java8/date/DateTest.java[tag=offsetDateTime]
 ----
 
 [[java-8-feature-date-instant]]
 === Instant 时间戳
 
-用于 "时间戳" 的运算.它是以 Unix 元年(传统的设定为UTC时区1970年1月1日午夜时分)开始所经历的描述进行运算
+用于 "时间戳" 的运算.它是以 Unix 元年(传统的设定为 UTC 时区 1970 年 1 月 1 日午夜时分)开始所经历的描述进行运算
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
@@ -892,8 +1037,46 @@ include::{java-code}/java8/date/FormatDateTest.java[]
 |===
 
 
-[[java-8-feature-other]]
-== 其他新特性
+[[java-8-feature-create]]
+=== 创建日期对象
+
+现在也可以使用构建器模式来创建日期对象。 构建器模式允许使用单个部分构建您想要的对象。 这是使用以 `at` 为前缀的方法来实现的。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java8/date/DateTest.java[tag=createDate]
+----
+
+[[java-8-feature-clock]]
+=== Clock
+
+在新版本中提出了一个新的 Clock 类。 这模拟了系统时钟功能。在进行单元测试时。 您经常需要在将来测试 API。 为此，我们一直在为下一个日期转发系统时钟，然后再次重新启动服务器并测试应用程序。
+
+现在，无需这样做。 使用 Clock 类来模拟这种情况。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java8/date/TestClock.java[tag=createDate]
+----
+
+[[java-8-feature-timezone]]
+=== 时区
+
+与时区相关有三个类  `ZoneOffset`, `TimeZone`, `ZoneRules`.
+
+* ZoneOffset 类表示与 UTC 的固定偏移量（以秒为单位）。 这通常表示为“±hh:mm”格式的字符串。
+* TimeZone 类表示定义了指定时区规则的区域的标识符。
+* ZoneRules 是定义区域偏移何时更改的实际规则集。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+//Zone rules
+System.out.println(ZoneRules.of(ZoneOffset.of(&quot;+02:00&quot;)).isDaylightSavings(Instant.now()));
+System.out.println(ZoneRules.of(ZoneOffset.of(&quot;+02:00&quot;)).isFixedOffset());
+----
 
 [[java-8-feature-other-annotation]]
 === 重复注解与类型注解

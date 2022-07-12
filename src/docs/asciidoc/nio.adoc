@@ -221,6 +221,7 @@ image::{oss-images}/java-nio-channel3.jpg[]
 将数据从源通道传输到其他 `Channel` 中:
 
 参考文章 https://howtodoinjava.com/java/nio/transfer-data-between-channels[]
+
 [[java-nio-channels-filechannel-method]]
 === FileChannel 的常用方法
 
