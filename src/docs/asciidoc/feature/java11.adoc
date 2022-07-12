@@ -1,8 +1,8 @@
 [[java-11-feature]]
-= Java11 新特性
+= Java 11 新特性
 
 [[java-11-feature-overview]]
-== Java11 新特性一览
+== Java 11 新特性一览
 
 Java 11 已于 2018 年 9 月 25 日正式发布,之前在 Java 10 新特性介绍中介绍过,为了加快的版本迭代、跟进社区反馈,Java 的版本发布周期调整为每六个月一次——即每半年发布一个大版本,每个季度发布一个中间特性版本,并且做出不会跳票的承诺.
 通过这样的方式,Java 开发团队能够将一些重要特性尽早的合并到 Java Release 版本中,以便快速得到开发者的反馈,避免出现类似 Java 9 发布时的两次延期的情况.
@@ -16,7 +16,7 @@ Java 11 已于 2018 年 9 月 25 日正式发布,之前在 Java 10 新特性介�
 资料来源: http://openjdk.java.net/projects/jdk/11/
 
 [[java-11-feature-overview-tbl]]
-.Java11 新特性一览
+.Java 11 新特性一览
 |===
 | 新特性| 翻译
 
@@ -83,7 +83,7 @@ Java 11 引入了类似的机制,扩展了 Java 文件格式,以支持新的常�
 Java 版本中已经包含了一系列的高度可配置化的 GC 实现.各种不同的垃圾回收器可以面对各种情况.但是有些时候使用一种独特的实现,而不是将其堆积在其他 GC 实现上将会是事情变得更加简单.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 class Garbage {
 	int n = (int)(Math.random() * 100);
@@ -146,7 +146,7 @@ CORBA 来自于二十世纪九十年代,Oracle 说,现在用 CORBA 开发现代 
 `java.corba`,
 `java.se.ee`,
 `java.activation`,
-`java.transaction` 被移除,但是 java11 新增一个 `java.transaction.xa` 模块
+`java.transaction` 被移除,但是 Java 11 新增一个 `java.transaction.xa` 模块
 
 [[java-11-feature-httpclient]]
 == 标准 HTTP Client
@@ -159,16 +159,9 @@ Java 11 对 Java 9 中引入并在 Java 10 中进行了更新的 Http Client API
 Java 11 中的新 Http Client API,提供了对 HTTP/2 等业界前沿标准的支持,同时也向下兼容 HTTP/1.1,精简而又友好的 API 接口,与主流开源 API(如: Apache `HttpClient`、`Jetty`、`OkHttp` 等)类似甚至拥有更高的性能.与此同时它是 Java 在 `Reactive-Stream` 方面的第一个生产实践,其中广泛使用了 Java Flow API,终于让 Java 标准 HTTP 类库在扩展能力等方面,满足了现代互联网的需求,是一个难得的现代 Http/2 Client API 标准的实现,Java 工程师终于可以摆脱老旧的 `HttpURLConnection` 了.下面模拟 Http GET 请求并打印返回内容:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
-HttpClient client = HttpClient.newHttpClient();
-HttpRequest request = HttpRequest.newBuilder()
-      .uri(URI.create("http://openjdk.java.net/"))
-      .build();
-client.sendAsync(request, BodyHandlers.ofString())
-      .thenApply(HttpResponse::body)
-      .thenAccept(System.out::println)
-      .join();
+include::{java-code}/java11/HttpClientTest.java[tag=resource1]
 ----
 
 [[java-11-feature-lambda]]
@@ -181,7 +174,7 @@ client.sendAsync(request, BodyHandlers.ofString())
 可以使用关键字 `var` 声明局部变量,如下所示:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 var s = "Hello Java 11";
 System.out.println(s);
@@ -199,7 +192,7 @@ Java 11 与 Java 10 的不同之处在于允许开发者在 Lambda 表达式中�
 Lambda 表达式使用隐式类型定义,它形参的所有类型全部靠推断出来的.隐式类型 Lambda 表达式如下:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 (x, y) -> x.process(y)
 ----
@@ -207,7 +200,7 @@ Lambda 表达式使用隐式类型定义,它形参的所有类型全部靠推断
 Java 10 为局部变量提供隐式定义写法如下:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java10
+.Java 10
 ----
 var x = new Foo();
 for (var x : xs) { ... }
@@ -217,7 +210,7 @@ try (var x = ...) { ... } catch ...
 为了 Lambda 类型表达式中正式参数定义的语法与局部变量定义语法的不一致,且为了保持与其他局部变量用法上的一致性,希望能够使用关键字 `var` 隐式定义 Lambda 表达式的形参:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java10
+.Java 10
 ----
 (var x, var y) -> x.process(y)
 ----
@@ -225,7 +218,7 @@ try (var x = ...) { ... } catch ...
 于是在 Java 11 中将局部变量和 Lambda 表达式的用法进行了统一,并且可以将注释应用于局部变量和 Lambda 表达式:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 @Nonnull var x = new Foo();
 (@Nonnull var x, @Nullable var y) -> x.process(y)
@@ -244,7 +237,7 @@ RFC 7539 定义的秘钥协商方案更高效, 更安全.JDK 增加两个新的�
 `XECPublicKey` 和 `XECPrivateKey`
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 KeyPairGenerator kpg = KeyPairGenerator.getInstance( "XDH" );
 NamedParameterSpec paramSpec = new NamedParameterSpec( "X25519" );
@@ -288,7 +281,7 @@ $ jcmd <pid> JFR.stop
 JFR 使用测试:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 public class FlightRecorderTest extends Event {
     @Label("Hello World")
@@ -309,7 +302,7 @@ public class FlightRecorderTest extends Event {
 在运行时加上如下参数:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 java -XX:StartFlightRecording=duration=1s, filename=recording.jfr
 ----
@@ -319,7 +312,7 @@ java -XX:StartFlightRecording=duration=1s, filename=recording.jfr
 飞行记录器分析示例:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java11
+.Java 11
 ----
 public void readRecordFile() throws IOException {
     final Path path = Paths.get("D:\\ java \\recording.jfr");
@@ -449,12 +442,12 @@ ZGC 即 Z Garbage Collector(垃圾收集器或垃圾回收器),这应该是 Java
 Java5中带了一个压缩工具:`Pack200`,这个工具能对普通的 jar 文件进行高效压缩.其  实现原理是根据 Java 类特有的结构,合并常数  池,去掉无用信息等来实现对 java 类的高效压缩.
 由于是专门对 Java 类进行压缩的,所以对普通文件的压缩和普通压缩软件没有什么两样,但是对于Jar  文件却能轻易达到 10-40% 的压缩率.这在 Java 应用部署中很有用,尤其对于移动 Java 计算,能够大大减小代码下载量.
 
-Java5 中还提供了这一技术的API接口,你可以将其嵌入到你的程序中使用.使用的方法很简单,下面的短短几行代码即可以实现jar的压缩和解压:
+Java 5 中还提供了这一技术的API接口,你可以将其嵌入到你的程序中使用.使用的方法很简单,下面的短短几行代码即可以实现jar的压缩和解压:
 
 压缩
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
 Packer packer=Pack200.newPacker();
 OutputStream output=new BufferedOutputStream(new  FileOutputStream(outfile));
@@ -465,7 +458,7 @@ output.close();
 解压
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
 Unpacker unpacker=Pack200.newUnpacker();
 output=new JarOutputStream(new FileOutputStream(jarFile));
@@ -477,4 +470,4 @@ output.close();
 其实 `JavaWebStart` 还有很多功能,例如可以按不同的 jar 包进行 lazy 下载和 单独更新,设置可以根据 jar 中的类变动进行 `class` 粒度的下载.
 
 
-但是在 java11 中废除了 `pack200` 以及 `unpack200` 工具以及 `java.util.jar` 中的 `Pack200` API.因为 `Pack200` 主要是用来压缩jar包的工具,由于网络下载速度的提升以及 java9 引入模块化系统之后不再依赖 `Pack200`,因此这个版本将其移除掉.
+但是在 java 11 中废除了 `pack200` 以及 `unpack200` 工具以及 `java.util.jar` 中的 `Pack200` API.因为 `Pack200` 主要是用来压缩jar包的工具,由于网络下载速度的提升以及 java 9 引入模块化系统之后不再依赖 `Pack200`,因此这个版本将其移除掉.

@@ -1,8 +1,8 @@
 [[java-12-feature]]
-= Java12 新特性
+= Java 12 新特性
 
 [[java-12-feature-overview]]
-== Java12 新特性一览
+== Java 12 新特性一览
 
 Java 12 已如期于 3 月 19 日正式发布,此次更新是 Java 11 这一长期支持版本发布之后的一次常规更新,截至目前,Java 半年为发布周期,并且不会跳票承诺的发布模式,已经成功运行一年多了.通过这样的方式,Java 开发团队能够将一些重要特性尽早的合并到 Java Release 版本中,以便快速得到开发者的反馈,避免出现类似 Java 9 发布时的两次延期的情况.
 
@@ -18,7 +18,7 @@ Java 12 早在 2018 年 12 月便进入了 Rampdown Phase One 阶段,这意味�
 资料来源:  http://openjdk.java.net/projects/jdk/12/
 
 [[java-12-feature-overview-tbl]]
-.Java12 新特性一览
+.Java 12 新特性一览
 |===
 | 新特性 | 翻译
 
@@ -51,23 +51,23 @@ Shenandoah 垃圾回收器是 Red Hat 在 2014 年宣布进行的一项垃圾收
 [[java-12-feature-shenandoah-swt]]
 === 补充: SWT
 
-Stop-the-World ,简称STW ,指的是GC 事件发生过程中,停止所有的应用程序线程的执行.就像警察办案,需要清场一样.
+Stop-the-World ,简称 STW ,指的是 GC 事件发生过程中,停止所有的应用程序线程的执行.就像警察办案,需要清场一样.
 
 垃圾回收器的任务是识别和回收垃圾对象进行内存清理.为了让垃圾回收器可以正常且高效地执行,大部分情况下会要求系统进入一个停顿的状态.停顿的目的是终止所有应用程序的执行,只有这样,系统中才不会有新的垃圾产生,同时停顿保证了系统状态在某一个瞬间的一致性,也有益于垃圾回收器更好地标记垃圾对象.因此,在垃圾回收时,都会产生应用程序的停顿.停顿产生时整个应用程序会被暂停,没有任何响应,有点像卡死的感觉,这个停顿称为 STW .
-如果 Stop-the- World 出现在新生代的 Minor GC 中时, 由于新生代的内存空间通常都比较小, 所以暂停时间也在可接受的合理范围之内,不过一旦出现在老年代的 Full GC 中时,程序的工作线程被暂停的时间将会更久.简单来说,内存空间越大,执行Full GC 的时间就会越久, 相对的工作线程被暂停的时间也就会更长.
+如果 Stop-the-World 出现在新生代的 Minor GC 中时, 由于新生代的内存空间通常都比较小, 所以暂停时间也在可接受的合理范围之内,不过一旦出现在老年代的 Full GC 中时,程序的工作线程被暂停的时间将会更久.简单来说,内存空间越大,执行 Full GC 的时间就会越久, 相对的工作线程被暂停的时间也就会更长.
 
-到目前为止,哪怕是G1 也不能完全避免 Stop-the-world 情况发生,只能说垃圾回收器越来越优秀,回收效率越来越高, 尽可能地缩短了暂停时间.
+到目前为止,哪怕是 G1 也不能完全避免 Stop-the-world 情况发生,只能说垃圾回收器越来越优秀,回收效率越来越高, 尽可能地缩短了暂停时间.
 
 [[java-12-feature-shenandoah-gc]]
 === 补充: 垃圾收集器的分类
 
-由于JDK 的版本处于高速迭代过程中,因此Java 发展至今已经衍生了众多的GC 版本.
+由于 JDK 的版本处于高速迭代过程中,因此 Java 发展至今已经衍生了众多的 GC 版本.
 从不同角度分析垃圾收集器,可以将 GC 分为不同的类型.
 
 image::{oss-images}/java-12-2.png[]
 
 * 按线程数分,可以分为串行垃圾回收器和并行垃圾回收器.
-** 串行回收指的是在同一时间段内只允许一件事情发生,简单来说,当多个CPU 可用时,也只能有一个CPU用于执行垃圾回收操作,井且在执行垃圾回收时,程序中的工作线程将会被暂停,当垃圾收集工作完成后才会恢复之前被暂停的工作线程,这就是串行回收.
+** 串行回收指的是在同一时间段内只允许一件事情发生,简单来说,当多个 CPU 可用时,也只能有一个 CPU 用于执行垃圾回收操作,井且在执行垃圾回收时,程序中的工作线程将会被暂停,当垃圾收集工作完成后才会恢复之前被暂停的工作线程,这就是串行回收.
 ** 和串行回收相反,并行收集可以运用多个CPU 同时执行垃圾回收,因此提升了应用的吞吐量,不过并行回收仍然与串行回收一样,采用独占式,使用了 " Stop-the-world " 机制和复制算法.
 
 * 按照工作模式分,可以分为并发式回收器和独占式垃圾回收器.
@@ -81,7 +81,7 @@ image::{oss-images}/java-12-2.png[]
 * 按工作的内存区间,又可分为年轻代垃圾回收器和老年代垃圾回收器.
 
 [[java-12-feature-shenandoah-assessment]]
-=== 补充: 如何评估一款GC的性能
+=== 补充: 如何评估一款 GC 的性能
 
 - 吞吐量: 程序的运行时间(程序的运行时间＋内存回收的时间).
 
@@ -157,7 +157,7 @@ Switch 表达式也是作为预览语言功能的第一个语言改动被引入�
 * 为了保持兼容性,`case` 条件语句中依然可以使用字符 `:` ,这时 `fall-through` 规则依然有效的,即不能省略原有的 `break` 语句,但是同一个 `Switch` 结构里不能混用 `->` 和 `:` ,否则会有编译错误.并且简化后的 `Switch` 代码块中定义的局部变量,其作用域就限制在代码块中,而不是蔓延到整 `Switch` 结构,也不用根据不同的判断条件来给变量赋值.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
 public class SwitchTest {
     public static void main(String[] args) {
@@ -190,10 +190,8 @@ enum Fruit {
 
 如果有编码经验,你一定知道,`switch` 语句如果漏写了一个 `break`,那么逻辑往往就跑偏了,这种方式既繁琐,又容易出错.如果换成 `switch` 表达式,Pattern Matching 机制能够自然地保证只有单一路径会被执行:
 
-java12
-
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 public class SwitchTest1 {
     public static void main(String[] args) {
@@ -211,7 +209,7 @@ public class SwitchTest1 {
 更进一步,下面的表达式,为我们提供了优雅地表达特定场合计算逻辑的方式:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 public class SwitchTest2 {
     public static void main(String[] args) {
@@ -229,10 +227,10 @@ public class SwitchTest2 {
 
 举例2
 
-java12 之前:
+Java 12 之前:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java8
+.Java 8
 ----
 public class SwitchTest {
     public static void main(String[] args) {
@@ -263,10 +261,10 @@ enum Week {
 }
 ----
 
-java12
+Java 12
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 public class SwitchTest1 {
     public static void main(String[] args) {
@@ -282,10 +280,10 @@ public class SwitchTest1 {
 }
 ----
 
-java12更近一步
+Java 12 更近一步
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 public class SwitchTest2 {
     public static void main(String[] args) {
@@ -407,7 +405,7 @@ image::{oss-images}/java-12-1.png[]
 === String 实现了 `Constable` 接口
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 public final class String implements java.io.Serializable, Comparable<String>,
 CharSequence,Constable, ConstantDesc {
@@ -416,7 +414,7 @@ CharSequence,Constable, ConstantDesc {
 `java.lang.constant.Constable` 接口定义了抽象方法:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 public interface Constable {
 	Optional<? extends ConstantDesc> describeConstable();
@@ -426,7 +424,7 @@ public interface Constable {
 Java 12 String 的实现源码:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 @Override
 public Optional<String> describeConstable() {
@@ -448,7 +446,7 @@ https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html
 String的源码:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 /**
 * Returns an {@link Optional} containing the nominal descriptor for this
@@ -478,7 +476,7 @@ public String resolveConstantDesc(MethodHandles.Lookup lookup) {
 举例:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 private static void testDescribeConstable() {
 	System.out.println("======test java 12 describeConstable======");
@@ -491,7 +489,7 @@ private static void testDescribeConstable() {
 结果输出:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 ======test java 12 describeConstable======
 hello world!
@@ -526,20 +524,20 @@ Java 12 中将删除由 Oracle 提供的 arm64端口相关的所有源码,即删
 [[java-12-feature-cds-history]]
 === 历史版本
 
-* JDK5 引入了 Class-Data Sharing 可以用于多个 JVM 共享 class,提升启动速度,最早只支持 system classes 及 serial GC.
-* JDK9 对其进行扩展以支持 application classes 及其他GC算法.
-* java10 的新特性 JEP 310: Application Class-Data Sharing 扩展了 JDK5 引入的 Class-Data Sharing,支持 application 的 Class-Data Sharing 并开源出来(以前是 commercial feature)
+* JDK 5 引入了 Class-Data Sharing 可以用于多个 JVM 共享 class,提升启动速度,最早只支持 system classes 及 serial GC.
+* JDK 9 对其进行扩展以支持 application classes 及其他GC算法.
+* java 10 的新特性 JEP 310: Application Class-Data Sharing 扩展了 JDK5 引入的 Class-Data Sharing,支持 application 的 Class-Data Sharing 并开源出来(以前是 commercial feature)
 * CDS 只能作用于 `BootClassLoader` 加载的类,不能作用于 AppClassLoader 或者自定义的 ClassLoader加载的类.在 Java 10 中,则将 CDS 扩展为 `AppCDS`,顾名思义,`AppCDS` 不止能够作用于 `BootClassLoader` 了,`AppClassLoader` 和自定义的 `ClassLoader` 也都能够起作用,大大加大了 CDS 的适用范围.也就说开发自定义的类也可以装载给多个JVM共享了.
-* JDK11 将 `-Xshare:off` 改为默认 `-Xshare:auto`,以更加方便使用CDS特性
+* JDK 11 将 `-Xshare:off` 改为默认 `-Xshare:auto`,以更加方便使用CDS特性
 
 [[java-12-feature-cds-result]]
 === 迭代效果
 
 可以说,自 Java 8 以来,在基本 CDS 功能上进行了许多增强、改进,启用 CDS 后应用的启动时间和内存占用量显着减少.使用 Java 11 早期版本在 64 位 Linux 平台上运行 HelloWorld 进行测试,测试结果显示启动时间缩短有 32％,同时在其他 64 位平台上,也有类似或更高的启动性能提升.
 
-Java12新特性
+Java 12 新特性
 
-JDK 12之前,想要利用CDS的用户,即使仅使用JDK中提供的默认类列表,也必须 `java -Xshare:dump` 作为额外的步骤来运行.
+JDK 12 之前,想要利用 CDS 的用户,即使仅使用JDK中提供的默认类列表,也必须 `java -Xshare:dump` 作为额外的步骤来运行.
 
 Java 12 针对 64 位平台下的 JDK 构建过程进行了增强改进,使其默认生成类数据共享(CDS)归档,以进一步达到改进应用程序的启动时间的目的,同时也避免了需要手动运行: `java -Xshare:dump` 的需要,修改后的 JDK 将在 `${JAVA_HOME}/lib/server` 目录中生成一份名为 `classes.jsa` 的默认 archive 文件(大概有18M)方便大家使用.
 
@@ -639,7 +637,7 @@ JDK 12 版本包括对 Unicode 11.0.0 的支持.在发布支持 Unicode 10.0.0 �
 `NumberFormat` 添加了对以紧凑形式格式化数字的支持.紧凑数字格式是指以简短或人类可读形式表示的数字.例如,在 `en_US` 语言环境中,1000可以格式化为 "1K",1000000可以格式化为 "1M",具体取决于指定的样式 `NumberFormat.Style`.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 @Test
 public void testCompactNumberFormat(){
@@ -657,7 +655,7 @@ public void testCompactNumberFormat(){
 输出
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 1万
 2万
@@ -675,7 +673,7 @@ public void testCompactNumberFormat(){
 JDK-8203442 引入的一个小方法,它提供的函数作为输入提供给特定的 String 实例,并返回该函数返回的输出.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 var result = "foo".transform(input -> input + " bar");
 System.out.println(result); // foo bar
@@ -684,7 +682,7 @@ System.out.println(result); // foo bar
 或者
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 var result = "foo"
     .transform(input -> input + " bar")
@@ -695,7 +693,7 @@ var result = "foo"
 对应源码
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 /**
 * This method allows the application of a function to {@code this}
@@ -725,7 +723,7 @@ public <R> R transform(Function<? super String, ? extends R> f) {
 举例:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 private static void testTransform() {
     System.out.println("======test java 12 transform======");
@@ -742,7 +740,7 @@ private static void testTransform() {
 结果输出
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 ======test java 12 transform======
     Hi,JAVA
@@ -753,7 +751,7 @@ private static void testTransform() {
 示例是对一个字符串连续转换了三遍,代码很简单.如果使用 Java 8 的 `Stream` 特性,可以如下实现:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 private static void testTransform1() {
     System.out.println("======test before java 12 ======");
@@ -773,7 +771,7 @@ private static void testTransform1() {
 举例:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 private static void testIndent() {
     System.out.println("======test java 12 indent======");
@@ -785,7 +783,7 @@ private static void testIndent() {
 结果输出:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 ======test java 12 indent======
 Java
@@ -798,7 +796,7 @@ C++
 以下是 `indent` 的核心源码:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 /**
 * Adjusts the indentation of each line of this string based on the value of
@@ -836,7 +834,7 @@ public String indent(int n) {
 ===  Files 新增 `mismatch` 方法
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java12
+.Java 12
 ----
 @Test
 public void testFilesMismatch() throws IOException {

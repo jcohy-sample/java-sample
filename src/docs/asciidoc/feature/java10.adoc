@@ -1,8 +1,8 @@
 [[java-10-feature]]
-= Java10 新特性
+= Java 10 新特性
 
 [[java-10-feature-overview]]
-== Java10 新特性一览
+== Java 10 新特性一览
 
 Java 在 2018 年 3 月 21 日发布了第十个大版本.为了更快地迭代、更好地跟进社区反馈,Java 语言版本发布周期调整为每隔 6 个月发布一次.Java 10 是这一新规则之后,采用新发布周期的第一个大版本.Java 10 版本带来了很多新特性,其中最备受广大开发者关注的莫过于局部变量类型推断.除此之外,还有其他包括垃圾收集器改善、GC 改进、性能提升、线程管控等一批新特性.本文主要针对 Java 10 中的新特性展开介绍,希望读者能从本文的介绍中快速了解 Java 10 带来的变化.
 
@@ -10,7 +10,7 @@ Java 在 2018 年 3 月 21 日发布了第十个大版本.为了更快地迭代�
 资料来源:  http://openjdk.java.net/projects/jdk/10/
 
 [[java-10-feature-overview-tbl]]
-.Java10 新特性一览
+.Java 10 新特性一览
 |===
 | 新特性| 翻译
 
@@ -47,7 +47,7 @@ Java 在 2018 年 3 月 21 日发布了第十个大版本.为了更快地迭代�
 这一新功能将为 Java 增加一些新语法,允许开发人员省略通常不必要的局部变量类型初始化声明.新的语法将减少 Java 代码的冗长度,同时保持对静态类型安全性的承诺.局部变量类型推断主要是向 Java 语法中引入在其他语言(比如 C#、JavaScript )中很常见的保留类型名称 `var`.但需要特别注意的是: `var` 不是一个关键字,而是一个保留字.只要编译器可以推断此种类型,开发人员不再需要专门声明一个局部变量的类型,也就是可以随意定义变量而不必指定变量的类型.这种改进对于链式表达式来说,也会很方便.以下是一个简单的例子:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java10
+.Java 10
 ----
  var list = new ArrayList<String>(); // ArrayList<String>
  var stream = list.stream(); // Stream<String>
@@ -133,7 +133,7 @@ CDS 特性在原来的 `bootstrap` 类基础之上,扩展加入了应用类的 C
 |===
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java10
+.Java 10
 ----
 java.time.format.DateTimeFormatter::localizedBy
 ----
@@ -160,7 +160,7 @@ Java 10 中开启了基于 Java 的 JIT 编译器 `Graal`,并将其用作 Linux/
 Java 10 中默认情况下 HotSpot 仍使用的是 C2 编译器,要启用 Graal 作为 JIT 编译器,请在 Java 命令行上使用以下参数:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java10
+.Java 10
 ----
 -XX: + UnlockExperimentalVMOptions -XX: + UseJVMCICompiler
 ----
