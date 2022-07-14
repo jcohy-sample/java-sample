@@ -285,6 +285,229 @@ include::{java-code}/java18/web/CustomizationHandler.java[]
 [[java-18-feature-snippet-inline]]
 ===  内联片段
 
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet]
+----
+
+生成的代码片段为冒号之后的换行符和右大括号之间的文本, 不需要去转义 HTML  `<`, `>`, 和 `&` 这类字符，也不用转义文档的注释标签。
+
+生成的文档使用了 `String::stripIndent` 去除了内容前面的空格，与 `<pre>{@code ...}</pre>` 不同，这个显示的文本总是在空格和星号之后才开始。而在 snippet 中，生成的文本块的内容的位置是相对于源文件中右大括号的位置进行缩进。上面的例子生成的文档如下：
+
+image::{oss-images}/java18-snippet1.png[]
+
+内联代码段的内容有两个限制：
+
+* 内联的代码片段不能使用  /* ... */ 注释，因为 */ 会终止整个文档的注释
+* 内联的代码片段的大括号要成对出现，即整个内联标签由与左大括号匹配的第一个右大括号终止。
+
+尽管有这些限制，但当示例代码很短、不需要 IDE 中的语言级编辑支持并且不需要与文档中其他地方的其他代码段共享时，内联代码片段很方便。
+
+[[java-18-feature-snippet-external]]
+===  外部片段
+
+外部片段是指包含片段内容的单独文件。
+
+在外部代码段中，可以省略冒号、换行符和后续内容。
+
+让我们重写上面的实例，使用外部代码片段：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet2]
+----
+
+`file` 属性值为文件的名称，`region` 属性表示要显示的区域。有关 `@start` 和 `@end` 标签的更多信息，请参考 <<java-18-feature-snippet-region>>
+
+在此示例中，输出和上面的一样：
+
+image::{oss-images}/java18-snippet2.png[]
+
+与内联片段不同，外部片段对其内容没有限制。 特别是，它们可能包含 /* ... */ 注释。
+
+外部代码的位置可以通过 `class` 属性指定类名或者通过 `file` 属性指定文件相对位置来引入。不管是哪种情况，文件都放在当前包目录下的 `snippet-files` 子目录中，该目录包含带有 {@snippet ...} 标签的源代码。
+另外，你也可以将文件放在辅助搜索目录，使用 `javadoc` 的 `--snippet-path` 选项指定
+
+外部代码片段可能包含多个 region，这些 region 可能会在不同的代码片段中引用。
+
+外部代码片段很有用，这样我们就可以将示例代码编写为单独的文件，并且可以直接在 IDE 中编辑，代码之间还可以共享。`snippet-files` 目录中的文件可以在同一包中的代码片段之间共享，并且与其他包中的 `snippet-files` 目录中的代码片段隔离。辅助搜索路径上的文件存在于单个共享名称空间中，并且可以从文档中的任何位置引用。
+
+[[java-18-feature-snippet-hybrid]]
+===  Hybrid snippets（混合代码片段）
+
+混合片段是又有内部片段又有外部片段。 它包含 snippet 本身内的片段内容，以方便任何人阅读正在记录的类的源代码，它还引用包含片段内容的单独文件。
+
+如果将混合代码片段作为内联代码段处理的结果与将其作为外部代码段处理的结果不匹配，则会出现错误。
+
+[[java-18-feature-snippet-markup]]
+===  Markup tags（标记标签）
+
+标记标签定义片段内容中的区域。 它们还控制内容的呈现方式，例如突出显示部分文本、修改文本或链接到文档中的其他位置。 它们可用于内部、外部和混合片段。
+
+标记标签以 `@name` 开头，后跟任何必需的参数。它们被放置在 `//` 注释中（或其他语言与之等价的注解中），以免过度干扰源代码的主体，也因为 `/* ... */` 注释不能在内联代码段中使用。这样的注释被称为标记注释。
+
+多个标记标签可以放置在同一个标记注释中。标记标记应用于包含注释的源代码行，除非注释以冒号 (:) 结尾，在这种情况下标记标记仅应用于以下行。如果标记注释特别长，或者片段内容的句法格式不允许注释与非注释源出现在同一行，则后一种语法可能很有用。标记注释不会出现在生成的输出中。
+
+因为其他一些系统使用类似于标记注释的元注释，所以以 `@` 开头后跟无法识别的名称的注释将被忽略。如果名称被识别，但标记注释中有后续错误，则报告错误。在这种情况下生成的输出相对于从代码片段生成的输出是未定义的。
+
+[[java-18-feature-snippet-region]]
+=== Regions（区域）
+
+区域主要用于标识要由 snippet 显示的文本。 它们还定义了突出显示或修改文本等操作的范围。
+
+区域由以下任一标签开始
+
+* @start region=name, 或者
+* @highlight, @replace, 或者 @link 指定 region 或者使用 region=name. 如果匹配的 `@end` 标签不需要该名称，则可以省略该名称。
+
+region 的结束由 `@end` 或 `@end region=name` 标记。 如果给定名称，则结束以该标签名称开头的区域。 如果没有给出名称，则结束最近开始的没有匹配的 `@end` 标签的区域。
+
+由不同的匹配 `@start` 和 `@end` 标签对创建的区域没有限制。region 甚至可以重叠，尽管我们不希望这种用法很普遍。
+
+[[java-18-feature-snippet-highlighting]]
+=== Highlighting（高亮）
+
+要突出显示内容，请使用 `@highlight` 后跟参数，这些参数指定文本范围、突出显示的文本以及突出显示的类型。
+
+如果指定了 `region` 或 `region=name`，则范围是该区域，直到对应的 `@end` 标记。否则，突出显示的范围只是当前行。
+
+如果要突出显示范围内指定的字符串，请使用 `substring=string` 指定字符串，其中 `string` 可以是标识符或用单引号或双引号括起来的文本。要突出显示范围内正则表达式匹配的每个文本实例，请使用 `regex=string`。如果这些属性都没有指定，那么整个范围都会突出显示。
+
+可以使用 `type` 参数指定突出显示的类型。有效的类型名称为  bold（粗体）, italic（斜体）, 和 highlighted（突出显示）。类型的名称将转换为 CSS 类名称，其属性可以在系统样式表中定义或在用户定义的样式表中覆盖。
+
+例如，这里是如何使用 `@highlight` 标记来强调使用特定方法名称的方法：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet3]
+----
+
+输出为：
+
+image::{oss-images}/java18-snippet3.png[]
+
+下面的示例使用正则高亮显示一行中的 `arg`
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet4]
+----
+
+输出为：
+
+image::{oss-images}/java18-snippet4.png[]
+
+[[java-18-feature-snippet-modifying]]
+=== 修改显示的文本
+
+有时间，我们可能需要使用省略号来替换一些说明性的文档。这时，我们可以使用 `@replace` 来完成。
+
+要替换文本，请使用 `@replace` 后跟参数，这些参数指定文本的范围、要替换的文本以及替换文本。
+
+如果指定了 `region` 或 `region=name`，则范围是该区域，直到对应的 `@end` 标记。否则，范围只是当前行。
+
+要替换范围内的文字字符，请使用 `substring=string` 指定字符串，其中字符串可以是标识符或用单引号或双引号括起来的文本。要替换范围内与正则表达式匹配的每个文本实例，请使用 `regex=string`。如果没有指定这些属性，则替换整个范围。
+
+使用替换参数指定替换文本。如果使用正则表达式指定要替换的文本，则可以使用 `$number` 或 `$name` 替换在正则表达式中找到的组，如 `String::replaceAll` 所定义。
+
+例如，这里是如何用省略号替换 `println` 调用的参数：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet5]
+----
+
+输出为：
+
+image::{oss-images}/java18-snippet5.png[]
+
+[NOTE]
+====
+要删除文本，请使用 `@replace=""` 的  `@replace`, 要插入文本，请使用 `@replace`  的 `replace` 后跟 no-op text （无操作文本）， `replacement` 的值被插入，无操作文本可能为 `//` 标记或者空语句(`;`)
+====
+
+[[java-18-feature-snippet-link]]
+=== 文本链接
+
+要将文本链接到 API 中其他声明的位置，请使用 `@link` 后跟参数，这些参数指定文本范围、要链接的文本以及链接的目标。
+
+如果指定了 `region` 或 `region=name`，则范围是该区域，直到对应的 `@end` 标签。 否则，范围只是当前行。
+
+要链接范围内文字字符串的每个实例，请使用 `substring=string` 指定字符串，其中字符串可以是标识符或用单引号或双引号括起来的文本。 要链接范围内正则表达式匹配的每个文本实例，请使用 `regex=string`。 如果没有指定这些属性，则链接整个范围。
+
+使用 `target` 参数指定目标。 其值的形式与标准内联 `{@link ...}` 标签所使用的形式相同。
+
+例如，下面是如何将文本 System.out 链接到它的声明：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet6]
+----
+
+输出为：
+
+image::{oss-images}/java18-snippet6.png[]
+
+[[java-18-feature-snippet-file]]
+=== 其他类型的文件
+
+前面部分中的示例显示了 Java 源代码的片段，但也支持其他类型的文件，例如属性文件。 与 Java 源代码完全相同，属性文件格式的代码片段可以使用内联代码片段，并且可以使用 `file` 属性在外部代码片段中指定属性文件。
+
+这是一个包含 `.properties` 文件的全部内容的外部代码段：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet7]
+----
+
+在属性文件中，注释是以井号 (#)  字符开头的行。 因为一些标记标签的默认范围是当前行，并且由于属性文件不允许注释与非注释内容放在同一行，所以可能需要使用以 `:` 结尾的标记注释的形式，以便标记注释被视为适用于以下行。
+
+这是一个定义一些属性的片段，突出显示了第二个属性的值：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SnippetsTest.java[tag=snippet8]
+----
+
+[[java-18-feature-snippet-reference]]
+=== Snippet tag reference
+
+Attributes for the {@snippet} tag::
+* class — a class containing the content for the snippet
+* file — a file containing the content for the snippet
+* id — an identifier for the snippet, to identify the snippet in the generated documentation
+* lang — the language or format for the snippet
+* region — the name of a region in the content to be displayed
+
+Markup tags, to appear in markup comments::
+* start — mark the beginning of a region
+** region — the name of the region
+* end — mark the end of a region
+** region — the name of the region; can be omitted for an anonymous region
+* highlight — highlight text within a line or region
+** substring — the literal text to be highlighted
+** regex — a regular expression for the text to be highlighted
+** region — a region to define the scope in which to find the text to be highlighted
+** type — the type of highlighting, such as bold, italic, or highlighted
+* replace — replace text within a line or region
+** substring — the literal text to be replaced
+** regex — a regular expression for the text to be replaced
+** region — a region to define the scope in which to find the text to be highlighted
+** replacement — the replacement text
+* link — link text within a line or region
+** substring — the literal text to be replaced
+** regex — a regular expression for the text to be replaced
+** region — a region to define the scope in which to find the text to be highlighted
+** target — the target of the link, expressed in one of the forms suitable for an {@link ...} tag
+** type — the type of link: one of link (the default) or linkplain
 
 [[java-18-feature-switch]]
 == 简单的 Web 服务器
