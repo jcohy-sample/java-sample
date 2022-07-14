@@ -1,0 +1,1285 @@
+[[java-18-feature]]
+= Java 18 新特性
+
+[[java-18-feature-overview]]
+== Java 18 新特性一览
+
+2022 年 3 月 22 日,JDK/Java 18 正式 GA(General Available) 正式发布.
+
+Java 18 为用户提供了 9 项主要的 JEP (Java/JDK Enhancement Proposals,JDK 增强提案)，包括两个孵化器模块，一个预览功能
+
+资料来源:  http://openjdk.java.net/projects/jdk/18/
+
+[[java-18-feature-overview-tbl]]
+.Java 18 新特性一览
+|===
+| 新特性 | 翻译
+
+| 400: https://openjdk.java.net/jeps/400[UTF-8 by Default] | 默认 UTF-8
+
+| 408: https://openjdk.java.net/jeps/408[Simple Web Server] | 简单 Web 服务器
+
+| 413: https://openjdk.java.net/jeps/413[Code Snippets in Java API Documentation] | 简化文档代码片段
+
+| 416 https://openjdk.java.net/jeps/416[Reimplement Core Reflection with Method Handles] | 重新实现反射核心机制
+
+| 417: https://openjdk.java.net/jeps/417[Vector API (Third Incubator)] | 矢量 API（三次孵化中）
+
+| 418: http://openjdk.java.net/jeps/418[Internet-Address Resolution SPI] | 互联网地址解析 SPI
+
+| 419: http://openjdk.java.net/jeps/419[Foreign Function & Memory API (Second Incubator)] | 外部函数和内存 API（二次孵化中）
+
+| 420: http://openjdk.java.net/jeps/420[Pattern Matching for switch (Second Preview)] | switch 模式匹配（二次预览中）
+
+| 421: http://openjdk.java.net/jeps/421[Deprecate Finalization for Removal] | 弃用 Finalization
+|===
+
+[[java-18-feature-environment]]
+== 环境安装
+
+* JDK 下载地址:
++
+OpenJDK版本: https://jdk.java.net/18/
++
+Oracle版本: https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html
+
+* 修改环境变量.
+
+[[java-18-feature-default]]
+==  默认 UTF-8
+
+在 JDK 17 及更早版本中，默认字符集是在 Java 虚拟机运行时才确定的，取决于不同的操作系统、区域设置等因素，因此存在潜在的风险。
+
+从这个版本开始，依赖于默认字符集的 API 会在所有实现、操作系统、语言环境和配置中保持一致。
+
+可以使用以下命令查看当前 JDK 的默认字符集：
+
+[source,java]
+----
+java -XshowSettings:properties -version 2>&1 | grep file.encoding
+    file.encoding = UTF-8
+    file.encoding.pkg = sun.io
+----
+
+在 JDK 中通过下面 API 获取当前 JDK 的默认字符集：
+
+[source,java]
+----
+Charset.defaultCharset()
+----
+
+[[java-18-feature-web]]
+== 简单的 Web 服务器
+
+提供命令行工具来启动仅提供静态文件的最小 Web 服务器。 没有可用的 CGI 或类似 servlet 的功能。 该工具可用于原型设计、临时编码和测试目的，尤其是在教育环境中。
+
+Simple Web Server 是用于服务单个目录层次结构的最小 HTTP 服务器。 它基于自 2006 年起包含在 JDK 中的 `com.sun.net.httpserver` 包中的 Web 服务器实现。该包得到官方支持，我们使用 API 对其进行了扩展，以简化服务器创建并增强请求处理。 Simple Web Server 可以通过专用的命令行工具 jwebserver 或通过其 API 以编程方式使用。
+
+[[java-18-feature-web-command]]
+=== 通过命令行工具
+
+以下命令启动简单 Web 服务器：
+
+[source,shell]
+----
+jwebserver
+----
+
+如果启动成功，那么 jwebserver 会向 System.out 打印一条消息，列出本地地址和所服务目录的绝对路径。例如：
+
+[java,shell]
+----
+D:\Jdk\jdk-18.0.1.1\bin>jwebserver
+Binding to loopback by default. For all interfaces use "-b 0.0.0.0" or "-b ::".
+Serving D:\Jdk\jdk-18.0.1.1\bin and subdirectories on 127.0.0.1 port 8000
+URL http://127.0.0.1:8000/
+----
+
+.jwebserver 选项
+|===
+|选项 |描述
+
+| -h or -? or --help
+| Prints the help message and exits.
+
+| -b addr or --bind-address addr
+| Specifies the address to bind to.  Default: 127.0.0.1 or ::1 (loopback).  For
+all interfaces use -b 0.0.0.0 or -b ::.
+
+| -d dir or --directory dir
+| Specifies the directory to serve.  Default: current directory
+
+| -o level or --output level
+| Specifies the output format.  none | info | verbose.  Default: info
+
+| -p port or --port port
+| Specifies the port to listen on.  Default: 8000.
+
+| -version or --version
+|  Prints the version information and exits.
+|===
+
+
+默认情况下，服务器在运行并绑定到本地回环地址(127.0.0.1)和端口8000。这可以通过 `-b` 和 `-p` 选项进行更改。例如，要在端口  `9000` 上运行服务器，请使用：
+
+[source,shell]
+----
+D:\Jdk\jdk-18.0.1.1\bin>jwebserver  -p 9000
+Binding to loopback by default. For all interfaces use "-b 0.0.0.0" or "-b ::".
+Serving D:\Jdk\jdk-18.0.1.1\bin and subdirectories on 127.0.0.1 port 9000
+URL http://127.0.0.1:9000/
+----
+
+例如： 绑定服务器到所有接口：
+
+[source,shell]
+----
+D:\Jdk\jdk-18.0.1.1\bin>jwebserver -b 0.0.0.0
+Serving D:\Jdk\jdk-18.0.1.1\bin and subdirectories on 0.0.0.0 (all interfaces) port 8000
+URL http://192.168.11.117:8000/
+----
+
+使用 `-d` 选项指定目录
+
+[source,shell]
+----
+D:\Jdk\jdk-18.0.1.1\bin>jwebserver  -d E:\picture
+Binding to loopback by default. For all interfaces use "-b 0.0.0.0" or "-b ::".
+Serving E:\picture and subdirectories on 127.0.0.1 port 8000
+URL http://127.0.0.1:8000/
+----
+
+仅提供具有幂等性的 `HEAD` 和 `GET` 请求。任何其他请求都会收到 501 - Not Implemented 或 405 - Not Allowed 响应。  · 请求映射到正在服务的目录，如下所示：
+
+. 如果请求的资源是文件，则提供文件内容。
+. 如果请求的资源是目录，则提供文件索引。
+. 否则，将列出该目录的所有文件和子目录的名称。 未列出符号链接和隐藏文件。
+
+Simple Web Server 仅支持 HTTP/1.1。 不支持 HTTPS 。
+
+MIME 类型是自动配置的。 例如，`.html` 文件作为 `text/html` 提供，`.java` 文件作为 `text/plain` 提供。
+
+默认情况下，每个请求都记录在控制台上。 输出如下所示：
+
+[source,text]
+----
+127.0.0.1 - - [10/Feb/2021:14:34:11 +0000] "GET /some/subdirectory/ HTTP/1.1" 200 -
+----
+
+可以使用 `-o` 选项更改日志记录输出。 默认设置是 info。 详细设置还包括请求和响应标头以及所请求资源的绝对路径。
+
+成功启动后，服务器将一直运行，直到停止。 在 Unix 平台上，可以通过向服务器发送 `SIGINT` 信号（在终端窗口中按 `Ctrl+C`）来停止服务器。
+
+`-h` 选项显示一条帮助消息，列出所有选项，这些选项遵循 https://openjdk.org/jeps/293[JEP 293] 中的指南。还提供了 jwebserver 手册页。
+
+[[java-18-feature-web-api]]
+=== API
+
+虽然命令行工具很有用，但如果想将 Simple Web Server 的组件（即服务器、处理程序和过滤器）与现有代码一起使用，或者进一步自定义处理程序的行为，该怎么办？ 虽然可以在命令行上进行一些配置，但是如果使用简单名了的编程式解决方案将提高服务器组件的实用性。 为了弥补命令行工具的简单性和当前 `com.sun.net.httpserver` API 的自己编写方法之间的差距，Java 18 定义了用于创建和定制服务器请求处理的新 API。
+
+新类是 `SimpleFileServer`、`HttpHandlers` 和 `Request`，每个类都建立在 `com.sun.net.httpserver` 包中的现有类和接口之上：`HttpServer`、`HttpHandler`、`Filter` 和 `HttpExchange`。
+
+`SimpleFileServer` 类支持创建文件服务器、文件服务器处理程序和输出过滤器：
+
+[source,java]
+----
+package com.sun.net.httpserver;
+
+public final class SimpleFileServer {
+    public static HttpServer createFileServer(InetSocketAddress addr,
+                                              Path rootDirectory,
+                                              OutputLevel outputLevel) {...}
+    public static HttpHandler createFileHandler(Path rootDirectory) {...}
+    public static Filter createOutputFilter(OutputStream out,
+                                            OutputLevel outputLevel) {...}
+    ...
+}
+----
+
+使用这个类，可以使用几行代码启动一个最小但自定义的服务器：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SimpleFileServerTest.java[tag=serve1]
+----
+
+将自定义 Handler 添加到服务器
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SimpleFileServerWithHandlerTest.java[tag=serve2]
+----
+
+添加自定义过滤输出到服务器
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/SimpleFileServerWithFilterTest.java[tag=serve3]
+----
+
+[[java-18-feature-web-api-enhanced]]
+==== 增强 request handling
+
+Simple Web Server 的核心功能由其 handler  提供。 为了支持扩展此 handler 以与现有代码一起使用，我们引入了一个新的 `HttpHandlers` 类，该类具有两个用于 handler 创建和自定义的静态方法，以及一个用于适应请求的 Filter 类中的新方法：
+
+[source,java]
+----
+package com.sun.net.httpserver;
+
+public final class HttpHandlers {
+    public static HttpHandler handleOrElse(Predicate<Request> handlerTest,
+                                           HttpHandler handler,
+                                           HttpHandler fallbackHandler) {...}
+    public static HttpHandler of(int statusCode, Headers headers, String body) {...}
+    {...}
+}
+
+public abstract class Filter {
+    public static Filter adaptRequest(String description,
+                                      UnaryOperator<Request> requestOperator) {...}
+    {...}
+}
+----
+
+`handleOrElse` 用另一个 handler 补充了条件处理程序，而工厂方法允许您创建具有预响应状态的 handler。 从 `adaptRequest` 获得的预处理过滤器可用于在处理请求之前检查和调整请求的某些属性。 这些方法的用例包括基于请求方法委托交换、创建始终返回特定响应的 "canned response" handler，或向所有传入的请求添加请求头。
+
+现有 API 将 HTTP 请求捕获为由 `HttpExchange` 类的实例，表示请求-响应的一部分，该实例描述了交换的完整和可变状态。 并非所有的状态都对定制 handler 有意义。 因此，我们引入了一个更简单的 Request 接口来提供不可变请求状态的有限视图：
+
+[source,java]
+----
+public interface Request {
+    URI getRequestURI();
+    String getRequestMethod();
+    Headers getRequestHeaders();
+    default Request with(String headerName, List<String> headerValues)
+    {...}
+}
+----
+
+现在，我们可以自定义已存在的 handler
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/java18/web/CustomizationHandler.java[]
+----
+
+[[java-18-feature-snippet]]
+==  Java API 文档中支持 Snippets 代码片段
+
+为 JavaDoc 的标准 Doclet 引入一个 `@snippet` 标签，以简化在 API 文档中包含示例源代码。
+
+他可以用来声明内联片段（代码片段在标签内部）和外部片段（代码片段从单独的源文件读取）
+
+`snippet` 的其他详细信息可以使用 `name=value` 的键值对形式，放置在  initial tag 之后，name 是一个简单的标识符，属性值可以使用单引号或双引号括起来，不支持转义字符。属性之间以空白符分隔，例如空格或换行符
+
+`snippet` 可以指定一个 `id` 属性，该属性可以在 API 和生成的 HTML 文件中标识代码片段，并创建锚链接。在生成的 HTML 中，`id` 将放置在生成的最外层元素上以表示片段。
+
+代码片段通常是 Java 源代码，但它们也可能是属性文件的片段、其他语言的源代码或纯文本。 snippet  可以指定一个 `lang` 属性，该属性标识代码片段的内容类型。 对于内联代码，默认值为 `java`。 对于外部片段，默认值为包含片段内容的文件名的扩展名。
+
+在代码片段中，`markup` 标签可以放置在行注释中以识别文本中的区域并指示如何呈现文本。 （我们将在下面看到 `markup` 标签的示例，例如 `@highlight` 和 `@replace`。）
+
+[[java-18-feature-snippet-inline]]
+===  内联片段
+
+
+[[java-18-feature-switch]]
+== 简单的 Web 服务器
+
+通过对 Switch 表达式和语句的模式匹配以及对模式语言的扩展来增强 Java 编程语言。允许针对各种模式验证 switch 表达式和语句，每个模式都有不同的操作。这使得以简单和安全的方式表达复杂的面向数据的查询成为可能。
+
+[[java-18-feature-switch-goals]]
+=== 目标
+
+* 允许模式出现在 case 语句中，扩展 switch 表达式和语句的表达性和适用性。
+* 如果需要，让历史转折点的零敌意放松。
+* 将引入两种新模式：:保护模式，使用任意布尔表达式来优化模式匹配逻辑，以及带括号的模式：清除解析歧义。
+* 确保所有现有的 switch 表达式和语句都使用相同的语义进行编译，并在不做任何修改的情况下执行它们。
+* 不要引入与传统 switch 结构分离的模式匹配语义的新的类似于 switch 的表达式或语句。
+* 当 case 标签是模式时，不要使 switch 表达式或语句的行为与 case 标签是传统常量时不同。
+
+[[java-18-feature-switch-motivation]]
+=== 动机
+
+在 Java 16 中，https://openjdk.java.net/jeps/394[JEP 394] 扩展了 instanceof 操作符，以接受类型模式并执行模式匹配。这个扩展可以简化熟悉的实例和转换习惯用法:
+
+[source,java]
+----
+// Old code
+if (o instanceof String) {
+    String s = (String)o;
+    ... use s ...
+}
+
+// New code
+if (o instanceof String s) {
+    ... use s ...
+}
+----
+
+我们经常希望可以将一个变量(如 o )与多个选项进行比较。Java 支持使用 switch 语句进行多路比较，并且从 Java 14 开始，支持 switch 表达式(https://openjdk.java.net/jeps/361[JEP 361])，但不幸的是 switch 非常有限。您只能对 numeric 类型、enum 类型和 String 类型进行比较，并且只能测试常量的相等性。我们可能希望使用模式来针对多个可能性测试相同的变量，对每个可能性采取特定的操作，但由于现有的 switch 不支持这种操作，我们最终会得到一个 if...else 链，如:
+
+[source,java]
+----
+static String formatter(Object o) {
+    String formatted = "unknown";
+    if (o instanceof Integer i) {
+        formatted = String.format("int %d", i);
+    } else if (o instanceof Long l) {
+        formatted = String.format("long %d", l);
+    } else if (o instanceof Double d) {
+        formatted = String.format("double %f", d);
+    } else if (o instanceof String s) {
+        formatted = String.format("String %s", s);
+    }
+    return formatted;
+}
+----
+
+这段代码受益于使用 instanceof 表达式，但它并不完美。首先，这种方法可能隐藏了错误的编码，因为我们使用了这种控制结构。目的是在  if...else 的每个分支中为 formatted 赋值。但是没有任何东西使编译器能够识别和验证不变性。如果某些分支 - 也许很少执行的分支 - 没有分配给 formatted，那么就会出现错误。(将 formatted 声明为空的局部变量至少会在此工作中获得编译器的确定赋值分析，但这样的声明并不总是可以编写的。)此外，上面的代码是不可优化的，它的时间复杂度将为O(n)，尽管潜在的问题通常是O(1)。
+
+但是 switch 是一个完美的用来进行匹配的模式匹配!如果我们将 switch 语句和表达式扩展到任何类型，并且允许 case 标签使用模式而不仅仅是常量，那么我们就可以更清晰、更可靠地重写上面的代码:
+
+[source,java]
+----
+static String formatterPatternSwitch(Object o) {
+    return switch (o) {
+        case Integer i -> String.format("int %d", i);
+        case Long l    -> String.format("long %d", l);
+        case Double d  -> String.format("double %f", d);
+        case String s  -> String.format("String %s", s);
+        default        -> o.toString();
+    };
+}
+----
+
+这个 switch 的语义很清楚:带有模式的 case 标签匹配选择表达式 o 的值，如果该值与模式匹配。(为了简洁起见，我们已经演示了一个 switch 表达式，但本可以演示一个 switch 语句;switch 块，包括 case 标签，将保持不变。)
+
+这段代码的目的更清晰，因为我们使用了正确的控制结构:我们说，"参数 o 最多匹配以下条件之一，找出它并计算相应的分支。"，并且它是可优化的;在这种情况下，我们更有可能在 O(1) 时间内执行完成。
+
+[[java-18-feature-switch-null]]
+=== 模式匹配和 null 值
+
+通常，switch 语句和表达式在选择表达式的值为 `null` 时抛出 `NullPointerException`，所以 `null` 的测试必须在 `switch` 之外进行:
+
+[source,java]
+----
+static void testFooBar(String s) {
+    if (s == null) {
+        System.out.println("oops!");
+        return;
+    }
+    switch (s) {
+        case "Foo", "Bar" -> System.out.println("Great");
+        default           -> System.out.println("Ok");
+    }
+}
+----
+
+当 switch 只支持少数引用类型时，这是合理的。但是，如果 switch 允许任何类型的选择表达式，并且 case 标签可以有类型模式，那么单独的 `null` 测试感觉就很随意，并且有可能带来不必要的错误。最好将 `null` 测试集成到 switch 中:
+
+[source,java]
+----
+static void testFooBar(String s) {
+    switch (s) {
+        case null         -> System.out.println("Oops");
+        case "Foo", "Bar" -> System.out.println("Great");
+        default           -> System.out.println("Ok");
+    }
+}
+----
+
+当选择器表达式的值为 `null` 时，switch 的行为由它的 case 标签决定的。case 为 `null`(或 total 类型模式;参见下面的 <<java-18-feature-switch-description-switch-null-matching,4a>>) switch 执行与该标签相关联的代码;如果 case 没有 `null`，switch 会抛出 `NullPointerException`，就像之前一样。(为了保持与 switch 当前语义的向后兼容性，默认标签不匹配 `null` 选择器。)
+
+我们可能希望以与另一个 case 标签相同的方式处理 `null`。例如，在下面的代码中，case `null`, String s 将匹配 null 值和所有的String 值:
+
+[source,java]
+----
+static void testStringOrNull(Object o) {
+    switch (o) {
+        case null, String s -> System.out.println("String: " + s);
+    }
+}
+----
+
+[[java-18-feature-switch-refining]]
+=== switch 模式改进
+
+在 switch 中对模式的试验表明，想要改进模式是很常见的。考虑以下转换 `Shape` 值的代码:
+
+[source,java]
+----
+class Shape {}
+class Rectangle extends Shape {}
+class Triangle  extends Shape { int calculateArea() { ... } }
+
+static void testTriangle(Shape s) {
+    switch (s) {
+        case null:
+            break;
+        case Triangle t:
+            if (t.calculateArea() > 100) {
+                System.out.println("Large triangle");
+                break;
+            }
+        default:
+            System.out.println("A shape, possibly a small triangle");
+    }
+}
+----
+
+这段代码为三角形面积大于 100 进行特殊处理，其他的提供一种默认行为。我们不能直接使用单个条件来表示这一点，所有，我们首先要编写一个 case 语句来匹配所有的三角形，然后将三角形面积的判断放在相应的语句中，然后，当三角形面积小于 100 时，我们使用 fall-through 机制获取正确的行为（请注意，break 语句在 if 内）
+
+这里的问题是，只判断一种情况不能使用一条语句。所有，我们需要某种方式对模式进行细化。一种方法可能是允许对 case 语句进行细化;这种改进在其他编程语言中称为 guard 。例如，我们可以引入一个新的关键字，出现在 case 语句的末尾，后面跟一个布尔表达式，例如，`case Triangle t where t.calculateArea() > 100`。
+
+然而，还有一种更具表现力的方法。我们可以扩展模式本身的语言，而不是扩展 case 语句的功能。我们可以添加一种新的模式，称为 guarded pattern（保护模式）(例如 p && b,)，它允许 p 被任意布尔表达式 b 匹配
+
+使用这种方法，我们可以重新编写 `testTriangle` 代码，直接表达大三角形的特殊情况。这就消除了 switch 语句中 fall-through 的使用，这意味着我们可以享受简洁的箭头风格(->)规则:
+
+[source,java]
+----
+static void testTriangle(Shape s) {
+    switch (s) {
+        case Triangle t && (t.calculateArea() > 100) ->
+            System.out.println("Large triangle");
+        default ->
+            System.out.println("A shape, possibly a small triangle");
+    }
+}
+----
+
+s 的值匹配 Triangle t && (t.calculateArea() > 100)，首先，它匹配类型 Triangle t，如果是，表达式 `t.calculateArea() > 100` 的计算结果为 `true`。
+
+使用 Switch 可以轻松的更改需求变更时的 case 语句 。例如，我们可能想要将三角形从默认路径中分离出来;如下:
+
+[source,java]
+----
+static void testTriangle(Shape s) {
+    switch (s) {
+        case Triangle t && (t.calculateArea() > 100) ->
+            System.out.println("Large triangle");
+        case Triangle t ->
+            System.out.println("Small triangle");
+        default ->
+            System.out.println("Non-triangle");
+    }
+}
+----
+
+[[java-18-feature-switch-description]]
+=== 描述
+
+我们用两种方式增强 switch 语句和表达式
+
+* 扩展 case 语句以包括常量之外的模式
+* 介绍两种新的模式:保护模式和括号模式
+
+[[java-18-feature-switch-description-switch]]
+==== switch 语句模式
+
+引入一个新的 case p switch 语句，其中 p 是一个模式。但是，switch 的本质没有改变:选择器表达式的值与 switch 语句进行比较，选择其中一个标签，并执行与该标签相关的代码。现在的区别是，对于带有模式的 case 语句，是由模式匹配决定的，而不是由等式检查决定的。例如，在下面的代码中，o 的值匹配模式 Long l，与 case Long l 关联的代码将被执行:
+
+[source,java]
+----
+Object o = 123L;
+String formatted = switch (o) {
+    case Integer i -> String.format("int %d", i);
+    case Long l    -> String.format("long %d", l);
+    case Double d  -> String.format("double %f", d);
+    case String s  -> String.format("String %s", s);
+    default        -> o.toString();
+};
+----
+
+当 case 语句可以使模式时，有四个主要的设计问题:
+
+. 增强类型检查
+. switch 表达式和语句的完整性
+. 模式变量的作用域
+. 处理 null
+
+[[java-18-feature-switch-description-switch-enhanced]]
+===== 1、增强类型检查
+
+[[java-18-feature-switch-description-switch-typing]]
+====== 1a. 表达式类型
+
+在 switch 中支持模式意味着我们可以放松当前对选择器表达式类型的限制。目前，普通的 switch 选择器表达式的类型必须是整数元类型 (char, byte, short, 或 int) 对应的包装类型  (Character, Byte, Short, 或 Integer)， String 或 enum 类型。扩展后，要求选择器表达式的类型为整型元类型或任何引用类型。
+
+例如，在下面的 switch 语句中，选择器表达式 o 与 class 类型、enum 类型、record 类型和 array 类型匹配，包括(以及一个 null 和一个默认值):
+
+[source,java]
+----
+record Point(int i, int j) {}
+enum Color { RED, GREEN, BLUE; }
+
+static void typeTester(Object o) {
+    switch (o) {
+        case null     -> System.out.println("null");
+        case String s -> System.out.println("String");
+        case Color c  -> System.out.println("Color with " + Color.values().length + " values");
+        case Point p  -> System.out.println("Record class: " + p.toString());
+        case int[] ia -> System.out.println("Array of ints of length" + ia.length);
+        default       -> System.out.println("Something else");
+    }
+}
+----
+
+`switch` 块中的每个 case 语句必须与选择器表达式兼容。对于带有模式的 case 语句，我们称之为模式标签，我们使用了表达式与模式兼容的现有概念( https://docs.oracle.com/javase/specs/jls/se16/html/jls-14.html#jls-14.30.1[JLS §14.30.1])。
+
+[[java-18-feature-switch-description-switch-Dominance]]
+====== 1b. 模式标签的优势
+
+选择器表达式可以匹配一个 switch 块中的多个 case 语句。考虑这个有问题的例子:
+
+[source,java]
+----
+static void error(Object o) {
+    switch(o) {
+        case CharSequence cs ->
+            System.out.println("A sequence of length " + cs.length());
+        case String s ->    // Error - pattern is dominated by previous pattern
+            System.out.println("A string: " + s);
+        default -> {
+            break;
+        }
+    }
+}
+----
+
+第一个 case CharSequence cs 优于第二个 case String s，因为每个匹配 String s 的值也匹配 CharSequence cs，但反之不一样。这是因为第二个 String 的类型是第一个 CharSequence 的类型的子类。
+
+形式为 case p 的模式语句，其中 p 是选择器表达式类型的 total  模式优于 case null。这是因为 total 模式匹配所有值，包括 `null`。
+
+case p 的格式优于 case p && e，也就是说，模式是原始模式的一个被保护的版本。例如，case String s 优于 case String s && s.length() > 0，因为每个匹配 String s && s.length() > 0 的值也会匹配 String s。
+
+[[java-18-feature-switch-description-switch-completeness]]
+===== 2、switch 表达式和语句的完整性
+
+switch 表达式要求选择器表达式的所有可能值都在 switch 块中处理。这将维护 switch 表达式的成功求值始终会产生一个值的属性。对于普通的 switch 表达式，这是通过 switch 块上一组相当简单的额外条件来实现的。对于 switch 表达式，我们定义了 switch 块的类型覆盖的概念。
+
+[source,java]
+----
+static int coverage(Object o) {
+    return switch (o) {         // Error - incomplete
+        case String s  -> s.length();
+        case Integer i -> i;
+    };
+}
+----
+
+这个 switch 块的类型覆盖是它的两个箭头规则覆盖的联合。换句话说，类型覆盖是 String 的所有子类型的集合和 Integer 的所有子类型的集合。但是，类型覆盖仍然不包括选择器表达式的类型，因此这个表达式也是不完整的，并会导致编译时错误。
+
+default 的类型覆盖是所有类型，所以这个例子(终于!)是合法的:
+
+[source,java]
+----
+static int coverage(Object o) {
+    return switch (o) {
+        case String s  -> s.length();
+        case Integer i -> i;
+        default -> 0;
+    };
+}
+----
+
+如果选择器表达式的类型是一个密封类( https://openjdk.java.net/jeps/409[JEP 409])，那么类型覆盖检查可以考虑密封类的 permit 子句，以确定 switch 块是否完整。考虑下面这个密封接口 S 的例子，它有三个允许的子类 A、B 和 C:
+
+[source,java]
+----
+sealed interface S permits A, B, C {}
+final class A implements S {}
+final class B implements S {}
+record C(int i) implements S {}  // Implicitly final
+
+static int testSealedCoverage(S s) {
+    return switch (s) {
+        case A a -> 1;
+        case B b -> 2;
+        case C c -> 3;
+    };
+}
+----
+
+编译器可以确定 switch 块的类型覆盖是 A、B 和 C。因为选择器表达式的类型 S 是一个密封的接口，它允许的子类正是 A、B 和 C，所以这个 switch 块是完整的。因此，不需要 default 子句。
+
+为了防止不兼容的单独编译，编译器会自动添加一个默认标签，其代码会抛出一个 `IncompatibleClassChangeError`。只有当密封的接口被更改并且 switch 代码没有被重新编译时，才会到达这个语句。实际上，编译器会为您强化代码。
+
+switch 表达式的完整性的要求类似于选择器表达式是 enum 类的 switch 表达式的处理，如果 enum 类的每个常量都有子句，则不需要 default 子句。
+
+让编译器验证 switch 表达式是否完整是非常有用的。我们将这种检查方法扩展到 switch 语句，而不是只对 switch 表达式进行检查。出于向后兼容性的原因，所有现有的 switch 语句都将不加修改地编译。但是，如果 switch 语句使用了本 JEP 中详细介绍的任何新特性，那么编译器将检查它是否完成。
+
+更准确地说，对于使用模式或 `null` 标签的 switch 语句，或者选择器表达式不是传统类型 (char, byte, short, int, Character, Byte, Short, Integer, String, or an enum type) 的 switch 语句，要求完整性。
+
+这意味着 switch 表达式和 switch 语句现在都可以获得更严格的类型检查的好处。例如:
+
+[source,java]
+----
+sealed interface S permits A, B, C {}
+final class A implements S {}
+final class B implements S {}
+record C(int i) implements S {}  // Implicitly final
+
+static void switchStatementComplete(S s) {
+    switch (s) {    // Error - incomplete; missing clause for permitted class B!
+        case A a :
+            System.out.println("A");
+            break;
+        case C c :
+            System.out.println("B");
+            break;
+    };
+}
+----
+
+要完成大多数 switch 语句，只需在 switch 语句体的末尾添加一个简单的 default 子句。这样可以更清晰、更容易地验证代码。例如，下面的 switch 语句是不完整的，是错误的:
+
+[source,java]
+----
+Object o = ...
+switch (o) {    // Error - incomplete!
+    case String s:
+        System.out.println(s);
+        break;
+    case Integer i:
+        System.out.println("Integer");
+        break;
+}
+----
+
+改进为完整的:
+
+[source,java]
+----
+Object o = ...
+switch (o) {
+    case String s:
+        System.out.println(s);
+        break;
+    case Integer i:
+        System.out.println("Integer");
+        break;
+    default:    // Now complete!
+        break;
+}
+----
+
+可能的情况是，Java 语言的未来编译器会对不完整的遗留 switch 语句发出警告。
+
+[[java-18-feature-switch-description-switch-scope]]
+===== 3、模式变量的作用域
+
+模式变量( https://openjdk.java.net/jeps/394[JEP 394] )是模式声明的局部变量。模式变量声明的不同寻常之处在于它们的作用域是对流敏感的。回顾一下下面的例子，其中 String s 声明了模式变量 s:
+
+[source,java]
+----
+static void test(Object o) {
+    if ((o instanceof String s) && s.length() > 3) {
+        System.out.println(s);
+    } else {
+        System.out.println("Not a string");
+    }
+}
+----
+
+s 的声明在 && 表达式的右边和 then 块的作用域中。但是，它不在 "else" 块的作用域中;为了将控制转移到 “else” 块，模式匹配必须失败，在这种情况下，模式变量将没有被初始化。
+
+我们扩展了模式变量声明作用域这个对流敏感的概念，用两个新规则来包含 case 标签中出现的模式声明:
+
+. 在 switch 的 case 语句中的模式变量的作用域包括出现在箭头右侧的表达式、block 或 throw 语句。
+. 模式变量声明的作用域出现在 switch 标签语句组的 case 标签中，在这个 case 标签中没有后面的 switch 标签，它包括语句组的块语句。
+
+下面的例子展示了第一条规则:
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case Character c -> {
+            if (c.charValue() == 7) {
+                System.out.println("Ding!");
+            }
+            System.out.println("Character");
+        }
+        case Integer i ->
+            throw new IllegalStateException("Invalid Integer argument of value " + i.intValue());
+        default -> {
+            break;
+        }
+    }
+}
+----
+
+变量 c 的作用域是第一个箭头右边的块。
+
+变量 i 的作用域是第二个箭头右边的 throw 语句。
+
+第二条规则更为复杂。让我们首先考虑一个例子，其中 switch 语句组只有一个 case 字句:
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case Character c:
+            if (c.charValue() == 7) {
+                System.out.print("Ding ");
+            }
+            if (c.charValue() == 9) {
+                System.out.print("Tab ");
+            }
+            System.out.println("character");
+        default:
+            System.out.println();
+    }
+}
+----
+
+变量 c 的作用域包括语句组中的所有语句，即两个 if 语句和 println 语句。这个作用域不包括 default 组的语句。
+
+必须排除通过声明模式变量的 case 标签出现编译时错误的可能性。看看这个错误的例子:
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case Character c:
+            if (c.charValue() == 7) {
+                System.out.print("Ding ");
+            }
+            if (c.charValue() == 9) {
+                System.out.print("Tab ");
+            }
+            System.out.println("character");
+        case Integer i:                 // Compile-time error
+            System.out.println("An integer " + i);
+        default:
+            break;
+    }
+}
+----
+
+假设这种写法没有问题，并且选择器表达式 o 的值是一个字符，那么 switch 块在执行到 case Integer i:，其中变量 i 将不会被初始化。因此，允许执行以声明变量的 case 字句是一个编译时错误。
+
+这就是为什么 case Character c: case Integer i: ...  是不允许的。类似的推理也适用于禁止 case 字句中的多个模式: case Character c, Integer i: ... 或 case Character c, Integer i -> ... 是不被允许的。如果允许这样的 case 字句，那么 c 和 i 都将在冒号或箭头之后的作用域内，但是 c 和 i 中只有一个会被初始化，这取决于 o 的值是字符还是整数。
+
+另一方面，通过一个没有声明模式变量的子句是安全的，正如下面的例子所示:
+
+[source,java]
+----
+void test(Object o) {
+    switch (o) {
+        case String s:
+            System.out.println("A string");
+        default:
+            System.out.println("Done");
+    }
+}
+----
+
+[[java-18-feature-switch-description-switch-null]]
+===== 4、处理 null
+
+[[java-18-feature-switch-description-switch-null-matching]]
+====== 4a 匹配 null
+
+通常，如果选择器表达式的计算结果为 null, switch 会抛出 NullPointerException。这是很容易理解的行为，我们不建议为任何现有的 switch 代码更改它。
+
+然而，考虑到模式匹配和空值有一个特殊的语义，在保持与现有 switch 语义兼容的同时，有机会使模式切换对 null 更加友好。
+
+首先，我们为 case 引入了一个新的 null 标签，当选择器表达式的值为 null 时，它会明显匹配。
+
+其次，我们观察到，如果选择器表达式的类型为 total 的模式出现了 case 标签，那么当选择器表达式的值为 null 时，该标签也将匹配。
+
+NOTE:: 类型 U 的类型模式 p 对于类型 T 是 total，如果 T 是 U 的子类型。例如，类型模式对象 o 对于类型 String 是 total。
+
+如果选择器表达式的值为 null，switch 会立即抛出 NullPointerException。相反，我们检查 case 标签来确定 switch 的行为:
+
+* 如果选择器表达式的计算结果为 null，则表示匹配任何 null case 或 total 模式 case 。如果没有这样的标签与 switch 块相关联，那么 switch 抛出 NullPointerException，就像之前一样。
+* 如果选择器表达式的计算结果为一个非空值，那么我们将一如既往地选择一个匹配的 case 标签。如果没有 case 标签匹配，则认为匹配所有匹配标签。
+
+例如，给定下面的声明，求值 test(null) 将输出 null! 而不是抛出 NullPointerException:
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case null     -> System.out.println("null!");
+        case String s -> System.out.println("String");
+        default       -> System.out.println("Something else");
+    }
+}
+----
+
+这个关于 null 的新行为就好像编译器自动用一个 case null 来丰富 switch 块，它的 body 抛出 `NullPointerException`。换句话说，这段代码:
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case String s  -> System.out.println("String: " + s);
+        case Integer i -> System.out.println("Integer");
+        default  -> System.out.println("default");
+    }
+}
+----
+
+等价于
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case null      -> throw new NullPointerException();
+        case String s  -> System.out.println("String: "+s);
+        case Integer i -> System.out.println("Integer");
+        default  -> System.out.println("default");
+    }
+}
+----
+
+在这两个例子中，求值 `test(null)` 将导致抛出 `NullPointerException`。
+
+我们保留了现有 switch 结构的直觉，即执行对 null 的匹配是一件特殊的事情。模式 switch 的不同之处在于，你有一个机制可以直接在 switch 内部而不是外部处理这种情况。如果你选择在一个 switch 块中没有匹配 null 的 case 标签，那么 switch 一个 null 值将抛出 `NullPointerException`，就像之前一样。
+
+[[java-18-feature-switch-description-switch-null-forms]]
+====== 4b New label forms arising from null labels
+
+JDK 16 中的 Switch 块支持两种风格:一种基于标记的语句组 (the : form) ，它可能出现 fall-through;另一种单一随后形式(the -> form)，它不可能出现 fall-through。在前一种风格中，多个标签通常写成 case l1: case l2:，而在后一种风格中，多个标签写成 case l1, l2:。
+
+支持 null 标签意味着许多特殊情况可以用 : form 表示。例如:
+
+[source,java]
+----
+Object o = ...
+switch(o) {
+    case null: case String s:
+        System.out.println("String, including null");
+        break;
+    ...
+}
+----
+
+我们期望 : 和 -> 都应该具有相同的表达性，如果前一种风格支持 情况A:情况B:，那么后一种风格应该支持 情况A, B ->。因此，前面的例子表明，我们应该支持 case null, String s -> 标签，如下所示:
+
+[source,java]
+----
+Object o = ...
+switch(o) {
+    case null, String s -> System.out.println("String, including null");
+    ...
+}
+----
+
+当它是 null 引用或字符串时，o 的值匹配这个标签。在这两种情况下，变量 s 都用 o 的值初始化。
+
+(反过来的形式，case String s, null 也应该被允许，并且行为相同。)
+
+将 null case 与 default 标签结合使用也是有意义的(而且并不少见)，例如:
+
+[source,java]
+----
+Object o = ...
+switch(o) {
+    ...
+    case null: default:
+        System.out.println("The rest (including null)");
+}
+----
+
+同样，应该以 -> 形式支持这一点。为此，我们引入了一个新的 default case 标签:
+
+[source,java]
+----
+Object o = ...
+switch(o) {
+    ...
+    case null, default ->
+        System.out.println("The rest (including null)");
+}
+----
+
+o 的值匹配这个标签，如果它是 null 引用值，或者没有其他标签匹配。
+
+[[java-18-feature-switch-guarded]]
+==== 保护模式和括号模式
+
+在成功的模式匹配之后，我们通常会进一步测试匹配的结果。这可能会导致繁琐的代码，例如:
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case String s:
+            if (s.length() == 1) { ... }
+            else { ... }
+            break;
+        ...
+    }
+}
+----
+
+所需要的测试— o 是长度为 1 的字符串—不幸地被分割为 case 标签和随后的 if 语句。如果 switch 模式支持 case 标签中的模式和布尔表达式的组合，我们可以提高可读性。
+
+我们不是添加另一个特殊的 case 标签，而是通过添加保护模式(p && e)来增强模式语言。这允许重写上面的代码，以便所有的条件逻辑都被提升到 case 标签中:
+
+[source,java]
+----
+static void test(Object o) {
+    switch (o) {
+        case String s && (s.length() == 1) -> ...
+        case String s                      -> ...
+        ...
+    }
+}
+----
+
+如果 o 是字符串且长度为 1，则第一个 case 匹配。如果 o 是一个其他长度的字符串，则第二种情况匹配。
+
+有时我们需要将模式括起来以避免解析歧义。因此，我们扩展了模式语言以支持(p)编写的带括号的模式，其中 p 是一种模式。
+
+更准确地说，我们改变了模式的语法。假设添加了 JEP 405 的记录模式和数组模式，模式语法将变为:
+
+[source,java]
+----
+Pattern:
+  PrimaryPattern
+  GuardedPattern
+
+GuardedPattern:
+  PrimaryPattern && ConditionalAndExpression
+
+PrimaryPattern:
+  TypePattern
+  RecordPattern
+  ArrayPattern
+----
+
+一个被保护的模式是p && e的形式，其中p是一个模式，e是一个布尔表达式。在被保护的模式中，任何使用但没有在子表达式中声明的局部变量、形式参数或异常参数都必须是final或有效final。
+
+一个被保护的模式p && e引入了模式p和表达式e引入的模式变量的并集。在p中任何模式变量声明的范围都包括表达式e。这允许像String s && (s.length() > 1)这样的模式，它匹配一个可以转换为String的值，这样该字符串的长度大于1。
+
+一个值匹配一个被保护的模式p && e，首先，它匹配模式p，然后，表达式e的计算结果为true。如果值与p不匹配，则不会尝试对表达式e求值。
+
+带括号的模式的形式是(p)，其中p是模式。圆括号中的模式(p)引入了由子模式p引入的模式变量。如果匹配模式p，值就匹配圆括号中的模式(p)。
+
+例如，我们还将表达式的语法改为:
+
+[source,java]
+----
+InstanceofExpression:
+  RelationalExpression instanceof ReferenceType
+  RelationalExpression instanceof PrimaryPattern
+----
+
+这个更改，以及保护模式语法规则中的非终结符ConditionalAndExpression，确保，例如，表达  e instanceof String s && s.length() > 1 继续明确解析表达式 (e instanceof String s) && (s.length() > 1)。如果 && 旨在保护模式的一部分,那么整个模式应该括号,例如,e instanceof (String s && s.length() > 1).
+
+在语法规则中为保护模式使用非终结符ConditionalAndExpression还消除了另一个关于带有保护模式的case标签的潜在歧义。例如:
+
+[source,java]
+----
+boolean b = true;
+switch (o) {
+    case String s && b -> s -> s;
+}
+----
+
+如果一个被保护模式的保护表达式被允许为任意表达式，那么第一个出现的 -> 是 lambda 表达式的一部分还是 switch 规则的一部分(switch 规则的主体是 lambda 表达式)就会出现歧点。由于 lambda 表达式永远不可能是一个有效的布尔表达式，因此可以安全地限制保护表达式的语法。
+
+[[java-18-feature-rmi]]
+== 删除 RMI Activation
+
+将删除远程方法调用 (RMI) 激活机制，但应保留 RMI 的其余部分。RMI 激活机制已变得多余，不再使用。Java SE 15 中的 JEP 385 弃用了它并建议将其删除。
+
+[[java-18-feature-jit]]
+== 删除实验性 AOT 和 JIT 编译器
+
+删除实验性的基于 Java 的提前 (AOT) 和即时 (JIT) 编译器，因为使用有限，维护它所需的工作量很重要。
+
+即使保留了实验性的 Java 级 JVM 编译器接口 (JVMCI)，这样开发人员也可以继续使用外部构建的编译器版本，并使用 Graal 编译器 ( GraalVM )进行 JIT 编译。
+
+动机：
+
+作为实验性功能，JDK 9 已与提前编译（jaotc 工具）集成。对于 AOT 编译，jaotc 使用 Java 编写的 Graal 编译器。由于这些实验特性尚未使用，因此需要付出相当大的努力来维护和改进它们。Oracle 发布的 JDK 16 版本没有这些功能，也没有人抱怨。
+
+[[java-18-feature-security]]
+== 弃用即将删除安全管理器
+
+从 Java 1.0 开始，就有了一个安全管理器。然而，多年来它很少被使用。为了推动 Java 向前发展，安全管理器已在 Java 18 中被弃用，并将在未来版本中与旧 Applet API (JEP 398) 一起删除。
+
+[[java-18-feature-security-goals]]
+=== 目标
+
+* 为开发人员在 Java 的未来版本中移除安全管理器做好准备。
+* 如果用户的 Java 程序依赖于安全管理器，则发出警报。
+* 评估是否需要新的 API 或机制来修复使用安全管理器的独特、有限的用例，例如阻塞 System::exit。
+
+[[java-18-feature-memory]]
+== 外部函数和内存 API（孵化器）
+
+引入一个 API，通过有效调用外部函数（即 JVM 外部的代码）和安全地访问外部内存（即不由 JVM 处理的内存），允许 Java 程序调用本地库和处理本地数据而没有 JNI 的风险.
+
+在这个 JEP 提案中，是早期两个孵化 API 的演变：外部内存访问 API 和外部链接器 API。外部内存访问 API 首先由 JEP 370 提出，并于 2019 年底作为 Java 14 的一个孵化 API，它被 Java 15 中的 JEP 383 和 Java 16 中的 JEP 393 重新孵化。Foreign Linker API 最初是由 JEP 389 提出的，目标是在 2020 年底的 Java 16，也是一个孵化 API。
+
+[[java-18-feature-memory-goals]]
+=== 目标
+
+易用性：用 Java 本机接口 (JNI) 替换卓越的纯 Java 开发模型。
+
+性能：与现有 API（如 JNI 或 sun.misc.Unsafe）相似的性能，如果不是更好的话。表现。
+
+常规：提供了在各种类型的外部内存（例如，本机内存、持久内存和堆内存）上工作的方法，并随着时间的推移适应其他平台（例如，x86 32 位）和用 C 以外的语言编写的外部函数（例如，C++、FORTAN）。
+
+安全：仅当应用程序开发人员或最终用户明确选择加入时，才停用默认的不安全操作。
+
+[[java-18-feature-vector]]
+== 向量 API (孵化器)
+
+[[java-18-feature-vector-summary]]
+=== 简介
+
+该孵化器 API 提供了一个 jdk.incubator.vector 的初始迭代以表达一些向量计算，这些计算在运行时可靠地编译为支持的 CPU 架构上的最佳向量硬件指令，从而获得优于同等标量计算的性能。
+
+[[java-18-feature-vector-goal]]
+=== 目标
+
+清晰简洁的 API :: API 可以清楚，简洁的表达各种向量计算，这些计算通常由一系列的向量操作组成，这些操作有可能包含循坏，也有可能包含控制流。API 可以表达对向量大小（或每个向量的维数的数量）的通用计算，可以使此类计算能够跨平台的支持不同大小向量的计算（如下个目标所述）。
+平台无关:: API 应该和平台架构无关，并且支持在支持向量硬件指令的多核 CPU 架构上运行时实现。As is usual in Java APIs, where platform optimization and portability conflict, the bias will be to making the Vector API portable, even if some platform-specific idioms cannot be directly expressed in portable code. The next goal of x64 and AArch64 performance is representative of appropriate performance goals on all platforms where Java is supported. The ARM Scalable Vector Extension (SVE) is of special interest in this regard to ensure the API can support this architecture, even though as of writing there are no known production hardware implementations.
+Reliable runtime compilation and performance on x64 and AArch64 architectures:: The Java runtime, specifically the HotSpot C2 compiler, shall compile, on capable x64 architectures, a sequence of vector operations to a corresponding sequence of vector hardware instructions, such as those supported by Streaming SIMD Extensions (SSE) and Advanced Vector Extensions (AVX) extensions, thereby generating efficient and performant code. The programmer shall have confidence that the vector operations they express will reliably map closely to associated hardware vector instructions. The same shall also apply to capable ARM AArch64 architectures compiling to a sequence of vector hardware instructions supported by Neon.
+Graceful degradation:: If a vector computation cannot be fully expressed at runtime as a sequence of hardware vector instructions, either because an architecture does not support some of the required instructions or because another CPU architecture is not supported, then the Vector API implementation shall degrade gracefully and still function. This may include issuing warnings to the developer if a vector computation cannot be sufficiently compiled to vector hardware instructions. On platforms without vectors, graceful degradation shall yield code competitive with manually-unrolled loops, where the unroll factor is the number of lanes in the selected vector.
+
+[[java-18-feature-vector-non-goal]]
+=== 非目标
+
+* 增强 HotSpot 中的自动向量化支持并不是目标
+* HotSpot 的目标不是在 x64 和 AArch64 之外的 CPU 架构上支持向量硬件指令。这种支持留给以后的 jep。然而，重要的是要声明，正如目标所表达的那样，API 不能排除这样的实现。此外，所执行的工作可能会自然地利用和扩展 HotSpot 中的现有抽象，以获得自动向量化的向量支持，从而使这样的任务变得更容易。
+* 在当前或未来的迭代中支持 C1 编译器并不是目标。我们希望在将来的工作中支持 Graal 编译器。
+* 它的目标不是支持 Java strictfp 关键字定义的严格浮点计算。对浮点标量进行浮点运算的结果可能与对浮点标量的向量进行等价的浮点运算的结果不同。然而，这一目标并不排除表达或控制浮点向量计算所需的精度或再现性的可能。
+
+[[java-18-feature-vector-motivation]]
+=== 动机
+
+Vector computations consist of a sequence of operations on vectors. A vector comprises a (usually) fixed sequence of scalar values, where the scalar values correspond to the number of hardware-defined vector lanes. A binary operation applied to two vectors with the same number of lanes would, for each lane, apply the equivalent scalar operation on the corresponding two scalar values from each vector. This is commonly referred to as Single Instruction Multiple Data (SIMD).
+
+Vector operations express a degree of parallelism that enables more work to be performed in a single CPU cycle and thus can result in significant performance gains. For example, given two vectors each covering a sequence of eight integers (eight lanes), then the two vectors can be added together using a single hardware instruction. The vector addition hardware instruction operates on sixteen integers, performing eight integer additions, in the time it would ordinarily take to operate on two integers, performing one integer addition.
+
+HotSpot supports auto-vectorization where scalar operations are transformed into superword operations, which are then mapped to vector hardware instructions. The set of transformable scalar operations are limited and fragile to changes in the code shape. Furthermore, only a subset of available vector hardware instructions might be utilized limiting the performance of generated code.
+
+A developer wishing to write scalar operations that are reliably transformed into superword operations needs to understand HotSpot's auto-vectorization support and its limitations to achieve reliable and sustainable performance.
+
+In some cases it may not be possible for the developer to write scalar operations that are transformable. For example, HotSpot does not transform the simple scalar operations for calculating the hash code of an array (see the Arrays::hashCode method implementations in the JDK source code), nor can it auto-vectorize code to lexicographically compare two arrays (which is why an intrinsic was added to perform lexicographical comparison, see 8033148).
+
+The Vector API aims to address these issues by providing a mechanism to write complex vector algorithms in Java, using pre-existing support in HotSpot for vectorization, but with a user model which makes vectorization far more predictable and robust. Hand-coded vector loops can express high-performance algorithms (such as vectorized hashCode or specialized array comparison) which an auto-vectorizer may never optimize. There are numerous domains where this explicitly vectorizing API may be applicable such as machine learning, linear algebra, cryptography, finance, and usages within the JDK itself.
+
+[[java-18-feature-vector-description]]
+=== 描述
+
+A vector will be represented by the abstract class Vector<E>. The type variable E corresponds to the boxed type of scalar primitive integral or floating point element types covered by the vector. A vector also has a shape which defines the size, in bits, of the vector. The shape of the vector will govern how an instance of Vector<E> is mapped to a vector hardware register when vector computations are compiled by the HotSpot C2 compiler (see later for a mapping from instances to x64 vector registers). The length of a vector (number of lanes or elements) will be the vector size divided by the element size.
+
+The set of element types (E) supported will be Byte, Short, Integer, Long, Float and Double corresponding to the scalar primitive types byte, short, int, long, float and double, respectively.
+
+The set of shapes supported will correspond to vector sizes of 64, 128, 256, and 512 bits. A shape corresponding to a size of 512 bits can pack bytes into 64 lanes or pack ints into 16 lanes, and a vector of such a shape can operate on 64 bytes at a time, or 16 ints at a time.
+
+NOTE:: We believe that these simple shapes are generic enough to be useful on all platforms supporting the Vector API. However, as we experiment during the incubation of this JEP with future platforms, we may further modify the design of the shape parameter. Such work is not in the early scope of this JEP, but these possibilities partly inform the present role of shapes in the Vector API. See the Future Work section, below.
+
+The combination of element type and shape determines the vector's species, represented by VectorSpecies<E>
+
+An instance of Vector<E> is immutable and is a value-based type that retains, by default, object identity invariants (see later for relaxation of these invariants).
+
+Operations on vectors can be classified as lane-wise and cross-lane. Lane-wise operations can be further classified as unary, binary, ternary, and comparison. Cross-lane operations can be classified as permutation, conversion, and reduction. To reduce the surface of the API, we will define collective methods for each class of operation which then take an operator as input. The supported operators are instances of Operator class and are defined as static final fields in the VectorOperators class. Some common operations (e.g., add, mul), called full-service operations, will have dedicated methods which can be used in place of the generic methods.
+
+Certain operations on vectors, such lane-wise cast and reinterpret, can be said to be inherently shape-changing. Having shape-changing operations in a vector computation could have unintended effects on portability and performance. For this reason, wherever applicable, the API will define an additional shape-invariant flavor of such an operation. Users are encouraged to write shape-invariant code using the shape-invariant flavor of operations. Additionally, shape-changing operations will be clearly called out in the Javadoc.
+
+Vector<E> declares a set of methods for common vector operations supported by all element types. To support operations specific to an element type there are six abstract sub-classes of Vector<E>, one for each supported element type: ByteVector, ShortVector, IntVector, LongVector, FloatVector, and DoubleVector. These sub-classes define additional operations which are bound to the element type since the method signature refers to the element type (or the equivalent array type), such as reduction operations (e.g., sum all elements to a scalar value) or storing the vector elements to an array. They also define additional full-service operations that are specific to the integral sub-types such as bitwise operations (e.g., logical or), and operations specific to the floating point types, such as mathematical operations (e.g., transcendental functions such as pow()).
+
+These classes are further extended by concrete sub-classes defined for different shapes (size) of Vectors.
+
+The concrete sub-classes are non-public since there is no need to provide operations specific to the type and shape. This reduces the API surface to a sum of concerns rather than a product. As a result, instances of concrete Vector classes cannot be constructed directly. Instead, instances are obtained via factories methods defined in the base Vector<E> class and its type-specific sub-classes. These methods take as input the species of the desired vector instance. The factory methods provide different ways to obtain vector instances, such as the vector instance whose elements are initiated to default values (the zero vector), or a vector from an array, in addition to providing the canonical support for converting between vectors of different types or shapes (e.g., casting).
+
+To support control flow, relevant vector operations will optionally accept masks represented by the public abstract class VectorMask<E>. Each element in a mask, a boolean value or bit, corresponds to a vector lane. When a mask is an input to an operation it governs whether the operation is applied to each lane; the operation is applied if the mask bit for the lane is set (is true). Alternative behavior occurs if the mask bit is not set (is false). Similar to vectors, instances of VectorMask<E> are instances of (private) concrete sub-class defined for each element type and length combination. The instance of VectorMask<E> used in an operation should have the same type and length as the instance(s) of Vector<E> involved in the operation. Comparison operations produce masks, which can then be input to other operations to selectively disable the operation on certain lanes and thereby emulate flow control. Another way for creating masks is using static factory methods in VectorMask<E>.
+
+We anticipate that masks will likely play an important role in the development of vector computations that are generic to shape. (This expectation is based on the central importance of predicate registers, the equivalent of masks, in the ARM Scalable Vector Extensions as well as in Intel's AVX-512.)
+
+[[java-18-feature-vector-example]]
+=== example
+
+下面是对数组元素的常规简单计算:
+
+[source,java]
+----
+void scalarComputation(float[] a, float[] b, float[] c) {
+   for (int i = 0; i < a.length; i++) {
+        c[i] = (a[i] * a[i] + b[i] * b[i]) * -1.0f;
+   }
+}
+----
+
+我们假设数组参数的大小相同
+
+使用 Vector API 实现等效向量计算的方法如下：
+
+[source,java]
+----
+static final VectorSpecies<Float> SPECIES = FloatVector.SPECIES_256;
+
+void vectorComputation(float[] a, float[] b, float[] c) {
+
+    for (int i = 0; i < a.length; i += SPECIES.length()) {
+        var m = SPECIES.indexInRange(i, a.length);
+		// FloatVector va, vb, vc;
+        var va = FloatVector.fromArray(SPECIES, a, i, m);
+        var vb = FloatVector.fromArray(SPECIES, b, i, m);
+        var vc = va.mul(va).
+                    add(vb.mul(vb)).
+                    neg();
+        vc.intoArray(c, i, m);
+    }
+}
+----
+
+在这个例子中，从 FloatVector 获得了一个 256 位的浮点向量 SPECIES。SPECIES 存储在一个静态 final 字段中，因此运行时编译器将该字段的值视为常量，从而能够更好地优化向量计算。
+
+向量计算的特点是主循环内以向量长度(即 SPECIES 长度)的步长遍历数组。静态方法 `fromArray()` 从数组 a 和 b 的对应索引处加载给定 SPECIES 的浮点向量。然后执行操作，最后将结果存储到数组 c 中。
+
+我们使用由 `indexInRange()` 生成的 mask 来防止读取/写入超过数组长度。第一层( a.length / SPECIES.length() )迭代将设置一个所有通道的 mask。只有最后一次迭代，如果 a.length 不是 SPECIES.length() 的倍数，才会有一个设置了 a.length % SPECIES.length() 的 mask。
+
+由于 mask 在所有迭代中都使用，因此上述实现对于大数组长度可能无法实现最佳性能。同样的计算可以在没有 mask 的情况下实现如下:
+
+[source,java]
+----
+// Example 2
+
+static final VectorSpecies<Float> SPECIES = FloatVector.SPECIES_256;
+
+void vectorComputation(float[] a, float[] b, float[] c) {
+    int i = 0;
+    int upperBound = SPECIES.loopBound(a.length);
+    for (; i < upperBound; i += SPECIES.length()) {
+        // FloatVector va, vb, vc;
+        var va = FloatVector.fromArray(SPECIES, a, i);
+        var vb = FloatVector.fromArray(SPECIES, b, i);
+        var vc = va.mul(va).
+                    add(vb.mul(vb)).
+                    neg();
+        vc.intoArray(c, i);
+    }
+
+    for (; i < a.length; i++) {
+        c[i] = (a[i] * a[i] + b[i] * b[i]) * -1.0f;
+    }
+}
+----
+
+对于长度小于 species  长度的尾部元素，在进行向量计算后，再进行常规计算。处理尾部元素的另一种方法是使用单一的 masked 向量计算。
+
+当操作大型数组时，上述实现可以获得最佳性能。
+
+对于第二个例子，HotSpot 编译器应该在支持 AVX 的 Intel x64 处理器上生成类似如下的机器码:
+
+[source,txt]
+----
+0.43%  / │  0x0000000113d43890: vmovdqu 0x10(%r8,%rbx,4),%ymm0
+  7.38%  │ │  0x0000000113d43897: vmovdqu 0x10(%r10,%rbx,4),%ymm1
+  8.70%  │ │  0x0000000113d4389e: vmulps %ymm0,%ymm0,%ymm0
+  5.60%  │ │  0x0000000113d438a2: vmulps %ymm1,%ymm1,%ymm1
+ 13.16%  │ │  0x0000000113d438a6: vaddps %ymm0,%ymm1,%ymm0
+ 21.86%  │ │  0x0000000113d438aa: vxorps -0x7ad76b2(%rip),%ymm0,%ymm0
+  7.66%  │ │  0x0000000113d438b2: vmovdqu %ymm0,0x10(%r9,%rbx,4)
+ 26.20%  │ │  0x0000000113d438b9: add    $0x8,%ebx
+  6.44%  │ │  0x0000000113d438bc: cmp    %r11d,%ebx
+         \ │  0x0000000113d438bf: jl     0x0000000113d43890
+----
+
+This is actual output from a JMH micro-benchmark for the example code under test using a prototype of the Vector API and implementation (the vectorIntrinsics branch of Project Panama's development repository). This shows the hot areas of C2-generated machine code. There is a clear translation to vector registers and vector hardware instructions. (Loop unrolling was disabled to make the translation clearer, otherwise HotSpot should be able to unroll using existing C2 loop optimization techniques.) All Java object allocations are elided.
+
+It is an important goal to support more complex non-trivial vector computations that translate clearly into generated machine code.
+
+There are, however, a few issues with this particular vector computation:
+
+. The loop is hardcoded to a concrete vector shape, so the computation cannot adapt dynamically to a maximal shape supported by the architecture, which may be smaller or larger than 256 bits. Therefore the code is less portable and may be less performant.
+. Calculation of the loop upper bounds, although simple here, can be a common source of programming error.
+. A scalar loop is required at the end, duplicating code.
+
+We will address the first two issues in this JEP. A preferred species can be obtained whose shape is optimal for the current architecture, the vector computation can then be written with a generic shape, and a method on the species can round down the array length, for example:
+
+[source,java]
+----
+static final VectorSpecies<Float> SPECIES = FloatVector.SPECIES_PREFERRED;
+
+void vectorComputation(float[] a, float[] b, float[] c,
+        VectorSpecies<Float> species) {
+    int i = 0;
+    int upperBound = species.loopBound(a.length);
+    for (; i < upperBound; i += species.length()) {
+        //FloatVector va, vb, vc;
+        var va = FloatVector.fromArray(species, a, i);
+        var vb = FloatVector.fromArray(species, b, i);
+        var vc = va.mul(va).
+                    add(vb.mul(vb)).
+                    neg();
+        vc.intoArray(c, i);
+    }
+
+    for (; i < a.length; i++) {
+        c[i] = (a[i] * a[i] + b[i] * b[i]) * -1.0f;
+    }
+}
+
+vectorComputation(a, b, c, SPECIES);
+----
+
+The third issue will not be fully addressed by this JEP and will be the subject of future work. As shown in the first example, you can use masks to implement vector computation without tail processing. We anticipate that such masked loops will work well for a range of architectures, including x64 and ARM, but will require additional runtime compiler support to generate maximally efficient code. Such work on masked loops, though important, is beyond the scope of this JEP.
+
+[[java-18-feature-vector-hotspot]]
+=== HotSpot C2 编译器细节
+
+The Vector API has two implementations in order to achieve this JEP's goals. The first implements operations in Java, thus it is functional but not optimal. The second makes intrinsic, for the HotSpot C2 compiler, those operations with special treatment for Vector API types. This allows for proper translation to hardware registers and instructions for the case where architecture support and implementation for translation exists.
+
+To avoid an explosion of intrinsics added to C2, a set of intrinsics will be defined that correspond to operation kinds such as binary, unary, comparison, and so on, where constant arguments are passed describing operation specifics. Approximately twenty new intrinsics will be needed to support the intrinsification of all parts of the API.
+
+Vector instances are value-based, i.e., morally values where identity-sensitive operations should be avoided. Further, although vector instances are abstractly composed of elements in lanes, those elements are not scalarized by C2. The vector value is treated as a whole unit, like int or long, that maps to a hardware vector register of the appropriate size. Inline types will require some related enhancements to ensure that a vector value is treat as a whole unit.
+
+Until inline types are available, Vector instances will be treated specially by C2 to overcome limitations in escape analysis and avoid boxing. As such, identity sensitive operations on vectors should be avoided.
+
+[[java-18-feature-vector-future]]
+=== 未来工作
+
+The Vector API will benefit significantly from value types once ready (see Project Valhalla). Instances of a Vector<E> can be values, whose concrete classes are inline types. This will make it easier to optimize and express vector computations. Sub-types of Vector<E> for specific types, such as IntVector, may not be required with generic specialization over inline types and type-specific method declaration.
+
+Therefore, a future version of the Vector API will make use of inline types and enhanced generics, as noted above. As a result, we will incubate the API over multiple releases of the JDK and will adapt as inlines types become available.
+
+We will enhance the API to load and store vectors using features of JEP 370 Foreign-Memory Access API, when that API transitions from an incubating API. Further, memory layouts to describe vector species may prove useful, for example to stride over a memory segment comprised of elements.
+
+We anticipate enhancing the implementation in the following ways:
+
+* Include support for vectorized transcendental operations (such as logarithm, and the trigonometric functions),
+* Improve the optimization of loops containing vectorized code,
+* Optimize masked vector operations on supporting platforms, and
+* Make adjustments for large vector sizes (e.g., as supported by ARM SVE).
+
+Performance work will be ongoing as we make incremental improvements to the implementation.
+
+[[java-18-feature-vector-alternatives]]
+=== 备选方案
+
+HotSpot's auto-vectorization is an alternative approach, but it would require significant work. It would, moreover, likely still be fragile and limited compared to using the Vector API, since auto-vectorization with complex control flow is very hard to perform.
+
+In general, and even after decades of research (especially for FORTRAN and C array loops), it seems that auto-vectorization of scalar code is not a reliable tactic for optimizing ad-hoc user-written loops unless the user pays unusually careful attention to unwritten contracts about exactly which loops a compiler is prepared to auto-vectorize. It's too easy to write a loop that fails to auto-vectorize, for a reason that the optimizer but no human reader can detect. Years of work on auto-vectorization, even in HotSpot, have left us with lots of optimization machinery that works only on special occasions. We want to enjoy the use of this machinery more often!
+
+[[java-18-feature-vector-testing]]
+=== 测试
+
+We will develop combinatorial unit tests to ensure coverage for all operations, for all supported types and shapes, over various data sets.
+
+We will also develop performance tests to ensure that performance goals are met and vector computations map efficiently to vector hardware instructions. This will likely consist of JMH micro-benchmarks, but more realistic examples of useful algorithms will also be required. Such tests may initially reside in a project specific repository. Curation is likely required before integration into the main repository given the proportion of tests and how they are generated.
+
+As a backup to performance tests, we may create white-box tests to force the JIT to report to us that vector API source code did, in fact, trigger vectorization.
+
+[[java-18-feature-vector-risks]]
+=== 风险和假设
+
+There is a risk that the API will be biased to the SIMD functionality supported on x64 architectures but this is mitigated with support for AArch64. This applies mainly to the explicitly fixed set of supported shapes, which bias against coding algorithms in a shape-generic fashion. We consider the majority of other operations of the Vector API to bias toward portable algorithms. To mitigate that risk we will take other architectures into account, specifically the ARM Scalar Vector Extension architecture whose programming model adjusts dynamically to the singular fixed shape supported by the hardware. We welcome and encourage OpenJDK contributors working on the ARM-specific areas of HotSpot to participate in this effort.
+
+The Vector API uses box types (such as Integer) as proxies for primitive types (such as int). This decision is forced by the current limitations of Java generics, which are hostile to primitive types. When Project Vahalla eventually introduces more capable generics the current decision will seem awkward, and may need changing. We assume that such changes will be possible without excessive backward incompatibility.

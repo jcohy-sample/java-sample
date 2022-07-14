@@ -771,7 +771,7 @@ include::{java-code}/java8/function/Moveable.java[]
 
 静态默认方法：您可以在接口中定义静态默认方法，这些方法将适用于实现此接口的所有类实例。这使您可以更轻松地在库中组织助手方法；您可以将特定于同一接口的静态方法保留在同一接口中，而不是在单独的类中。这使您可以在类中定义方法，同时与所有子类共享。
 
-** 它们为您提供了一种非常理想的功能，无需触摸其代码即可向多个类添加功能。只需在接口中添加一个默认方法，它们都会实现。**
+**它们为您提供了一种非常理想的功能，无需触摸其代码即可向多个类添加功能。只需在接口中添加一个默认方法，它们都会实现。**
 
 [[java-8-feature-default-method-need]]
 === Java 8 为什么需要默认方法
@@ -1058,7 +1058,7 @@ include::{java-code}/java8/date/DateTest.java[tag=createDate]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/TestClock.java[tag=createDate]
+include::{java-code}/java8/date/TestClock.java[]
 ----
 
 [[java-8-feature-timezone]]

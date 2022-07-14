@@ -10,6 +10,7 @@ import com.jcohy.convention.deployed.DeployedPlugin;
 import org.asciidoctor.gradle.jvm.AbstractAsciidoctorTask;
 import org.asciidoctor.gradle.jvm.AsciidoctorJExtension;
 import org.asciidoctor.gradle.jvm.AsciidoctorJPlugin;
+import org.gradle.api.JavaVersion;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginContainer;
@@ -42,8 +43,8 @@ public class JcohyAsciidoctorPlugins implements Plugin<Project> {
 
     private void configureJavaCompileConventions(Project project) {
         project.getTasks().withType(JavaCompile.class, compile -> {
-            compile.setSourceCompatibility("11");
-            compile.setTargetCompatibility("11");
+            compile.setSourceCompatibility(JavaVersion.VERSION_18.toString());
+            compile.setTargetCompatibility(JavaVersion.VERSION_18.toString());
         });
     }
 
