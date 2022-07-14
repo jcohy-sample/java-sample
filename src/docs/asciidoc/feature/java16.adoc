@@ -19,7 +19,7 @@ Java 16 为用户提供了 17 项主要的 JEP (Java/JDK Enhancement Proposals,J
 |===
 | 新特性 | 翻译
 
-| 338: https://openjdk.java.net/jeps/338[Vector API (Incubator)] | 向量 API (孵化器)
+| 338: https://openjdk.java.net/jeps/338[Vector API (Incubator)] | 矢量 API (孵化器)
 
 | 347: https://openjdk.java.net/jeps/347[Enable C++14 Language Features] | 启用 C++14 语言特性（在 JDK 源代码中）
 
@@ -66,28 +66,28 @@ Oracle版本: https://www.oracle.com/java/technologies/javase/jdk16-archive-down
 * 修改环境变量.
 
 [[java-16-feature-vector]]
-== 向量 API (孵化器)
+== 矢量 API (孵化器)
 
 [[java-16-feature-vector-summary]]
 === 简介
 
-该孵化器 API 提供了一个 jdk.incubator.vector 的初始迭代以表达一些向量计算，这些计算在运行时可靠地编译为支持的 CPU 架构上的最佳向量硬件指令，从而获得优于同等标量计算的性能。
+该孵化器 API 提供了一个 jdk.incubator.vector 的初始迭代以表达一些矢量计算，用于表示在运行时可靠地编译到支持的 CPU 架构上的最佳矢量硬件指令的矢量计算，矢量运算可以提供优于等效标量计算的性能
 
 [[java-16-feature-vector-goal]]
 === 目标
 
-清晰简洁的 API :: API 可以清楚，简洁的表达各种向量计算，这些计算通常由一系列的向量操作组成，这些操作有可能包含循坏，也有可能包含控制流。API 可以表达对向量大小（或每个向量的维数的数量）的通用计算，可以使此类计算能够跨平台的支持不同大小向量的计算（如下个目标所述）。
-平台无关:: API 应该和平台架构无关，并且支持在支持向量硬件指令的多核 CPU 架构上运行时实现。As is usual in Java APIs, where platform optimization and portability conflict, the bias will be to making the Vector API portable, even if some platform-specific idioms cannot be directly expressed in portable code. The next goal of x64 and AArch64 performance is representative of appropriate performance goals on all platforms where Java is supported. The ARM Scalable Vector Extension (SVE) is of special interest in this regard to ensure the API can support this architecture, even though as of writing there are no known production hardware implementations.
+清晰简洁的 API :: API 可以清楚，简洁的表达各种矢量计算，这些计算通常由一系列的矢量操作组成，这些操作有可能包含循坏，也有可能包含控制流。API 可以表达对矢量大小（或每个矢量的维数的数量）的通用计算，可以使此类计算能够跨平台的支持不同大小矢量的计算（如下个目标所述）。
+平台无关:: API 应该和平台架构无关，并且支持在支持矢量硬件指令的多核 CPU 架构上运行时实现。As is usual in Java APIs, where platform optimization and portability conflict, the bias will be to making the Vector API portable, even if some platform-specific idioms cannot be directly expressed in portable code. The next goal of x64 and AArch64 performance is representative of appropriate performance goals on all platforms where Java is supported. The ARM Scalable Vector Extension (SVE) is of special interest in this regard to ensure the API can support this architecture, even though as of writing there are no known production hardware implementations.
 Reliable runtime compilation and performance on x64 and AArch64 architectures:: The Java runtime, specifically the HotSpot C2 compiler, shall compile, on capable x64 architectures, a sequence of vector operations to a corresponding sequence of vector hardware instructions, such as those supported by Streaming SIMD Extensions (SSE) and Advanced Vector Extensions (AVX) extensions, thereby generating efficient and performant code. The programmer shall have confidence that the vector operations they express will reliably map closely to associated hardware vector instructions. The same shall also apply to capable ARM AArch64 architectures compiling to a sequence of vector hardware instructions supported by Neon.
 Graceful degradation:: If a vector computation cannot be fully expressed at runtime as a sequence of hardware vector instructions, either because an architecture does not support some of the required instructions or because another CPU architecture is not supported, then the Vector API implementation shall degrade gracefully and still function. This may include issuing warnings to the developer if a vector computation cannot be sufficiently compiled to vector hardware instructions. On platforms without vectors, graceful degradation shall yield code competitive with manually-unrolled loops, where the unroll factor is the number of lanes in the selected vector.
 
 [[java-16-feature-vector-non-goal]]
 === 非目标
 
-* 增强 HotSpot 中的自动向量化支持并不是目标
-* HotSpot 的目标不是在 x64 和 AArch64 之外的 CPU 架构上支持向量硬件指令。这种支持留给以后的 jep。然而，重要的是要声明，正如目标所表达的那样，API 不能排除这样的实现。此外，所执行的工作可能会自然地利用和扩展 HotSpot 中的现有抽象，以获得自动向量化的向量支持，从而使这样的任务变得更容易。
+* 增强 HotSpot 中的自动矢量化支持并不是目标
+* HotSpot 的目标不是在 x64 和 AArch64 之外的 CPU 架构上支持矢量硬件指令。这种支持留给以后的 jep。然而，重要的是要声明，正如目标所表达的那样，API 不能排除这样的实现。此外，所执行的工作可能会自然地利用和扩展 HotSpot 中的现有抽象，以获得自动矢量化的矢量支持，从而使这样的任务变得更容易。
 * 在当前或未来的迭代中支持 C1 编译器并不是目标。我们希望在将来的工作中支持 Graal 编译器。
-* 它的目标不是支持 Java strictfp 关键字定义的严格浮点计算。对浮点标量进行浮点运算的结果可能与对浮点标量的向量进行等价的浮点运算的结果不同。然而，这一目标并不排除表达或控制浮点向量计算所需的精度或再现性的可能。
+* 它的目标不是支持 Java strictfp 关键字定义的严格浮点计算。对浮点标量进行浮点运算的结果可能与对浮点标量的矢量进行等价的浮点运算的结果不同。然而，这一目标并不排除表达或控制浮点矢量计算所需的精度或再现性的可能。
 
 [[java-16-feature-vector-motivation]]
 === 动机
@@ -149,7 +149,7 @@ void scalarComputation(float[] a, float[] b, float[] c) {
 
 我们假设数组参数的大小相同
 
-使用 Vector API 实现等效向量计算的方法如下：
+使用 Vector API 实现等效矢量计算的方法如下：
 
 [source,java]
 ----
@@ -170,9 +170,9 @@ void vectorComputation(float[] a, float[] b, float[] c) {
 }
 ----
 
-在这个例子中，从 FloatVector 获得了一个 256 位的浮点向量 SPECIES。SPECIES 存储在一个静态 final 字段中，因此运行时编译器将该字段的值视为常量，从而能够更好地优化向量计算。
+在这个例子中，从 FloatVector 获得了一个 256 位的浮点矢量 SPECIES。SPECIES 存储在一个静态 final 字段中，因此运行时编译器将该字段的值视为常量，从而能够更好地优化矢量计算。
 
-向量计算的特点是主循环内以向量长度(即 SPECIES 长度)的步长遍历数组。静态方法 `fromArray()` 从数组 a 和 b 的对应索引处加载给定 SPECIES 的浮点向量。然后执行操作，最后将结果存储到数组 c 中。
+矢量计算的特点是主循环内以矢量长度(即 SPECIES 长度)的步长遍历数组。静态方法 `fromArray()` 从数组 a 和 b 的对应索引处加载给定 SPECIES 的浮点矢量。然后执行操作，最后将结果存储到数组 c 中。
 
 我们使用由 `indexInRange()` 生成的 mask 来防止读取/写入超过数组长度。第一层( a.length / SPECIES.length() )迭代将设置一个所有通道的 mask。只有最后一次迭代，如果 a.length 不是 SPECIES.length() 的倍数，才会有一个设置了 a.length % SPECIES.length() 的 mask。
 
@@ -203,7 +203,7 @@ void vectorComputation(float[] a, float[] b, float[] c) {
 }
 ----
 
-对于长度小于 species  长度的尾部元素，在进行向量计算后，再进行常规计算。处理尾部元素的另一种方法是使用单一的 masked 向量计算。
+对于长度小于 species  长度的尾部元素，在进行矢量计算后，再进行常规计算。处理尾部元素的另一种方法是使用单一的 masked 矢量计算。
 
 当操作大型数组时，上述实现可以获得最佳性能。
 
