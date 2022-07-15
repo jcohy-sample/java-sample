@@ -54,7 +54,8 @@ Oracle版本: https://www.oracle.com/java/technologies/javase/jdk18-archive-down
 
 可以使用以下命令查看当前 JDK 的默认字符集：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 java -XshowSettings:properties -version 2>&1 | grep file.encoding
     file.encoding = UTF-8
@@ -63,7 +64,8 @@ java -XshowSettings:properties -version 2>&1 | grep file.encoding
 
 在 JDK 中通过下面 API 获取当前 JDK 的默认字符集：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 Charset.defaultCharset()
 ----
@@ -87,7 +89,7 @@ jwebserver
 
 如果启动成功，那么 jwebserver 会向 System.out 打印一条消息，列出本地地址和所服务目录的绝对路径。例如：
 
-[java,shell]
+[source,shell]
 ----
 D:\Jdk\jdk-18.0.1.1\bin>jwebserver
 Binding to loopback by default. For all interfaces use "-b 0.0.0.0" or "-b ::".
@@ -181,7 +183,8 @@ MIME 类型是自动配置的。 例如，`.html` 文件作为 `text/html` 提�
 
 `SimpleFileServer` 类支持创建文件服务器、文件服务器处理程序和输出过滤器：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 package com.sun.net.httpserver;
 
@@ -225,7 +228,8 @@ include::{java-code}/java18/web/SimpleFileServerWithFilterTest.java[tag=serve3]
 
 Simple Web Server 的核心功能由其 handler  提供。 为了支持扩展此 handler 以与现有代码一起使用，我们引入了一个新的 `HttpHandlers` 类，该类具有两个用于 handler 创建和自定义的静态方法，以及一个用于适应请求的 Filter 类中的新方法：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 package com.sun.net.httpserver;
 
@@ -248,7 +252,8 @@ public abstract class Filter {
 
 现有 API 将 HTTP 请求捕获为由 `HttpExchange` 类的实例，表示请求-响应的一部分，该实例描述了交换的完整和可变状态。 并非所有的状态都对定制 handler 有意义。 因此，我们引入了一个更简单的 Request 接口来提供不可变请求状态的有限视图：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 public interface Request {
     URI getRequestURI();
@@ -288,7 +293,7 @@ include::{java-code}/java18/web/CustomizationHandler.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet]
 ----
 
 生成的代码片段为冒号之后的换行符和右大括号之间的文本, 不需要去转义 HTML  `<`, `>`, 和 `&` 这类字符，也不用转义文档的注释标签。
@@ -316,7 +321,7 @@ image::{oss-images}/java18-snippet1.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet2]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet2]
 ----
 
 `file` 属性值为文件的名称，`region` 属性表示要显示的区域。有关 `@start` 和 `@end` 标签的更多信息，请参考 <<java-18-feature-snippet-region>>
@@ -382,7 +387,7 @@ region 的结束由 `@end` 或 `@end region=name` 标记。 如果给定名称�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet3]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet3]
 ----
 
 输出为：
@@ -394,7 +399,7 @@ image::{oss-images}/java18-snippet3.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet4]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet4]
 ----
 
 输出为：
@@ -419,7 +424,7 @@ image::{oss-images}/java18-snippet4.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet5]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet5]
 ----
 
 输出为：
@@ -447,7 +452,7 @@ image::{oss-images}/java18-snippet5.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet6]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet6]
 ----
 
 输出为：
@@ -464,7 +469,7 @@ image::{oss-images}/java18-snippet6.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet7]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet7]
 ----
 
 在属性文件中，注释是以井号 (#)  字符开头的行。 因为一些标记标签的默认范围是当前行，并且由于属性文件不允许注释与非注释内容放在同一行，所以可能需要使用以 `:` 结尾的标记注释的形式，以便标记注释被视为适用于以下行。
@@ -474,7 +479,7 @@ include::{java-code}/java18/web/SnippetsTest.java[tag=snippet7]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java18/web/SnippetsTest.java[tag=snippet8]
+include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet8]
 ----
 
 [[java-18-feature-snippet-reference]]
@@ -549,11 +554,12 @@ InetAddress API 定义了多种查找操作的方法：
 * InetAddress::getCanonicalHostName 执行反向查找，将 IP 地址映射到完全限定的域名。例如：
 +
 [source,shell]
-====
+----
 var addressBytes = new byte[] { (byte) 192, 0, 43, 7};
 var resolvedHostName = InetAddress.getByAddress(addressBytes)
 .getCanonicalHostName();
-====
+----
+
 * 如果需要，InetAddress::getHostName 还会执行反向查找。
 
 默认情况下，InetAddress 使用操作系统的本地解析器来执行查找。该查找的结果，不管是存在还是不存在，都可能被缓存，以避免进一步查找同一主机。
@@ -584,7 +590,7 @@ var resolvedHostName = InetAddress.getByAddress(addressBytes)
 
 通过对 Switch 表达式和语句的模式匹配以及对模式语言的扩展来增强 Java 编程语言。允许针对各种模式验证 switch 表达式和语句，每个模式都有不同的操作。这使得以简单和安全的方式表达复杂的面向数据的查询成为可能。这是 JDK 18 中的一个预览语言特性。
 
- switch 模式匹配由 https://openjdk.org/jeps/406[JEP 406] 提出并在 JDK 17 中作为预览功能提供。此 JEP 提出了 JDK 18 中该功能的第二个预览，并根据经验和反馈进行了细微的改进。
+switch 模式匹配由 https://openjdk.org/jeps/406[JEP 406] 提出并在 JDK 17 中作为预览功能提供。此 JEP 提出了 JDK 18 中该功能的第二个预览，并根据经验和反馈进行了细微的改进。
 
 自第一次预览以来的增强功能是：
 
@@ -599,8 +605,8 @@ finalization 它可以帮助我们主动释放系统底层资源，说实话，�
 目前 finalization  已经标识为废弃状态了。但在未来版本暂时还不会删除。finalization 现在默认是开启的，但可以通过下面参数进行禁用：
 
 [source,shell]
-====
+----
 --finalization=disable
-====
+----
 
 后续的版本会默认禁用，再逐步进行彻底删除，可以考虑使用其他的资源管理技术，如：try-with-resources（JDK 7+） 和 cleaners（JDK 9+）

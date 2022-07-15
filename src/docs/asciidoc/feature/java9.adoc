@@ -7,8 +7,8 @@ Java 9 正式发布于 2017 年 9 月 21 日 .作为 Java 8 之后 3 年半才�
 java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系统、可交互的 REPL 工具: jshell,JDK 编译工具,Java 公共 API 和私有代码,以及安全增强、扩展提升、性能管理改善等.可以说 Java 9 是一个庞大的系统工程,完全做了一个整体改变.
 
 
-此版本为 "功能性" 版本,并非长期支持版本.Oracle 宣布这些版本只有短期支持(六个月).目前最新的 LTC 版本为 Java 11.目前官网已经不提供 java 9 的下载.
-详情参考 <<java-11-feature>>
+此版本为 "功能性" 版本,并非长期支持版本.Oracle 宣布这些版本只有短期支持(六个月).目前最新的 LTC 版本为 Java 17.目前官网已经不提供 java 9 的下载.
+详情参考 <<java-17-feature>>
 
 资料来源:  http://openjdk.java.net/projects/jdk9/
 
@@ -17,13 +17,13 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 |===
 | 新特性| 翻译
 
-| 102: http://openjdk.java.net/jeps/102[Process API Updates]        | API更新过程
+| 102: http://openjdk.java.net/jeps/102[Process API Updates]        | API 更新过程
 
 | 110: http://openjdk.java.net/jeps/110[HTTP 2 Client]     | HTTP2 客户端
 
 | 143: http://openjdk.java.net/jeps/143[Improve Contended Locking] | 改善竞争锁
 
-| 158: http://openjdk.java.net/jeps/158[Unified JVM Logging] | 统一JVM日志记录
+| 158: http://openjdk.java.net/jeps/158[Unified JVM Logging] | 统一 JVM 日志记录
 
 | 165: http://openjdk.java.net/jeps/165[Compiler Control]    | 编译器控制
 
@@ -31,21 +31,21 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 | 197: http://openjdk.java.net/jeps/197[Segmented Code Cache] | 分段代码缓存
 
-| 199: http://openjdk.java.net/jeps/199[Smart Java Compilation, Phase Two] | 聪明的Java编译,第二阶段
+| 199: http://openjdk.java.net/jeps/199[Smart Java Compilation, Phase Two] | 聪明的 Java 编译,第二阶段
 
-| 200: http://openjdk.java.net/jeps/200[The Modular JDK]     | 模块化JDK
+| 200: http://openjdk.java.net/jeps/200[The Modular JDK]     | 模块化 JDK
 
 | 201: http://openjdk.java.net/jeps/201[Modular Source Code] | 模块化的源代码
 
 | 211: http://openjdk.java.net/jeps/211[Elide Deprecation Warnings on Import Statements] | 导入语句时省略警告信息
 
-| 212: http://openjdk.java.net/jeps/212[Resolve Lint and Doclint Warnings] | 解决Lint和Doclint警告
+| 212: http://openjdk.java.net/jeps/212[Resolve Lint and Doclint Warnings] | 解决 Lint 和 Doclint 警告
 
-| 213: http://openjdk.java.net/jeps/213[Milling Project Coin] | 研磨项目Coin
+| 213: http://openjdk.java.net/jeps/213[Milling Project Coin] | 研磨项目 Coin
 
-| 214: http://openjdk.java.net/jeps/214[Remove GC Combinations Deprecated in JDK 8] | 移除JDK 8过时的GC组合
+| 214: http://openjdk.java.net/jeps/214[Remove GC Combinations Deprecated in JDK 8] | 移除 JDK 8 过时的 GC 组合
 
-| 215: http://openjdk.java.net/jeps/215[Tiered Attribution for javac] | javac分层归因
+| 215: http://openjdk.java.net/jeps/215[Tiered Attribution for javac] | javac 分层归因
 
 | 216: http://openjdk.java.net/jeps/216[Process Import Statements Correctly] | 正确处理导入语句
 
@@ -55,15 +55,15 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 | 220: http://openjdk.java.net/jeps/220[Modular Run-Time Images] | 模块化运行时图像
 
-| 221: http://openjdk.java.net/jeps/221[Simplified Doclet API] | 简化Doclet API
+| 221: http://openjdk.java.net/jeps/221[Simplified Doclet API] | 简化 Doclet API
 
 | 222: http://openjdk.java.net/jeps/222[jshell: The Java Shell (Read-Eval-Print Loop)] | jshell:Java Shell(Read-Eval-Print-Loop)
 
 | 223: http://openjdk.java.net/jeps/223[New Version-String Scheme] | 字符串新版本方案
 
-| 224: http://openjdk.java.net/jeps/224[HTML5 Javadoc]     | Javadoc 支持HTML5
+| 224: http://openjdk.java.net/jeps/224[HTML5 Javadoc]     | Javadoc 支持 HTML5
 
-| 225: http://openjdk.java.net/jeps/225[Javadoc Search]      | Javadoc搜索
+| 225: http://openjdk.java.net/jeps/225[Javadoc Search]      | Javadoc 搜索
 
 | 226: http://openjdk.java.net/jeps/226[UTF-8 Property Files] | utf-8 属性文件
 
@@ -71,91 +71,91 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 | 228: http://openjdk.java.net/jeps/228[Add More Diagnostic Commands] | 添加更多的诊断命令
 
-| 229: http://openjdk.java.net/jeps/229[Create PKCS12 Keystores by Default] | 创建PKCS12默认密钥存储库
+| 229: http://openjdk.java.net/jeps/229[Create PKCS12 Keystores by Default] | 创建 PKCS12 默认密钥存储库
 
-| 231: http://openjdk.java.net/jeps/231[Remove Launch-Time JRE Version Selection] | 删除启动JRE版本选择
+| 231: http://openjdk.java.net/jeps/231[Remove Launch-Time JRE Version Selection] | 删除启动 JRE 版本选择
 
 | 232: http://openjdk.java.net/jeps/232[Improve Secure Application Performance] | 提高安全应用程序性能
 
 | 233: http://openjdk.java.net/jeps/233[Generate Run-Time Compiler Tests Automatically] | 自动生成运行时编译器测试
 
-| 235: http://openjdk.java.net/jeps/235[Test Class-File Attributes Generated by javac] | 测试javac生成的类文件属性
+| 235: http://openjdk.java.net/jeps/235[Test Class-File Attributes Generated by javac] | 测试 javac 生成的类文件属性
 
-| 236: http://openjdk.java.net/jeps/236[Parser API for Nashorn] | Nashorn解析器API
+| 236: http://openjdk.java.net/jeps/236[Parser API for Nashorn] | Nashorn 解析器 API
 
-| 237: http://openjdk.java.net/jeps/237[Linux/AArch64 Port]  | Linux / AArch64端口
+| 237: http://openjdk.java.net/jeps/237[Linux/AArch64 Port]  | Linux/AArch64 端口
 
 | 238: http://openjdk.java.net/jeps/238[Multi-Release JAR Files] | Multi-Release JAR文件
 
-| 240: http://openjdk.java.net/jeps/240[Remove the JVM TI hprof Agent] | 删除JVM TI hprof代理
+| 240: http://openjdk.java.net/jeps/240[Remove the JVM TI hprof Agent] | 删除 JVM TI hprof 代理
 
-| 241: http://openjdk.java.net/jeps/241[Remove the jhat Tool] | 删除jhat工具
+| 241: http://openjdk.java.net/jeps/241[Remove the jhat Tool] | 删除 jhat 工具
 
-| 243: http://openjdk.java.net/jeps/243[Java-Level JVM Compiler Interface] | java级别JVM编译器接口
+| 243: http://openjdk.java.net/jeps/243[Java-Level JVM Compiler Interface] | java 级别 JVM 编译器接口
 
-| 244: http://openjdk.java.net/jeps/244[TLS Application-Layer Protocol Negotiation Extension] | TLS应用层协议谈判扩展
+| 244: http://openjdk.java.net/jeps/244[TLS Application-Layer Protocol Negotiation Extension] | TLS 应用层协议谈判扩展
 
-| 245: http://openjdk.java.net/jeps/245[Validate JVM Command-Line Flag Arguments] | JVM命令行标记参数进行验证
+| 245: http://openjdk.java.net/jeps/245[Validate JVM Command-Line Flag Arguments] | JVM 命令行标记参数进行验证
 
-| 246: http://openjdk.java.net/jeps/246[Leverage CPU Instructions for GHASH and RSA] | 利用CPU指令GHASH和RSA
+| 246: http://openjdk.java.net/jeps/246[Leverage CPU Instructions for GHASH and RSA] | 利用 CPU 指令 GHASH 和 RSA
 
 | 247: http://openjdk.java.net/jeps/247[Compile for Older Platform Versions] | 老平台版本编译
 
-| 248: http://openjdk.java.net/jeps/248[Make G1 the Default Garbage Collector] | 设置G1为默认的垃圾收集器
+| 248: http://openjdk.java.net/jeps/248[Make G1 the Default Garbage Collector] | 设置 G1 为默认的垃圾收集器
 
-| 249: http://openjdk.java.net/jeps/249[OCSP Stapling for TLS] | OCSP装订TLS
+| 249: http://openjdk.java.net/jeps/249[OCSP Stapling for TLS] | OCSP 装订 TLS
 
-| 250: http://openjdk.java.net/jeps/250[Store Interned Strings in CDS Archives] | CDS档案中存储实际字符串
+| 250: http://openjdk.java.net/jeps/250[Store Interned Strings in CDS Archives] | CDS 档案中存储实际字符串
 
 | 251: http://openjdk.java.net/jeps/251[Multi-Resolution Images] | 多分辨率图像
 
 | 252: http://openjdk.java.net/jeps/252[Use CLDR Locale Data by Default] | 使用系统默认语言环境数据
 
-| 253: http://openjdk.java.net/jeps/253[Prepare JavaFX UI Controls & CSS APIs for Modularization] | 准备JavaFX UI控件和CSS api用于模块化
+| 253: http://openjdk.java.net/jeps/253[Prepare JavaFX UI Controls & CSS APIs for Modularization] | 准备 JavaFX UI 控件和 CSS api 用于模块化
 
 | 254: http://openjdk.java.net/jeps/254[Compact Strings]     | 紧凑的字符串
 
-| 255: http://openjdk.java.net/jeps/255[Merge Selected Xerces 2.11.0 Updates into JAXP] | 合并选定的Xerces 2.11.0更新到JAXP
+| 255: http://openjdk.java.net/jeps/255[Merge Selected Xerces 2.11.0 Updates into JAXP] | 合并选定的 Xerces 2.11.0 更新到 JAXP
 
-| 256: http://openjdk.java.net/jeps/256[BeanInfo Annotations] | BeanInfo注解
+| 256: http://openjdk.java.net/jeps/256[BeanInfo Annotations] | BeanInfo 注解
 
-| 257: http://openjdk.java.net/jeps/257[Update JavaFX/Media to Newer Version of GStreamer] | 更新JavaFX /Media 到GStreamer的新版本
+| 257: http://openjdk.java.net/jeps/257[Update JavaFX/Media to Newer Version of GStreamer] | 更新 JavaFX/Media 到 GStreamer 的新版本
 
 | 258: http://openjdk.java.net/jeps/258[HarfBuzz Font-Layout Engine] | HarfBuzz文字编排引擎
 
-| 259: http://openjdk.java.net/jeps/259[Stack-Walking API]   | 提供Stack – Walking API
+| 259: http://openjdk.java.net/jeps/259[Stack-Walking API]   | 提供 Stack – Walking API
 
-| 260: http://openjdk.java.net/jeps/260[Encapsulate Most Internal APIs] | 封装内部api
+| 260: http://openjdk.java.net/jeps/260[Encapsulate Most Internal APIs] | 封装内部 api
 
 | 261: http://openjdk.java.net/jeps/261[Module System]       | 模块系统
 
-| 262: http://openjdk.java.net/jeps/262[TIFF Image I/O]      | TIFF图像I/O
+| 262: http://openjdk.java.net/jeps/262[TIFF Image I/O]      | TIFF 图像 I/O
 
-| 263: [HiDPI Graphics on Windows and Linux](http://openjdk.java.net/jeps/263) | Windows和Linux上的HiDPI图形
+| 263: [HiDPI Graphics on Windows and Linux](http://openjdk.java.net/jeps/263) | Windows 和 Linux 上的 HiDPI 图形
 
-| 264: http://openjdk.java.net/jeps/264[Platform Logging API and Service] | 日志API和服务平台
+| 264: http://openjdk.java.net/jeps/264[Platform Logging API and Service] | 日志 API 和服务平台
 
-| 265: http://openjdk.java.net/jeps/265[Marlin Graphics Renderer] | Marlin图形渲染器
+| 265: http://openjdk.java.net/jeps/265[Marlin Graphics Renderer] | Marlin 图形渲染器
 
 | 266: http://openjdk.java.net/jeps/266[More Concurrency Updates] | 更多的并发更新
 
 | 267: http://openjdk.java.net/jeps/267[Unicode 8.0]         | Unicode 8.0
 
-| 268: http://openjdk.java.net/jeps/268[XML Catalogs]       | XML目录
+| 268: http://openjdk.java.net/jeps/268[XML Catalogs]       | XML 目录
 
 | 269: http://openjdk.java.net/jeps/269[Convenience Factory Methods for Collections] | 方便的集合工厂方法
 
 | 270: http://openjdk.java.net/jeps/270[Reserved Stack Areas for Critical Sections] | 保留堆栈领域至关重要的部分
 
-| 271: http://openjdk.java.net/jeps/271[Unified GC Logging]  | 统一的GC日志记录
+| 271: http://openjdk.java.net/jeps/271[Unified GC Logging]  | 统一的 GC 日志记录
 
 | 272: http://openjdk.java.net/jeps/272[Platform-Specific Desktop Features] | 特定于平台的桌面功能
 
-| 273: http://openjdk.java.net/jeps/273[DRBG-Based SecureRandom Implementations] | 基于DRBG 的SecureRandom实现
+| 273: http://openjdk.java.net/jeps/273[DRBG-Based SecureRandom Implementations] | 基于 DRBG 的 SecureRandom 实现
 
 | 274: http://openjdk.java.net/jeps/274[Enhanced Method Handles] | 增强的方法处理
 
-| 275: http://openjdk.java.net/jeps/275[Modular Java Application Packaging] | 模块化Java应用程序包装
+| 275: http://openjdk.java.net/jeps/275[Modular Java Application Packaging] | 模块化 Java 应用程序包装
 
 | 276: http://openjdk.java.net/jeps/276[Dynamic Linking of Language-Defined Object Models] | 语言定义对象模型的动态链接
 
@@ -165,35 +165,35 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 | 279: http://openjdk.java.net/jeps/279[Improve Test-Failure Troubleshooting] | 改善测试失败的故障排除
 
-| 280: http://openjdk.java.net/jeps/280[Indify String Concatenation] | Indify字符串连接
+| 280: http://openjdk.java.net/jeps/280[Indify String Concatenation] | Indify 字符串连接
 
 | 281: http://openjdk.java.net/jeps/281[HotSpot C++ Unit-Test Framework] | 热点c++的单元测试框架
 
-| 282: http://openjdk.java.net/jeps/282[jlink: The Java Linker] | jlink:Java连接器
+| 282: http://openjdk.java.net/jeps/282[jlink: The Java Linker] | jlink:Java 连接器
 
-| 283: http://openjdk.java.net/jeps/283[Enable GTK 3 on Linux] | 在Linux上启用GTK 3
+| 283: http://openjdk.java.net/jeps/283[Enable GTK 3 on Linux] | 在 Linux 上启用GTK 3
 
 | 284: http://openjdk.java.net/jeps/284[New HotSpot Build System] | 新热点的构建系统
 
 | 285: http://openjdk.java.net/jeps/285[Spin-Wait Hints]     | 循环等待提示
 
-| 287: http://openjdk.java.net/jeps/287[SHA-3 Hash Algorithms] | SHA-3散列算法
+| 287: http://openjdk.java.net/jeps/287[SHA-3 Hash Algorithms] | SHA-3 散列算法
 
-| 288: http://openjdk.java.net/jeps/288[Disable SHA-1 Certificates] | 禁用sha - 1证书
+| 288: http://openjdk.java.net/jeps/288[Disable SHA-1 Certificates] | 禁用 sha - 1证书
 
-| 289: http://openjdk.java.net/jeps/289[Deprecate the Applet API] | 标记过时的Applet API
+| 289: http://openjdk.java.net/jeps/289[Deprecate the Applet API] | 标记过时的 Applet API
 
 | 290: http://openjdk.java.net/jeps/290[Filter Incoming Serialization Data] | 过滤传入的序列化数据
 
 | 291: http://openjdk.java.net/jeps/291[Deprecate the Concurrent Mark Sweep (CMS) Garbage Collector] | 反对并发标记清理垃圾收集器(CMS)
 
-| 292: http://openjdk.java.net/jeps/292[Implement Selected ECMAScript 6 Features in Nashorn] | 实现选定的ECMAScript Nashorn 6特性
+| 292: http://openjdk.java.net/jeps/292[Implement Selected ECMAScript 6 Features in Nashorn] | 实现选定的 ECMAScript Nashorn 6 特性
 
-| 294: http://openjdk.java.net/jeps/294[Linux/s390x Port]  | Linux / s390x端口
+| 294: http://openjdk.java.net/jeps/294[Linux/s390x Port]  | Linux/s390x 端口
 
 | 295: http://openjdk.java.net/jeps/295[Ahead-of-Time Compilation] | 提前编译
 
-| 297: http://openjdk.java.net/jeps/297[Unified arm32/arm64 Port] | 统一的arm32 / arm64端口
+| 297: http://openjdk.java.net/jeps/297[Unified arm32/arm64 Port] | 统一的 arm32/arm64端口
 
 | 298: http://openjdk.java.net/jeps/298[Remove Demos and Samples] | 删除演示和样本
 
@@ -242,9 +242,12 @@ Java 9 模块的重要特征是在其工件(artifact)的根目录中包含了一
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-module com.jcohy.sample {
-    exports com.jcohy.sample;
-    requires com.jcohy.common;
+module helloworld {
+    exports com.howtodoinjava.demo;
+}
+
+module test {
+    requires helloworld;
     provides com.jcohy.common.DemoService with
         com.mycompany.sample.DemoServiceImpl;
 }
@@ -259,7 +262,7 @@ module com.jcohy.sample {
 == Jshell
 
 [[java-9-feature-feature]]
-=== 官方Feature
+=== 官方 Feature
 
 * 222: jshell: The Java Shell (Read-Eval-Print Loop)
 
@@ -294,6 +297,7 @@ jshell> int add(int x, int y) {
     ...> }
  | 已创建 方法 add(int,int)
 ----
+
 接着就可以在 jshell 中直接使用这个方法
 
 [source,shell]
@@ -356,7 +360,21 @@ url ==> http://www.baidu.com
 
 说明: 本来应该强迫我们捕获一个 `IOException`,但却没有出现.因为 `jShell` 在后台为我们隐藏了.
 
-12、退出 Jshell
+12、打开 Jshell 编辑器
+
+[source,shell]
+----
+jshell> /edit
+----
+
+13、打开 Jshell 编辑器(使用其他编辑器)
+
+[source,shell]
+----
+jshell> /set editor "C:\\Program Files\\Sublime Text 3\\sublime_text.exe"
+----
+
+13、退出 Jshell
 
 [source,shell]
 ----
@@ -471,7 +489,72 @@ jar --create --main-class=Application --file multijar.jar -C build . --release 9
 213: Milling Project Coin
 
 Java 8 中规定接口中的方法除了抽象方法之外,还可以定义静态方法和默认的方法.一定程度上,扩展了接口的功能,此时的接口更像是一个抽象类.
-在 Java 9 中,接口更加的灵活和强大,连方法的访问权限修饰符都可以声明为 private 的了,此时方法将不会成为你对外暴露的 API 的一部分.
+在 Java 9 中,接口更加的灵活和强大,连方法的访问权限修饰符都可以声明为 `private` 的了,这些私有方法将提高接口内代码的可重用性。例如，如果两个默认方法需要共享代码，私有方法将允许它们这样做，但不会将该私有方法暴露给它的实现类。
+
+在接口中使用私有方法有四个规则：
+
+* 接口私有方法不能是抽象的。
+* 私有方法只能在接口内部使用。
+* 私有静态方法可以在其他静态和非静态接口方法中使用。
+* 私有非静态方法不能在私有静态方法中使用。
+
+在接口中使用私有方法的一个例子:
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 8
+----
+include::{java-code}/java9/PrivateInterface.java
+----
+
+输出结果如下:
+
+[source,text]
+.Java 8
+----
+abstract method
+private method
+private static method
+default method
+private static method
+static method
+include::{java-code}/java9/PrivateInterface.java
+----
+
+让我们再看一个例子来了解接口私有方法的用法。我们创建了一个 `CustomCalculator`  类，里面包含两个方法，第一个方法接收整数并添加所有偶数，第二个方法接收整数并添加所有奇数。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 8
+----
+include::{java-code}/java9/CustomCalculator.java
+----
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 8
+----
+include::{java-code}/java9/Main.java
+----
+
+==== 总结
+
+
+|===
+|方法类型 | JDK
+
+| public abstract
+| Java 7
+
+| public default
+| Java 8
+
+| public static
+| Java 8
+
+| private
+| Java 9
+
+| private static
+| Java 9
+|===
 
 [[java-9-feature-grammar-diamond]]
 === 钻石操作符
@@ -715,27 +798,71 @@ JIT(Just-in-time)编译器可以在运行时将热点编译成本地代码,速�
 [[java-9-feature-ProcessHandle]]
 == 进程 API
 
-Java 9 增加了 `ProcessHandle` 接口,可以对原生进程进行管理,尤其适合于管理长时间运行的进程.在使用 `ProcessBuilder` 来启动一个进程之后,可以通过 `Process.toHandle()` 方法来得到一个 `ProcessHandle` 对象的实例.通过 `ProcessHandle` 可以获取到由 `ProcessHandle.Info` 表示的进程的基本信息,如命令行参数、可执行文件路径和启动时间等. `ProcessHandle` 的 `onExit()` 方法返回一个 `CompletableFuture<ProcessHandle>` 对象,
-可以在进程结束时执行自定义的动作. 下面代码 中给出了进程 API 的使用示例.
+在 Java 5 之前，生成新进程的唯一方法是使用 `Runtime.getRuntime().exec()` 方法。 然后在 Java 5 中，引入了 `ProcessBuilder` API，它支持一种更简洁的方式来生成新进程。 现在，Java 9 添加了一种获取有关当前进程和任何衍生进程的信息的新方法。
+
+要获取任何进程的信息，现在您应该使用 `java.lang.ProcessHandle.Info` 接口。 此接口可用于获取大量信息，例如
+
+* 用于启动进程的命令
+* 命令的参数
+* 进程开始的时间
+* 它和创建它的用户花费的总时间
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Process.java[]
+include::{java-code}/java9/Process.java[tag=process1]
+----
+
+要获取新衍生进程的信息，请使用 `process.toHandle()` 方法获取 `ProcessHandle` 实例。其余的操作都和上面一样。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Process.java[tag=process2]
+----
+
+还使用 `ProcessHandle.allProcesses()` 获取系统中所有可用进程的 `ProcessHandle` 流。
+
+要获取所有子进程的列表（直接以及 `n` 级深度），请使用 `children()` 和 `descendants()` 方法。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Process.java[tag=process3]
+----
+
+下面代码 中给出了进程 API 的使用示例.
+
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Process.java[tag=process]
 ----
 
 [[java-9-feature-loggerfinder]]
 == 平台日志 API 和服务
 
-Java 9 允许为 JDK 和应用配置同样的日志实现.新增的 `System.LoggerFinder` 用来管理 JDK 使 用的日志记录器实现.JVM 在运行时只有一个系统范围的 `LoggerFinder` 实例.`LoggerFinder` 通 过服务查找机制来加载日志记录器实现.
-默认情况下,JDK 使用 `java.logging` 模块中的 `java.util.logging` 实现.通过 `LoggerFinder` 的 `getLogger()` 方法就可以获取到表示日志记录器的 `System.Logger` 实现.应用同样可以使用 `System.Logger` 来记录日志.
-这样就保证了 JDK 和应用使用同样的日志实现.我们也可以通过添加自己的 `System.LoggerFinder` 实现来让 JDK 和应用使用 SLF4J 等其他日志记录框架. 如下代码中给出了平台日志 API 的使用示例.
+JDK 9 通过新的日志记录 API 改进了平台类（JDK 类）和 JVM 组件中的日志记录。它允许您指定您选择的日志记录框架（例如 Log4J2）作为日志记录后端，用于记录来自 JDK 类的消息。关于这个 API，你应该知道几件事：
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 9
+* API 旨在供 JDK 中的类使用，而不是由应用程序类使用。
+* 对于您的应用程序代码，您将像以前一样继续使用其他日志记录 API。
+* API 不允许您以编程方式配置 logger。
+
+API 由以下部分组成：
+
+* 一个服务接口，`java.lang.System.LoggerFinder`，它是一个抽象的静态类
+* 一个接口，`java.lang.System.Logger`，它提供了日志 API
+* `java.lang.System` 类中的一个重载方法 `getLogger()`，它返回一个记录器实例。
+
+JDK 9 还添加了一个新的命令行选项 `-Xlog` ，它使您可以访问从 JVM 的所有类记录的所有消息。以下是使用 `-Xlog` 选项的语法：
+
+[source,shell]
 ----
-include::{java-code}/java9/Log.java[]
+-Xlog[:][:[][:[][:]]]
 ----
+
+所有选项都是可选的。 如果缺少 `-Xlog` 中的前一部分，则必须为该部分使用冒号。 例如，`-Xlog::stderr` 表示所有部分都是默认的，输出设置为 `stderr`。
 
 [[java-9-feature-reactor]]
 == 响应式流

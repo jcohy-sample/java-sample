@@ -1,6 +1,7 @@
 package com.jcohy.sample.java9;
 
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,38 @@ import org.junit.jupiter.api.Test;
  */
 public class Process {
 
+    // tag::process1[]
+    @Test
+    void process1() {
+        ProcessHandle processHandle = ProcessHandle.current();
+        ProcessHandle.Info processInfo = processHandle.info();
+
+        System.out.println( processHandle.pid() );
+        System.out.println( processInfo.arguments().isPresent() );
+        System.out.println( processInfo.command().isPresent() );
+        System.out.println( processInfo.command().get().contains("java") );
+        System.out.println( processInfo.startInstant().isPresent() );
+    }
+    // tag::process1[]
+    // tag::process2[]
+    @Test
+    void process2() {
+        String javaPrompt = ProcessUtils.getJavaCmd().getAbsolutePath();
+        ProcessBuilder processBuilder = new ProcessBuilder(javaPrompt, "-version");
+        Process process = processBuilder.inheritIO().start();
+        ProcessHandle processHandle = process.toHandle();
+    }
+    // tag::process2[]
+
+    // tag::process3[]
+    @Test
+    void process3() {
+        Stream<ProcessHandle> children    = ProcessHandle.current().children();
+        Stream<ProcessHandle> descendants = ProcessHandle.current().descendants();
+    }
+    // tag::process3[]
+
+    // tag::process[]
     @Test
     void process() throws IOException {
         final ProcessBuilder processBuilder = new ProcessBuilder("top")
@@ -29,4 +62,5 @@ public class Process {
             }
         });
     }
+    // tag::process[]
 }
