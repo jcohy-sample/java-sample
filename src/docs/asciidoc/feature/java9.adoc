@@ -121,7 +121,7 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 | 257: http://openjdk.java.net/jeps/257[Update JavaFX/Media to Newer Version of GStreamer] | 更新 JavaFX/Media 到 GStreamer 的新版本
 
-| 258: http://openjdk.java.net/jeps/258[HarfBuzz Font-Layout Engine] | HarfBuzz文字编排引擎
+| 258: http://openjdk.java.net/jeps/258[HarfBuzz Font-Layout Engine] | HarfBuzz 文字编排引擎
 
 | 259: http://openjdk.java.net/jeps/259[Stack-Walking API]   | 提供 Stack – Walking API
 
@@ -161,7 +161,7 @@ java 9 提供了超过 150 项新功能特性,包括备受期待的模块化系�
 
 | 277: http://openjdk.java.net/jeps/277[Enhanced Deprecation] | 增强的弃用
 
-| 278: http://openjdk.java.net/jeps/278[Additional Tests for Humongous Objects in G1] | 为G1的极大对象提供额外的测试
+| 278: http://openjdk.java.net/jeps/278[Additional Tests for Humongous Objects in G1] | 为 G1 的极大对象提供额外的测试
 
 | 279: http://openjdk.java.net/jeps/279[Improve Test-Failure Troubleshooting] | 改善测试失败的故障排除
 
@@ -610,6 +610,210 @@ System.out.println(_);
 
 但是,在 java 9 中规定 `_` 不再可以单独命名标识符了,如果使用,会报错
 
+[[java-9-feature-grammar-collection]]
+=== 集合工厂方法
+
+Java 9 中的新增了工厂方法创建不可变的集合，如不可变 list、不可变 set 和不可变 map。
+
+==== 创建不可变 List
+
+使用 `List.of()` 静态工厂方法创建不可变的 list，他包含以下重载方法
+
+[source,java]
+----
+static <E> List<E>  of()
+static <E> List<E>  of(E e1)
+static <E> List<E>  of(E e1, E e2)
+static <E> List<E>  of(E e1, E e2, E e3)
+static <E> List<E>  of(E e1, E e2, E e3, E e4)
+static <E> List<E>  of(E e1, E e2, E e3, E e4, E e5)
+static <E> List<E>  of(E e1, E e2, E e3, E e4, E e5, E e6)
+static <E> List<E>  of(E e1, E e2, E e3, E e4, E e5, E e6, E e7)
+static <E> List<E>  of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8)
+static <E> List<E>  of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9)
+static <E> List<E>  of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10)
+//varargs
+static <E> List<E>  of(E... elements)
+----
+
+这些方法具有以下特点：
+
+* 这些列表是不可变的。 不能在这些列表中添加、删除或替换元素。 调用任何 mutator 方法（即 `add`、`addAll`、`clear`、`remove`、`removeAll`、`replaceAll`）总是会导致抛出 `UnsupportedOperationException`。
+* 不允许 `null` 元素。 尝试添加 `null` 元素会导致 `NullPointerException`。
+* 如果所有元素都是可序列化的，则它们是可序列化的。
+* 列表中元素的顺序与提供的参数或提供的数组中元素的顺序相同。
+
+查看下面的例子：
+
+[source,java]
+----
+include::{java-code}/java9/ImmutableCollections.java[tag=list]
+----
+
+==== 不可变 Set
+
+`Set` 的行为与 `List` 非常相似，只有很少的差异。例如
+
+* `Set` 不允许重复元素。 任何重复元素都将导致 `IllegalArgumentException`。
+* 集合元素的迭代顺序未指定，可能会发生变化。
+
+所有 `Set` 工厂方法都具有与 `List` 相同的签名。
+
+[source,java]
+----
+static <E> Set<E> of()
+static <E> Set<E> of(E e1)
+static <E> Set<E> of(E e1, E e2)
+static <E> Set<E> of(E e1, E e2, E e3)
+static <E> Set<E> of(E e1, E e2, E e3, E e4)
+static <E> Set<E> of(E e1, E e2, E e3, E e4, E e5)
+static <E> Set<E> of(E e1, E e2, E e3, E e4, E e5, E e6)
+static <E> Set<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7)
+static <E> Set<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8)
+static <E> Set<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9)
+static <E> Set<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10)
+//varargs
+static <E> Set<E> of(E... elements)
+----
+
+查看下面的例子：
+
+[source,java]
+----
+include::{java-code}/java9/ImmutableCollections.java[tag=list]
+----
+
+==== 创建不可变 Map
+
+`Map` 工厂方法与 `List` 或 `Set` 重载工厂方法相同。 唯一的区别是 `of` 方法的签名采用交替的键和值作为参数。 例如
+
+[source,java]
+----
+static <K,V> Map<K,V> of()
+static <K,V> Map<K,V> of(K k1, V v1)
+static <K,V> Map<K,V> of(K k1, V v1, K k2, V v2)
+...
+...
+static <K,V> Map<K,V> ofEntries(Map.Entry<? extends K,? extends V>... entries)
+----
+
+Java 9 还提供了一种创建 Map entry 实例的特殊方法。
+
+[source,java]
+----
+static <K,V> Map.Entry<K,V> entry(K k, V v)
+----
+
+查看下面的例子：
+
+[source,java]
+----
+include::{java-code}/java9/ImmutableCollections.java[tag=list]
+----
+
+[[java-9-feature-grammar-stream]]
+=== 增强的 Stream API
+
+Stream 中增加了新的方法 `ofNullable`、`dropWhile`、`takeWhile` 和 `iterate` 重载方法.
+
+`takeWhile` 和 `dropWhile` 允许您基于谓词获取流的一部分。`takeWhile` 方法接受所有值，直到谓词返回 `false` 为止, `dropWhile` 方法丢弃所有值，直到它与谓词匹配为止 这里的流可以是有序的或无序的，所以：
+
+* 在有序流中，`takeWhile` 从头开始保留满足条件的元素，一旦遇到不满足的元素就结束
+* 在无序流中，`takeWhile` 返回由从与给定谓词匹配的流中提取的元素子集组成的流
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Tests.java[tag=takeWhile]
+----
+
+`dropWhile` 方法与 `takeWhile` 方法相反。
+
+* 在有序流中，`dropWhile` 从头开始去掉满足条件的元素，一旦遇到不满足元素的就结束
+* 在无序流中，`dropWhile` 从头开始去掉满足条件的元素子集，后剩余的元素。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Tests.java[tag=dropWhile]
+----
+
+在 如下代码中,流中包含了从 1 到 5 的 元素.断言检查元素是否为奇数.第一个元素 1 被删除,结果流中包含 4 个元素.
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Tests.java[tag=testDropWhile]
+----
+
+`iterate()` 方法用于创建以某个元素（种子）开头的流，随后该元素通过连续应用 UnaryOperator 运算生成。 其结果是无限流。如果要终止流，需要使用 `limit` 或其他一些短路函数，如 `findFirst` 或 `findAny`。
+
+Java 8 中 `iterate` 方法签名:
+
+[source,,java]
+----
+static Stream iterate(final T seed, final UnaryOperator f)
+----
+
+在 Java 9 中，新的重载版本的 `iterate` 将 `Predicate` 作为第二个参数：
+
+[source,,java]
+----
+static Stream iterate(T seed, Predicate hasNext, UnaryOperator next)
+----
+
+让我们看一个例子来了解一下在 Java 8 和 Java 9 中的区别
+
+[source,,java]
+----
+include::{java-code}/java9/IterateTest.java[tag=java8]
+----
+
+[source,,java]
+----
+include::{java-code}/java9/IterateTest.java[tag=java9]
+----
+
+在 Java 8 之前，流中不能有 `null` 值。 它会导致 `NullPointerException`。
+
+在 Java 9 中，`ofNullable` 方法允许您创建一个单元素流，如果不为空则包装一个值，否则为 empty 流。
+
+[source,,java]
+----
+include::{java-code}/java9/Tests.java[tag=ofNullable]
+----
+
+[[java-9-feature-grammar-stream-collectors]]
+==== Collectors
+
+`Collectors` 中增加了新的方法 `filtering` 和 `flatMapping`.在 如下代码中,对于输入的 `String` 流 ,先通过 `flatMapping` 把 `String` 映射成 `Integer` 流 ,再把所有的 `Integer` 收集到一个集合中.
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Tests.java[tag=testFlatMapping]
+----
+
+[[java-9-feature-grammar-stream-optional]]
+==== Optional
+
+`Optional` 类中新增了 `ifPresentOrElse`、`or` 和 `stream` 等方法.在 如下代码中,Optional 流中包含 3 个 元素,其中只有 2 个有值.在使用 `flatMap` 之后,结果流中包含了 2 个值.
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
+----
+include::{java-code}/java9/Tests.java[tag=testStream]
+----
+
+[[java-9-feature-grammar-deprecated]]
+=== @Deprecated 注解变化
+
+从 Java 9 开始，`@Deprecated` 注解将具有两个属性，即 `forRemoval` 和 `since`。
+
+* forRemoval – 指示带注解的元素是否会在未来版本中被删除。
+* since - 它返回注解元素被弃用的版本。
+强烈建议使用 `@deprecated` javadoc 标签在文档中解释弃用程序元素的原因。 如果可以，文档还应建议并链接到推荐的替代 API。 替换 API 通常具有微妙的不同语义，因此也应讨论此类问题。
+
 [[java-9-feature-string]]
 == String 存储结构变更
 
@@ -629,49 +833,6 @@ String 类的在 jdk8 之前的实现是采用的 char 数组来存储的,每个
 我们建议将 String 类的内部表示形式从 UTF-16 字符数组更改为字节数组,再加上一个 `encoding-flag` 字段.新的 String 类将存储基于字符串内容编码为 `ISO-8859-1/Latin-1`(每个字符一个字节)或 UTF-16(每个字符两个字节)的字符.`encoding-flag` 字段将指示使用哪种编码.
 与字符串相关的类(例如 `AbstractStringBuilder`,`StringBuilder` 和 `StringBuffer`)将更新为使用相同的表示形式,HotSpot VM的固有字符串操作也将使用相同的表示形式.
 这纯粹是实现更改,不更改现有的公共接口.没有计划添加任何新的公共 API 或其他接口.
-
-[[java-9-feature-collections]]
-=== 集合工厂方法
-
-[[java-9-feature-collections-feature]]
-=== 官方Feature
-
-* 269: Convenience Factory Methods for Collections
-
-在集合上,Java 9 增加 了 `List.of()、Set.of()、Map.of()` 和 `Map.ofEntries()` 等工厂方法来创建不可变集合 ,如下所示.
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 9
-----
-include::{java-code}/java9/Tests.java[tag=collection1]
-----
-
-[[java-9-feature-stream]]
-=== 增强的 Stream API
-
-Stream 中增加了新的方法 `ofNullable`、`dropWhile`、`takeWhile` 和 `iterate`.在 如下代码中,流中包含了从 1 到 5 的 元素.断言检查元素是否为奇数.第一个元素 1 被删除,结果流中包含 4 个元素.
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 9
-----
-include::{java-code}/java9/Tests.java[tag=testDropWhile]
-----
-
-`Collectors` 中增加了新的方法 `filtering` 和 `flatMapping`.在 如下代码中,对于输入的 `String` 流 ,先通过 `flatMapping` 把 `String` 映射成 `Integer` 流 ,再把所有的 `Integer` 收集到一个集合中.
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 9
-----
-include::{java-code}/java9/Tests.java[tag=testFlatMapping]
-----
-
-`Optional` 类中新增了 `ifPresentOrElse`、`or` 和 `stream` 等方法.在 如下代码中,Optional 流中包含 3 个 元素,其中只有 2 个有值.在使用 `flatMap` 之后,结果流中包含了 2 个值.
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 9
-----
-include::{java-code}/java9/Tests.java[tag=testStream]
-----
 
 [[java-9-feature-multi-images]]
 == 多分辨率图像 API
@@ -718,6 +879,29 @@ Java 9 中有新的方式来处理 HTTP 调用.它提供了一个新的 HTTP 客
 === 使用
 
 <<java-11-feature-httpclient>>
+
+[[java-9-feature-StackWalking]]
+== 提供 Stack – Walking API
+
+[[java-9-feature-StackWalking-feature]]
+=== 官方 Feature
+
+* 259: Stack-Walking API
+
+栈是一种后进先出 (LIFO) 数据结构。在 JVM 级别，用栈存储帧（简称栈帧）。每次调用方法时都会创建一个新栈帧并将其放置在栈顶。当方法调用完成时，一个栈帧被销毁（从栈中弹出）。每一个栈帧都包含自己的局部变量数组，以及自己的操作数栈、返回值和对当前方法类的运行时常量池的引用。
+
+在给定线程中，任何时候只有一个栈帧处于活动状态。活动帧称为当前帧，其方法称为当前方法。
+
+在 Java 8 之前，`StackTraceElement` 表示栈帧元素。要获得完整的堆栈，您必须使用 `Thread.getStackTrace()` 和 `Throwable.getStackTrace()`。它返回了一个 `StackTraceElement` 数组，您可以对其进行迭代以获取所需的信息。
+
+在 Java 9 中，引入了一个新类 `StackWalker`。该类使用当前线程的堆栈帧的顺序流提供简单有效的堆栈遍历。 `StackWalker` 类非常高效，因为它惰性地对栈帧进行评估。
+
+[source,java]
+----
+// Prints the details of all stack frames of the current thread
+
+StackWalker.getInstance().forEach(System.out::println);
+----
 
 [[java-9-feature-compilation]]
 == 智能 Java 编译工具

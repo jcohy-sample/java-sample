@@ -28,7 +28,8 @@ public class Process {
         System.out.println( processInfo.command().get().contains("java") );
         System.out.println( processInfo.startInstant().isPresent() );
     }
-    // tag::process1[]
+    // end::process1[]
+
     // tag::process2[]
     @Test
     void process2() {
@@ -37,7 +38,7 @@ public class Process {
         Process process = processBuilder.inheritIO().start();
         ProcessHandle processHandle = process.toHandle();
     }
-    // tag::process2[]
+    // end::process2[]
 
     // tag::process3[]
     @Test
@@ -45,7 +46,7 @@ public class Process {
         Stream<ProcessHandle> children    = ProcessHandle.current().children();
         Stream<ProcessHandle> descendants = ProcessHandle.current().descendants();
     }
-    // tag::process3[]
+    // end::process3[]
 
     // tag::process[]
     @Test
@@ -62,5 +63,5 @@ public class Process {
             }
         });
     }
-    // tag::process[]
+    // end::process[]
 }

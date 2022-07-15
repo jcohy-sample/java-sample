@@ -91,20 +91,6 @@ public class Tests {
     }
     // end::resource3[]
 
-    // tag::collection1[]
-    @Test
-    void collection1() {
-        List.of();
-        List.of("Hello", "World");
-        List.of(1, 2, 3);
-        Set.of();
-        Set.of("Hello", "World");
-        Set.of(1, 2, 3);
-        Map.of();
-        Map.of("Hello", 1, "World", 2);
-    }
-    // end::collection1[]
-
     // tag::testDropWhile[]
     @Test
     void testDropWhile() {
@@ -115,6 +101,35 @@ public class Tests {
         assertEquals(4, count);
     }
     // end::testDropWhile[]
+
+	// tag::takeWhile[]
+	@Test
+	void takeWhile() {
+		List<String> alphabets = List.of("a", "b", "c", "d", "e", "f", "g", "h", "i");
+
+		List<String> subset1 = alphabets
+				.stream()
+				.takeWhile(s -> !s.equals("d"))
+				.collect(Collectors.toList());
+		// [a, b, c]
+		System.out.println(subset1);
+
+	}
+	// end::takeWhile[]
+
+	// tag::dropWhile[]
+	@Test
+	void dropWhile() {
+		List<String> alphabets = List.of("a", "b", "c", "d", "e", "f", "g", "h", "i");
+
+		List<String> subset2 = alphabets
+				.stream()
+				.dropWhile(s -> !s.equals("d"))
+				.collect(Collectors.toList());
+		// [d, e, f, g, h, i]
+		System.out.println(subset2);
+	}
+	// end::dropWhile[]
 
     // tag::testFlatMapping[]
     @Test
@@ -140,4 +155,17 @@ public class Tests {
         assertEquals(2, count);
     }
     // end::testStream[]
+
+	// tag::ofNullable[]
+	@Test
+	public void ofNullable() throws Exception {
+		Stream<String> stream = Stream.ofNullable("123");
+		// 1
+		System.out.println(stream.count());
+
+		stream = Stream.ofNullable(null);
+		// 0
+		System.out.println(stream.count());
+	}
+	// end::ofNullable[]
 }
