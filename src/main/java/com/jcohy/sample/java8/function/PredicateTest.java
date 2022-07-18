@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
  */
 public class PredicateTest {
 
+	// tag::predicate[]
     public List<String> filterStr(List<String> list, Predicate<String> pre) {
         List<String> strList = new ArrayList<>();
         for (String str : list) {
@@ -42,5 +43,6 @@ public class PredicateTest {
             System.out.println(str1);
         }
     }
+	// end::predicate[]
 
 }

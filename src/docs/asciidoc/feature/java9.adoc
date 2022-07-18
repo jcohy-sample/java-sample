@@ -243,7 +243,7 @@ Java 9 模块的重要特征是在其工件(artifact)的根目录中包含了一
 .Java 9
 ----
 module helloworld {
-    exports com.howtodoinjava.demo;
+    exports com.jcohy.demo;
 }
 
 module test {
@@ -413,7 +413,7 @@ jar root
 ----
 
 说明:
-在上述场景中, `root.jar` 可以在 Java 9 中使用, 不过 A或B 类使用的不是顶层的 `root.A` 或 `root.B` 这两个 class, 而是处在 `META-INF/versions/9` 下面的这两个.这是特别为 Java 9 准备的 class 版本,可以运用 Java 9 所提供的特性和库.在将来的支持 Java 10 JDK上,它将看到A的jdk 10特定版本和B的jdk 9特定版本;同时,在早期的 Java 诸版本中使用这个 JAR 也是能运行的,因为较老版本的 Java 只会看到顶层的A类或 B 类.
+在上述场景中, `root.jar` 可以在 Java 9 中使用, 不过 A或B 类使用的不是顶层的 `root.A` 或 `root.B` 这两个 class, 而是处在 `META-INF/versions/9` 下面的这两个.这是特别为 Java 9 准备的 class 版本,可以运用 Java 9 所提供的特性和库.在将来的支持 Java 10 JDK 上,它将看到 A 的 Jdk 10 特定版本和 B 的 Jdk 9 特定版本;同时,在早期的 Java 诸版本中使用这个 JAR 也是能运行的,因为较老版本的 Java 只会看到顶层的A类或 B 类.
 
 [[java-9-feature-jar-use]]
 === 使用
@@ -605,7 +605,8 @@ Java 9 中的新增了工厂方法创建不可变的集合，如不可变 list�
 
 使用 `List.of()` 静态工厂方法创建不可变的 list，他包含以下重载方法
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 static <E> List<E>  of()
 static <E> List<E>  of(E e1)
@@ -631,7 +632,8 @@ static <E> List<E>  of(E... elements)
 
 查看下面的例子：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 include::{java-code}/java9/ImmutableCollections.java[tag=list]
 ----
@@ -645,7 +647,8 @@ include::{java-code}/java9/ImmutableCollections.java[tag=list]
 
 所有 `Set` 工厂方法都具有与 `List` 相同的签名。
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 static <E> Set<E> of()
 static <E> Set<E> of(E e1)
@@ -664,7 +667,8 @@ static <E> Set<E> of(E... elements)
 
 查看下面的例子：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 include::{java-code}/java9/ImmutableCollections.java[tag=list]
 ----
@@ -673,7 +677,8 @@ include::{java-code}/java9/ImmutableCollections.java[tag=list]
 
 `Map` 工厂方法与 `List` 或 `Set` 重载工厂方法相同。 唯一的区别是 `of` 方法的签名采用交替的键和值作为参数。 例如
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 static <K,V> Map<K,V> of()
 static <K,V> Map<K,V> of(K k1, V v1)
@@ -685,14 +690,16 @@ static <K,V> Map<K,V> ofEntries(Map.Entry<? extends K,? extends V>... entries)
 
 Java 9 还提供了一种创建 Map entry 实例的特殊方法。
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 static <K,V> Map.Entry<K,V> entry(K k, V v)
 ----
 
 查看下面的例子：
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 include::{java-code}/java9/ImmutableCollections.java[tag=list]
 ----
@@ -736,26 +743,30 @@ include::{java-code}/java9/Tests.java[tag=testDropWhile]
 
 Java 8 中 `iterate` 方法签名:
 
-[source,,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 8
 ----
 static Stream iterate(final T seed, final UnaryOperator f)
 ----
 
 在 Java 9 中，新的重载版本的 `iterate` 将 `Predicate` 作为第二个参数：
 
-[source,,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 static Stream iterate(T seed, Predicate hasNext, UnaryOperator next)
 ----
 
 让我们看一个例子来了解一下在 Java 8 和 Java 9 中的区别
 
-[source,,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::{java-code}/java9/IterateTest.java[tag=java8]
 ----
 
-[source,,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::{java-code}/java9/IterateTest.java[tag=java9]
 ----
@@ -764,7 +775,8 @@ include::{java-code}/java9/IterateTest.java[tag=java9]
 
 在 Java 9 中，`ofNullable` 方法允许您创建一个单元素流，如果不为空则包装一个值，否则为 empty 流。
 
-[source,,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 include::{java-code}/java9/Tests.java[tag=ofNullable]
 ----
@@ -882,7 +894,8 @@ Java 9 中有新的方式来处理 HTTP 调用.它提供了一个新的 HTTP 客
 
 在 Java 9 中，引入了一个新类 `StackWalker`。该类使用当前线程的堆栈帧的顺序流提供简单有效的堆栈遍历。 `StackWalker` 类非常高效，因为它惰性地对栈帧进行评估。
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 9
 ----
 // Prints the details of all stack frames of the current thread
 

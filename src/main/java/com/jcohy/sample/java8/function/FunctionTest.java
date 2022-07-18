@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 public class FunctionTest {
 
 
+	// tag::function[]
     public String strHandler(String str, Function<String, String> function) {
         return function.apply(str);
     }
@@ -26,4 +27,5 @@ public class FunctionTest {
         // result: \t\t\t 哈哈哈哈哈哈哈
         System.out.println(newStr);
     }
+	// end::function[]
 }

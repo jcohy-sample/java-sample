@@ -19,8 +19,6 @@ import static java.util.Comparator.comparingInt;
  * @since 2022.0.1
  */
 public class EndStream {
-    // tag::supplier[]
-    // end::supplier[]
 
     @Test
     void endStream() {

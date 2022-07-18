@@ -381,56 +381,7 @@ Java NIO 中的 `DatagramChannel` 是一个能收发 UDP 包的通道.
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-  @Test
-    public void send() throws IOException {
-        DatagramChannel dc = DatagramChannel.open();
-        dc.configureBlocking(false);
-
-        ByteBuffer buf = ByteBuffer.allocate(1024);
-
-        Scanner scan = new Scanner(System.in);
-
-        while(scan.hasNext()){
-            String str = scan.next();
-            buf.put((new Date().toString() + ":\n" + str).getBytes());
-            buf.flip();
-            dc.send(buf, new InetSocketAddress("127.0.0.1", 9898));
-            buf.clear();
-        }
-
-        dc.close();
-    }
-    @Test
-    public void receive() throws IOException{
-        DatagramChannel dc = DatagramChannel.open();
-
-        dc.configureBlocking(false);
-
-        dc.bind(new InetSocketAddress(9898));
-
-        Selector selector = Selector.open();
-
-        dc.register(selector, SelectionKey.OP_READ);
-
-        while(selector.select() > 0){
-            Iterator<SelectionKey> it = selector.selectedKeys().iterator();
-
-            while(it.hasNext()){
-                SelectionKey sk = it.next();
-
-                if(sk.isReadable()){
-                    ByteBuffer buf = ByteBuffer.allocate(1024);
-
-                    dc.receive(buf);
-                    buf.flip();
-                    System.out.println(new String(buf.array(), 0, buf.limit()));
-                    buf.clear();
-                }
-            }
-
-            it.remove();
-        }
-    }
+include::{java-code}/nio/DatagramChannelTest.java[]
 ----
 
 [[java-nio-pipe]]
@@ -447,29 +398,11 @@ image::{oss-images}/java-nio-pipe1.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-@Test
-    public void test() throws IOException {
-        //1. 获取管道
-        Pipe pipe = Pipe.open();
-        //2. 将缓冲区中的数据写入管道
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-        Pipe.SinkChannel sinkChannel = pipe.sink();
-        buffer.put("通过单向管道发送数据".getBytes());
-        buffer.flip();
-        sinkChannel.write(buffer);
-        //3. 读取缓冲区中的数据
-        Pipe.SourceChannel sourceChannel = pipe.source();
-        buffer.flip();
-        int len = sourceChannel.read(buffer);
-        System.out.println(new String(buffer.array(), 0, len));
-
-        sourceChannel.close();
-        sinkChannel.close();
-    }
+include::{java-code}/nio/PipeTest.java[]
 ----
 
 [[java-nio-nio2]]
-== Java NIO2
+== Java NIO 2
 
 随着 JDK 7 的发布,Java 对 NIO 进行了极大的扩展,增强了对文件处理和文件系统特性的支持,以至于我们称他们为 NIO.2.因为 NIO 提供的一些功能,NIO 已经成为文件处理中越来越重要的部分.
 
@@ -570,15 +503,15 @@ Java 7 增加了一个新特性,该特性提供了另外一种管理资源的方
 
 [source,java]
 ----
-try(需要关闭的资源声明){
-    //可能发生异常的语句
-} catch(异常类型变量名) {
-//异常的处理语句
-}
-// ……
-finally {
-//一定执行的语句
-}
+    try(需要关闭的资源声明){
+        //可能发生异常的语句
+    } catch(异常类型变量名) {
+        //异常的处理语句
+    }
+        // ……
+    finally {
+        //一定执行的语句
+    }
 ----
 
 [NOTE]
@@ -593,17 +526,5 @@ finally {
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-//自动资源管理: 自动关闭实现 AutoCloseable 接口的资源
-	@Test
-	public void test8(){
-		try(FileChannel inChannel = FileChannel.open(Paths.get("1.jpg"), StandardOpenOption.READ);
-				FileChannel outChannel = FileChannel.open(Paths.get("2.jpg"), StandardOpenOption.WRITE, StandardOpenOption.CREATE)){
-
-			ByteBuffer buf = ByteBuffer.allocate(1024);
-			inChannel.read(buf);
-
-		}catch(IOException e){
-
-		}
-	}
+include::{java-code}/nio/AutoCloseableTest.java[tag=close]
 ----

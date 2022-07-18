@@ -502,7 +502,7 @@ output.close();
 * String.repeat(int count): 将字符串重复 count 次后返回。
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/StringApi.java[tag=repeat]
 ----
@@ -510,7 +510,7 @@ include::{java-code}/java11/StringApi.java[tag=repeat]
 如果你使用的 JDK 版本小于 10，可以考虑使用以下方法：
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/StringApi.java[tag=repeatWithRegex]
 ----
@@ -518,14 +518,13 @@ include::{java-code}/java11/StringApi.java[tag=repeatWithRegex]
 * String.isBlank()：判断给定字符串是否为空，它使用 `Character.isWhitespace(char)` 方法来确定一个空白字符
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/StringApi.java[tag=isBlank]
 ----
 +
-[NOTE]
 .isBlank() vs isEmpty()
-====
+****
 这两种方法都用于检查 java 中的空白字符或空字符串。两种方法的区别在于 `isEmpty()` 方法在在当字符串长度为 `0` 时才返回 `true`。
 
 isBlank() 方法只检查非空白字符。它不检查字符串长度。
@@ -535,7 +534,7 @@ isBlank() 方法只检查非空白字符。它不检查字符串长度。
 ----
 include::{java-code}/java11/StringApi.java[tag=isEmpty]
 ----
-====
+****
 
 * String strip() : 从 Java 11 开始，String 类提供了 3 个方法来删除多余的空格。这些方法使用 `Character.isWhitespace(char)` 方法来确定一个空白字符。
 ** String strip(): 删除所有两边空白字符。请注意 `String.trim()` 方法也会产生相同的结果。
@@ -543,7 +542,7 @@ include::{java-code}/java11/StringApi.java[tag=isEmpty]
 ** String stripTrailing(): 删除后面的空白字符
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/StringApi.java[tag=strip]
 ----
@@ -564,7 +563,7 @@ include::{java-code}/java11/StringApi.java[tag=strip]
 |===
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/StringApi.java[tag=stripWithRegex]
 ----
@@ -572,7 +571,7 @@ include::{java-code}/java11/StringApi.java[tag=stripWithRegex]
 * String.lines(): lines() 方法是一个静态方法，返回多行文本中的每一行作为流返回，由行终止符分隔。行终止符可能为：换行符 (“\n”)，回车符 (“\r”)，回车换行符 (“\r\n”)。其顺序与在文本中出现的顺序一样
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/StringApi.java[tag=lines]
 ----
@@ -585,7 +584,7 @@ include::{java-code}/java11/StringApi.java[tag=lines]
 在 Java 11 之前，将集合转换为数组并不简单。 Java 11 使转换更加方便。
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/CollectionApi.java[tag=toArray]
 ----
@@ -596,7 +595,7 @@ include::{java-code}/java11/CollectionApi.java[tag=toArray]
 * Files.readString(): 将文件中的所有把内容读入字符串。他有两个重载方法。注意，此方法不适用于读取大文件，容易造成 `OutOfMemoryError` 错误。
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/FilesApi.java[tag=readString]
 ----
@@ -604,7 +603,7 @@ include::{java-code}/java11/FilesApi.java[tag=readString]
 * Files.writeString(): 将字符串写入文件中，他有两个重载方法。
 +
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/FilesApi.java[tag=writeString]
 ----
@@ -617,7 +616,7 @@ include::{java-code}/java11/FilesApi.java[tag=writeString]
 所以我们无论如何都不要写否定条件。 适当时使用这两种方法中的任何一种。
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
+.Java 11
 ----
 include::{java-code}/java11/OptionalApi.java[tag=optional]
 ----
