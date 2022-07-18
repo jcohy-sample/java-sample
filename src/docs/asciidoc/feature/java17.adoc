@@ -916,7 +916,7 @@ switch (o) {
 将删除远程方法调用 (RMI) 激活机制，但应保留 RMI 的其余部分。RMI 激活机制已变得多余，不再使用。Java SE 15 中的 JEP 385 弃用了它并建议将其删除。
 
 [[java-17-feature-sealed]]
-== 密封类 (预览)
+== 密封类
 
 [[java-17-feature-sealed-summary]]
 === 简介

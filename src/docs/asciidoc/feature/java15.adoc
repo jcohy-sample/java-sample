@@ -136,7 +136,7 @@ PublicKey pubKey = kf.generatePublic(pubSpec);
 [[java-15-feature-eddsa-alternatives]]
 === 备选方案
 
-* 本地实现(例如现有的ECC代码)可能会提供更好的性能。 EdDSA 的性能应该类似于 XDH，因此 Java 实现可能足够快。
+* 本地实现(例如现有的 ECC 代码)可能会提供更好的性能。 EdDSA 的性能应该类似于 XDH，因此 Java 实现可能足够快。
 * 可以使用现有 ECC 代码中的点算术来实现此签名方案，但是这种方法不能提供 RFC 8032 的所有安全/性能优势。
 * 用户可以使用提供对 EdDSA 支持的第三方库。 上面的动机部分介绍了在 JDK 中包含 EdDSA 实现的动机。
 * 使用现有的 ECC API 类来指定 EdDSA 密钥和参数在技术上可能是可行的，但这会带来密钥滥用的巨大风险。 可以在 https://bugs.openjdk.java.net/browse/JDK-8166597[JDK-8166597] 中找到更多信息。
@@ -443,7 +443,7 @@ PermittedSubclasses_attribute {
 [[java-15-feature-hidden-summary]]
 === 简介
 
-隐藏类，就是不能直接被其他class的二进制代码使用的class，主要被一些框架用来生成运行时类，但是这些类不是被用来直接使用的，而是通过反射机制来调用。隐藏类可被定义为访问控制嵌套的成员，并且可以独立于其他类进行卸载。
+隐藏类，就是不能直接被其他 class 的二进制代码使用的 class，主要被一些框架用来生成运行时类，但是这些类不是被用来直接使用的，而是通过反射机制来调用。隐藏类可被定义为访问控制嵌套的成员，并且可以独立于其他类进行卸载。
 
 [[java-15-feature-hidden-goals]]
 === 目标
@@ -462,7 +462,7 @@ PermittedSubclasses_attribute {
 [[java-15-feature-hidden-motivation]]
 === 动机
 
-基于JVM的很多语言都有动态生成类的机制，这样可以提高语言的灵活性和效率。 例如，对于 Java 语言，javac 不会在编译的时候将 lambda 表达式转换成为专门的类，而是在运行时将相应的字节码 https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/invoke/LambdaMetafactory.html[动态生成相应的类对象]。
+基于 JVM 的很多语言都有动态生成类的机制，这样可以提高语言的灵活性和效率。 例如，对于 Java 语言，javac 不会在编译的时候将 lambda 表达式转换成为专门的类，而是在运行时将相应的字节码 https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/invoke/LambdaMetafactory.html[动态生成相应的类对象]。
 同样，非 Java 语言的运行时通常使用 https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/reflect/Proxy.html[动态代理] 来实现那些语言的高级功能，这些代理也可以动态生成类。
 
 语言实现者通常希望动态生成的类在逻辑上成为静态生成的类的实现的一部分。那么我们希望这些动态生成的类需要具有什么特性呢？:
@@ -480,7 +480,7 @@ PermittedSubclasses_attribute {
 
 * `java.lang.reflect.Proxy` 可以定义隐藏类作为实现代理接口的代理类。
 * `java.lang.invoke.StringConcatFactory` 可以生成隐藏类来保存常量连接方法；
-* `java.lang.invoke.LambdaMetaFactory` 可以生成隐藏的nestmate类，以容纳访问封闭变量的 lambda 主体；
+* `java.lang.invoke.LambdaMetaFactory` 可以生成隐藏的 nestmate 类，以容纳访问封闭变量的 lambda 主体；
 * JavaScript 引擎可以为从 JavaScript 程序转换的字节码生成隐藏类，因为当引擎不再使用这些类时，这些类将被卸载。
 
 [[java-15-feature-hidden-description]]
@@ -496,7 +496,7 @@ Java 9 通过引入方法 `Lookup::defineClass(byte[])` 增强了查找对象的
 该 JEP 建议扩展 `Lookup` API 以支持定义只能通过反射访问的隐藏类。JVM 在字节码链接期间无法发现隐藏的类，也不能通过显式使用类加载器的程序(例如，通过 `Class::forName` 和 `ClassLoader::loadClass`) 发现隐藏的类。
 当隐藏的类不再可访问时，可以将其卸载，也可以共享一个类加载器的生存期，以便仅在对类加载器进行垃圾回收时才将其卸载。 (可选)可以将隐藏类创建为访问控制嵌套的成员。
 
-为简便起见，此JEP称 "隐藏类"，但应理解为表示隐藏类或接口。 同样，"普通类" 表示普通类或接口，即 `ClassLoader::defineClass` 的结果。
+为简便起见，此 JEP 称 "隐藏类"，但应理解为表示隐藏类或接口。 同样，"普通类" 表示普通类或接口，即 `ClassLoader::defineClass` 的结果。
 
 [[java-15-feature-hidden-description-create]]
 ==== 创建隐藏类
@@ -2004,6 +2004,8 @@ int sum = StreamSupport.stream(MemorySegment.spliterator(segment, seq_bulk), tru
 === 简介
 
 Records 是在 2019 年年中由 https://openjdk.java.net/jeps/359[JEP 359] 提出的，并在 2020 年初在 JDK 14 中作为一个预览特性。这个 JEP 提议重新预览 JDK 15 中的特性，以结合基于反馈的改进，并支持 Java 语言中本地类和接口的其他形式。
+
+在第二次预览中，record 有一些小的变化。 现在不应通过反射修改 record 中的字段，因为它会抛出 `IllegalAccessException`。
 
 [[java-15-feature-record-goal]]
 === 目标

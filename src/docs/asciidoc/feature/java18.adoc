@@ -326,9 +326,9 @@ include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet2]
 
 `file` 属性值为文件的名称，`region` 属性表示要显示的区域。有关 `@start` 和 `@end` 标签的更多信息，请参考 <<java-18-feature-snippet-region>>
 
-在此示例中，输出和上面的一样：
+在此示例中，输出和上面的一样
 
-image::{oss-images}/java18-snippet2.png[]
+image::{oss-images}/java18-snippet1.png[]
 
 与内联片段不同，外部片段对其内容没有限制。 特别是，它们可能包含 /* ... */ 注释。
 

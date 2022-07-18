@@ -501,37 +501,23 @@ Java 8 中规定接口中的方法除了抽象方法之外,还可以定义静态
 在接口中使用私有方法的一个例子:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 8
+.Java 9
 ----
-include::{java-code}/java9/PrivateInterface.java
-----
-
-输出结果如下:
-
-[source,text]
-.Java 8
-----
-abstract method
-private method
-private static method
-default method
-private static method
-static method
-include::{java-code}/java9/PrivateInterface.java
+include::{java-code}/java9/PrivateInterface.java[]
 ----
 
 让我们再看一个例子来了解接口私有方法的用法。我们创建了一个 `CustomCalculator`  类，里面包含两个方法，第一个方法接收整数并添加所有偶数，第二个方法接收整数并添加所有奇数。
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 8
+.Java 9
 ----
-include::{java-code}/java9/CustomCalculator.java
+include::{java-code}/java9/CustomCalculator.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 8
+.Java 9
 ----
-include::{java-code}/java9/Main.java
+include::{java-code}/java9/Main.java[]
 ----
 
 ==== 总结

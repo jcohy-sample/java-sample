@@ -58,6 +58,46 @@ Java 在 2018 年 3 月 21 日发布了第十个大版本.为了更快地迭代�
 
 但这种 `var` 变量类型推断的使用也有局限性,仅局限于具有初始化器的局部变量、增强型 `for` 循环中的索引变量以及在传统 `for` 循环中声明的局部变量,而不能用于推断方法的参数类型,不能用于构造函数参数类型推断,不能用于推断方法返回类型,也不能用于字段类型推断,同时还不能用于捕获表达式(或任何其他类型的变量声明).
 
+`var` 适用于：
+
+* 局部变量初始化
+* 循环中的索引变量
+* 传统 `for` 循环中声明的局部变量
+
+不适用于：
+
+* 方法参数
+* 构造器参数
+* 方法但会类型
+* 字段类型
+* 异常形式（或任何其他类型的变量声明）
+
+[source,java]
+----
+public class Application {
+
+  //var firstName;  //Not allowed as class fields
+
+  //public Application(var param){  //Not allowed as parameter
+
+    //}
+
+  /*try{
+
+    } catch(var ex){  //Not allowed as catch formal
+
+    }*/
+
+    /*public var demoMethod(){  //Not allowed in method return type
+      return null;
+    }*/
+
+    /*public Integer demoMethod2( var input ){  //Not allowed in method parameters
+      return null;
+    }*/
+}
+----
+
 不过对于开发者而言,变量类型显式声明会提供更加全面的程序语言信息,对于理解和维护代码有很大的帮助.Java 10 中新引入的局部变量类型推断能够帮助我们快速编写更加简洁的代码,但是局部变量类型推断的保留字 `var` 的使用势必会引起变量类型可视化缺失,并不是任何时候使用 `var` 都能容易、清晰的分辨出变量的类型.
 一旦 `var` 被广泛运用,开发者在没有 IDE 的支持下阅读代码,势必会对理解程序的执行流程带来一定的困难.所以还是建议尽量显式定义变量类型,在保持代码简洁的同时,也需要兼顾程序的易读性、可维护性.
 
@@ -109,14 +149,14 @@ CDS 特性在原来的 `bootstrap` 类基础之上,扩展加入了应用类的 C
 增加的参数为: `-XX:ThreadLocalHandshakes` (默认为开启),将允许用户在支持的平台上选择安全点.
 
 [[java-10-feature-native-header]]
-== 移除Native-Header自动生成工具
+== 移除 Native-Header 自动生成工具
 
 自 Java 9 以来便开始了一些对 JDK 的调整,用户每次调用 `javah` 工具时会被警告该工具在未来的版本中将会执行的删除操作.当编译 JNI 代码时,已不再需要单独的 `Native-Header` 工具来生成头文件,因为这可以通过 Java 8(JDK-7150368)中添加的 `javac` 来完成.在未来的某一时刻,JNI 将会被 Panama 项目的结果取代,但是何时发生还没有具体时间表.
 
 [[java-10-feature-unicode]]
 == 额外的 Unicode 语言标签扩展
 
-自 Java 7 开始支持 BCP 47 语言标记以来, JDK 中便增加了与日历和数字相关的 `Unicode` 区域设置扩展,在 Java 9 中,新增支持 ca 和 nu 两种语言标签扩展.而在 Java 10 中将继续增加 Unicode 语言标签扩展,具体为: 增强 `java.util.Locale` 类及其相关的 API,以更方便的获得所需要的语言地域环境信息.同时在这次升级中还带来了如下扩展支持:
+自 Java 7 开始支持 BCP 47 语言标记以来, JDK 中便增加了与日历和数字相关的 `Unicode`  `java.util.Local` 设置扩展,在 Java 9 中,新增支持 ca 和 nu 两种语言标签扩展.而在 Java 10 中将继续增加 Unicode 语言标签扩展,具体为: 增强 `java.util.Locale` 类及其相关的 API,以更方便的获得所需要的语言地域环境信息.同时在这次升级中还带来了如下扩展支持:
 
 [[java-10-feature-unicode-tbl]]
 .Unicode 扩展表
@@ -151,7 +191,7 @@ java.time.format.DateTimeFormatter::localizedBy
 要在这样的备用设备上进行堆分配,可以使用堆分配参数 `-XX: AllocateHeapAt = <path>`,这个参数将指向文件系统的文件并使用内存映射来达到在备用存储设备上进行堆分配的预期结果.
 
 [[java-10-feature-jit]]
-== 基于Java的实验性JIT编译器
+== 基于 Java 的实验性 JIT 编译器
 
 Java 10 中开启了基于 Java 的 JIT 编译器 `Graal`,并将其用作 Linux/x64 平台上的实验性 JIT 编译器开始进行测试和调试工作,另外 Graal 将使用 Java 9 中引入的 JVM 编译器接口(JVMCI).
 
@@ -189,6 +229,17 @@ Oracle Java 平台组的首席架构师 Mark Reinhold 在博客上介绍了有�
 
 `$FEATURE.$INTERIM.$UPDATE.$PATCH`
 
-`$FEATURE`,每次版本发布加 1,不考虑具体的版本内容.2018 年 3 月的版本是 JDK 10,9 月的版本是 JDK 11,依此类推.
 
-`$INTERIM`,中间版本号,在大版本中间发布的,包含问题修复和增强的版本,不会引入非兼容性修改.
+`$FEATURE`,每次版本发布加 1,不考虑具体的版本内容.2018 年 3 月的版本是 JDK 10,9 月的版本是 JDK 11,依此类推. 以前是  `$MAJOR`
+
+`$INTERIM`,中间版本号,在大版本中间发布的,包含问题修复和增强的版本,不会引入非兼容性修改.以前是  `$MINOR`
+
+`$UPDATE` 对于修复新功能中的安全问题、回归和错误的兼容更新版本，它将增加。 （以前的 `$SECURITY`。）
+
+`$PATCH` 仅当需要生成紧急版本以解决关键问题时才会增加。
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 10
+----
+include::{java-code}/java10/VersionTest.java[]
+----

@@ -48,7 +48,13 @@ class CustomClass implements PrivateInterface {
         instance.method1();
         instance.method2();
         PrivateInterface.method3();
-        //
+        // 输出：
+        // abstract method
+        // private method
+        // private static method
+        // default method
+        // private static method
+        // static method
     }
 }
 

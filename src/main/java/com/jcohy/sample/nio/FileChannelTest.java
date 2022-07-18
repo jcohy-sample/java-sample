@@ -64,7 +64,7 @@ public class FileChannelTest {
 
 	/**
 	 * MappedByteBuffer 采用 direct buffer 的方式读写文件内容,这种方式就是内存映射。
-	 * 这种方式直接调用系统底层的缓存,没有JVM和系统之间的复制操作，所以效率非常高。主要用于操作大文件。
+	 * 这种方式直接调用系统底层的缓存,没有 JVM 和系统之间的复制操作，所以效率非常高。主要用于操作大文件。
 	 */
 	@Test
 	void mappedBuf() throws IOException {

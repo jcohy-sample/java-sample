@@ -30,13 +30,13 @@ Java 12 早在 2018 年 12 月便进入了 Rampdown Phase One 阶段,这意味�
 
 | 334: http://openjdk.java.net/jeps/334[JVM Constants API] | 引入 JVM 常量 API
 
-| 340: http://openjdk.java.net/jeps/340[One AArch64 Port, Not Two] | 只保留一个AArch64实现
+| 340: http://openjdk.java.net/jeps/340[One AArch64 Port, Not Two] | 只保留一个 AArch64 实现
 
 | 341: http://openjdk.java.net/jeps/341[Default CDS Archives] | 默认类数据共享(CDS)存档
 
-| 344: http://openjdk.java.net/jeps/344[Abortable Mixed Collections for G1] | 可中止的G1 Mixed GC
+| 344: http://openjdk.java.net/jeps/344[Abortable Mixed Collections for G1] | 可中止的 G1 Mixed GC
 
-| 346: http://openjdk.java.net/jeps/346[Promptly Return Unused Committed Memory from G1] | G1及时返回未使用的已分配内存
+| 346: http://openjdk.java.net/jeps/346[Promptly Return Unused Committed Memory from G1] | G1 及时返回未使用的已分配内存
 |===
 
 [[java-12-feature-shenandoah]]
@@ -132,7 +132,7 @@ image::https://www.ibm.com/developerworks/cn/java/the-new-features-of-Java-12/im
 不过目前 Shenandoah 垃圾回收器还被标记为实验项目,需要使用参数: `- XX:+UnlockExperimentalVMOptions` 启用.更多有关如何配置、调试 Shenandoah 的信息,请参阅 https://wiki.openjdk.java.net/display/shenandoah[henandoah wiki].
 
 [[java-12-feature-switch]]
-== Switch 表达式扩展
+== Switch 表达式扩展（第一次预览）
 
 传统的 `switch` 声明语句(switch statement)在使用中有一些问题:
 
@@ -604,9 +604,9 @@ JDK 12 版本包括对 Unicode 11.0.0 的支持.在发布支持 Unicode 10.0.0 �
 
 其中:
 
-* 684个新字符,包含以下重要内容:
-* 66个表情符号字符(66 emoji characters)
-* Copyleft符号(Copyleft symbol)
+* 684 个新字符,包含以下重要内容:
+* 66 个表情符号字符(66 emoji characters)
+* Copyleft 符号(Copyleft symbol)
 
 评级系统的半星(Half stars for rating systems)
 
@@ -652,19 +652,6 @@ public void testCompactNumberFormat(){
 }
 ----
 
-输出
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 12
-----
-1万
-2万
-100万
-11亿
-1兆
-1126兆
-----
-
 [[java-12-feature-other-String]]
 ===  String 新增方法
 
@@ -675,19 +662,7 @@ JDK-8203442 引入的一个小方法,它提供的函数作为输入提供给特�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-var result = "foo".transform(input -> input + " bar");
-System.out.println(result); // foo bar
-----
-
-或者
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 12
-----
-var result = "foo"
-    .transform(input -> input + " bar")
-    .transform(String::toUpperCase)
-    System.out.println(result); // FOO BAR
+include::{java-code}/java12/StringTest.java[tag=transform]
 ----
 
 对应源码
@@ -725,27 +700,7 @@ public <R> R transform(Function<? super String, ? extends R> f) {
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-private static void testTransform() {
-    System.out.println("======test java 12 transform======");
-    List<String> list1 = List.of("Java", " Python", " C++ ");
-    List<String> list2 = new ArrayList<>();
-    list1.forEach(element -> list2.add(element.transform(String::strip)
-                                       .transform(String::toUpperCase)
-                                       .transform((e) -> "Hi," + e))
-                 );
-    list2.forEach(System.out::println);
-}
-----
-
-结果输出
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 12
-----
-======test java 12 transform======
-    Hi,JAVA
-    Hi,PYTHON
-    Hi,C++
+include::{java-code}/java12/StringTest.java[tag=transform2]
 ----
 
 示例是对一个字符串连续转换了三遍,代码很简单.如果使用 Java 8 的 `Stream` 特性,可以如下实现:
@@ -753,16 +708,8 @@ private static void testTransform() {
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-private static void testTransform1() {
-    System.out.println("======test before java 12 ======");
-    List<String> list1 = List.of("Java ", " Python", " C++ ");
-    Stream<String> stringStream = list1.stream().map(element ->
-                                                     element.strip()).map(String::toUpperCase).map(element -> "Hello," + element);
-    List<String> list2 = stringStream.collect(Collectors.toList());
-    list2.forEach(System.out::println);
-}
+include::{java-code}/java12/StringTest.java[tag=transform3]
 ----
-
 
 ==== String#indent
 
@@ -773,22 +720,7 @@ private static void testTransform1() {
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-private static void testIndent() {
-    System.out.println("======test java 12 indent======");
-    String result = "Java\n Python\nC++".indent(3);
-    System.out.println(result);
-}
-----
-
-结果输出:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 12
-----
-======test java 12 indent======
-Java
-	Python
-C++
+include::{java-code}/java12/StringTest.java[tag=indent]
 ----
 
 换行符 `\n` 后向前缩进 `n` 个空格,为 `0` 或负数不缩进.
@@ -830,30 +762,46 @@ public String indent(int n) {
 
 其实就是调用了 `lines()`` 方法来创建一个 `Stream`,然后再往前拼接指定数量的空格.
 
+从 Java 12 开始，String 类实现了两个额外的接口 `java.lang.constant.Constable` 和 `java.lang.constant.ConstantDesc`。
+
+==== String 常量
+
+String 类还引入了两个额外的方法 `describeConstable()` 和 `resolveConstantDesc(MethodHandles.Lookup)`。
+
+它们是底层 API，用于提供字节码解析和生成功能的库和工具，例如 Byte Buddy。
+
+请注意，`Constable` 类型的值是可以在 Java 类文件的常量池中表示的常量，如 https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4[JVMS 4.4] 中所述，并且其实例可以名义上将自己描述为 `ConstantDesc`。
+
+`resolveConstantDesc()` 与 `describeConstable()` 类似，不同之处在于此方法返回的是 `ConstantDesc` 的实例。
+
 [[java-12-feature-other-files]]
 ===  Files 新增 `mismatch` 方法
+
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-@Test
-public void testFilesMismatch() throws IOException {
-    FileWriter fileWriter = new FileWriter("tmp\\a.txt");
-    fileWriter.write("a");
-    fileWriter.write("b");
-    fileWriter.write("c");
-    fileWriter.close();
-    FileWriter fileWriterB = new FileWriter("tmp\\b.txt");
-    fileWriterB.write("a");
-    fileWriterB.write("1");
-    fileWriterB.write("c");
-    fileWriterB.close();
-    System.out.println(Files.mismatch(Path.of("tmp/a.txt"),Path.of("tmp/b.txt")));
-}
+include::{java-code}/java12/FileTest.java[tag=mismatch]
+----
+
+[[java-12-feature-grama-collectors]]
+=== Collectors.teeing()
+
+`teeing(Collector, Collector, BiFunction)` 接受两个收集器和一个函数来合并它们的结果。 传递给结果收集器的每个元素都由两个下游收集器处理，然后使用指定的合并函数将它们的结果合并到最终结果中。
+
+例如，在给定的员工列表中，如果我们想找出最高薪水和最低薪水的员工，我们可以使用 `teeing` collector 在单个语句中完成。
+
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 12
+----
+include::{java-code}/java12/StreamApi.java[tag=teeing]
 ----
 
 [[java-12-feature-other-others]]
 ===  其他
+
+
 
 ==== 其他
 
