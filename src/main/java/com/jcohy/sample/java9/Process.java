@@ -31,13 +31,13 @@ public class Process {
     // end::process1[]
 
     // tag::process2[]
-    @Test
-    void process2() {
-        String javaPrompt = ProcessUtils.getJavaCmd().getAbsolutePath();
-        ProcessBuilder processBuilder = new ProcessBuilder(javaPrompt, "-version");
-        Process process = processBuilder.inheritIO().start();
-        ProcessHandle processHandle = process.toHandle();
-    }
+//    @Test
+//    void process2() {
+//        String javaPrompt = ProcessUtils.getJavaCmd().getAbsolutePath();
+//        ProcessBuilder processBuilder = new ProcessBuilder(javaPrompt, "-version");
+//        Process process = processBuilder.inheritIO().start();
+//        ProcessHandle processHandle = process.toHandle();
+//    }
     // end::process2[]
 
     // tag::process3[]

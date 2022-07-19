@@ -1,0 +1,26 @@
+[[java-collection]]
+= Java 集合
+
+早在 Java 2 中之前，Java 就提供了特设类。比如：`Dictionary`, `Vector`, `Stack`, 和 `Properties` 这些类用来存储和操作对象组。
+
+虽然这些类都非常有用，但是它们缺少一个核心的，统一的主题。由于这个原因，使用 `Vector` 类的方式和使用 `Properties` 类的方式有着很大不同。
+
+集合框架被设计成要满足以下几个目标。
+
+* 该框架必须是高性能的。基本集合（动态数组，链表，树，哈希表）的实现也必须是高效的。
+* 该框架允许不同类型的集合，以类似的方式工作，具有高度的互操作性。
+* 对一个集合的扩展和适应必须是简单的。
+
+为此，整个集合框架就围绕一组标准接口而设计。你可以直接使用这些接口的标准实现，诸如： `LinkedList`, `HashSet`, 和 `TreeSet` 等,除此之外你也可以通过这些接口实现自己的集合。
+
+image::{oss-images}/java/map-uml.png[]
+
+image::{oss-images}/java/collections-uml.png[]
+
+include::collection/ArrayList.adoc[leveloffset=+1]
+
+include::collection/HashMap.adoc[leveloffset=+1]
+
+include::collection/LinkedHashMap.adoc[leveloffset=+1]
+
+include::collection/HashSet.adoc[leveloffset=+1]

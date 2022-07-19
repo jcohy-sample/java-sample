@@ -1,0 +1,235 @@
+[[java-arraylist]]
+=  ArrayList
+
+[[java-arraylist-overview]]
+==  概述
+
+`ArrayList` 是 `List` 接口的可变数组的实现.实现了所有可选列表操作,并允许包括 `null` 在内的所有元素.除了实现 `List` 接口外,此类还提供一些方法来操作内部用来存储列表的数组的大小.
+
+每个 `ArrayList` 实例都有一个容量,该容量是指用来存储列表元素的数组的大小.它总是至少等于列表的大小.随着向 `ArrayList` 中不断添加元素, 其容量也自动增长.自动增长会带来数据向新数组的重新拷贝,因此,如果可预知数据量的多少,可在构造 `ArrayList` 时指定其容量.在添加大量元素前, 应用程序也可以使用 `ensureCapacity` 操作来增加 `ArrayList` 实例的容量,这可以减少递增式再分配的数量.
+
+[NOTE]
+====
+注意,此实现不是同步的.如果多个线程同时访问一个 `ArrayList` 实例,而其中至少一个线程从结构上修改了列表,那么它必须保持外部同步.
+====
+
+[[java-arraylist-impl]]
+== ArrayList 的实现
+
+对于 `ArrayList` 而言,它实现 `List` 接口、底层使用数组保存所有元素.其操作基本上是对数组的操作.下面我们来分析 `ArrayList` 的源代码
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+
+//底层使用数组实现
+private transient Object[] elementData;
+----
+
+
+`ArrayList` 提供了三种方式的构造器,可以构造一个默认初始容量为 `10` 的空列表、构造 一个指定初始容量的空列表以及构造一个包含指定 `collection` 的元素的列表,这些元素按照该 `collection` 的迭代器返回它们的顺序排列的.
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
+
+public ArrayList() {
+    this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+}
+
+public ArrayList(int initialCapacity) {
+    if (initialCapacity > 0) {
+        this.elementData = new Object[initialCapacity];
+    } else if (initialCapacity == 0) {
+        this.elementData = EMPTY_ELEMENTDATA;
+    } else {
+        throw new IllegalArgumentException("Illegal Capacity: "+
+                                           initialCapacity);
+    }
+}
+
+public ArrayList(Collection<? extends E> c) {
+    Object[] a = c.toArray();
+    if ((size = a.length) != 0) {
+        if (c.getClass() == ArrayList.class) {
+            elementData = a;
+        } else {
+            elementData = Arrays.copyOf(a, size, Object[].class);
+        }
+    } else {
+        // replace with empty array.
+        elementData = EMPTY_ELEMENTDATA;
+    }
+}
+----
+   
+关于构造函数明明构建了一个空列表，为什么说初始化容量为 `10` 呢？其实这里是为了节省内存内存，使用了懒加载机制，当我们使用 add 方法添加元素时，会将容量设置为 `10`。我们继续往下看
+                  
+[[java-arraylist-set]]
+===  存储
+
+`ArrayList` 提供了以下添加元素的方法.
+
+
+* E set(int index, E element): 用指定的元素替代此列表中指定位置上的元素,并返回以前位于该位置上的元素.
+* boolean add(E e): 将指定的元素添加到此列表的尾部
+* void add(int index, E element): 将指定的元素添加到此列表的指定位置
+* boolean addAll(Collection<? extends E> c): 按照指定 collection 的迭代器所返回的元素顺序,将该 collection 中的所有元素添加到此列表的尾部
+* boolean addAll(int index, Collection<? extends E> c): 从指定的位置开始,将指定 collection 中的所有元素插入到此列表中.
+
+[[java-arraylist-get]]
+===  读取
+
+* E get(int index): 返回此列表中指定位置上的元素
+
+[[java-arraylist-remove]]
+===  删除
+
+`ArrayList` 提供了两种删除元素的方法.
+
+*  E remove(int index): 移除此列表中指定位置的元素。 将剩余元素向左移动（从它们的索引中减去 1）。
+*  boolean remove(Object o): 从此列表中删除第一次出现的指定元素（如果存在）。 如果列表不包含该元素，则它不变。
+
+[NOTE]
+====
+注意: 从数组中移除元素的操作,也会导致被移除的元素以后的所有元素的向左移动一个位置.
+====
+
+[[java-arraylist-resize]]
+===  调整数组容量
+
+我们在上面说过，ArrayList 的无参构造方法会初始化一个空的列表，当我们 `第一次` 添加元素时，我们看看发生了什么？
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+public boolean add(E e) {
+    modCount++;
+    add(e, elementData, size);
+    return true;
+}
+
+private void add(E e, Object[] elementData, int s) {
+    // 当我们第一次添加元素时，elementData.length == s == 0, 此时会调用 grow() 方法调整数组容量
+    if (s == elementData.length)
+        elementData = grow();
+    // 向数组中添加元素
+    elementData[s] = e;
+    size = s + 1;
+}
+
+private Object[] grow() {
+    return grow(size + 1);
+}
+
+private Object[] grow(int minCapacity) {
+    // minCapacity = 1
+    // oldCapacity = 0
+    int oldCapacity = elementData.length;
+    // 条件为 false，直接执行 else 语句
+    if (oldCapacity > 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+        // 数组扩容
+        int newCapacity = ArraysSupport.newLength(oldCapacity,
+                minCapacity - oldCapacity, /* minimum growth */
+                oldCapacity >> 1           /* preferred growth */);
+        return elementData = Arrays.copyOf(elementData, newCapacity);
+    } else {
+        // 如果 minCapacity 小于默认容量，则将数组设置为默认容量，默认大小为 10
+        return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
+    }
+}
+----
+
+我们只分析了一种添加元素的方法，其他的方法也一样，他们最终都会调用 `grow()` 方法来调整数组的容量。
+
+
+向 `ArrayList` 中存储元素的代码中,我们看到,每当向数组中添加元素时, 都要去检查添加后元素的个数是否会超出当前数组的长度,如果超出,数组将会进行扩容, 以满足添加数据的需求.数组扩容通过一个公开的方法 ensureCapacity(int minCapacity)来 实现.在实际添加大量元素前,我也可以使用 ensureCapacity 来手动增加 ArrayList 实例的容量,以减少递增式再分配的数量.
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+public void ensureCapacity(int minCapacity) {
+    if (minCapacity > elementData.length
+        && !(elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA
+             && minCapacity <= DEFAULT_CAPACITY)) {
+        modCount++;
+        // 可以看出，这里也使用 grow 方法。
+        grow(minCapacity);
+    }
+}
+----
+
+数组的扩容主要在 `ArraysSupport.newLength(int oldLength, int minGrowth, int prefGrowth)` 方法中。我们假设现在我的数组长度为 10，当我们添加第 11 个元素时，数组如何进行扩容。我们从 `grow()` 方法开始：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+private Object[] grow(int minCapacity) {
+    // minCapacity = 11
+    // 获取老容量，也就是当前容量 oldCapacity = 10
+    int oldCapacity = elementData.length;
+    // 条件为 true
+    if (oldCapacity > 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+        // 数组扩容
+        int newCapacity = ArraysSupport.newLength(oldCapacity,
+                // minCapacity 是传入的参数，它的值是当前容量（老容量）+ 1, 那么 minCapacity - oldCapacity 的值就恒为 1，minimum growth 的值也就恒为 1。
+                minCapacity - oldCapacity, /* minimum growth */
+                // oldCapacity >> 1的功能是将 oldCapacity 进行位运算，右移一位，也就是减半，preferred growth 的值即为 oldCapacity 大小的一半。
+                oldCapacity >> 1           /* preferred growth */);
+        return elementData = Arrays.copyOf(elementData, newCapacity);
+    } else {
+        return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
+    }
+}
+
+public static int newLength(int oldLength, int minGrowth, int prefGrowth) {
+    // preconditions not checked because of inlining
+    // assert oldLength >= 0
+    // assert minGrowth > 0
+    // oldLength = 10
+    // minGrowth = 1
+    // prefGrowth = 5
+    // 新的数组长度为 oldLength + Math.max(minGrowth, prefGrowth) 。 此时，prefLength = 15
+    int prefLength = oldLength + Math.max(minGrowth, prefGrowth); // might overflow
+    if (0 < prefLength && prefLength <= SOFT_MAX_ARRAY_LENGTH) {
+        return prefLength;
+    } else {
+        // put code cold in a separate method
+        return hugeLength(oldLength, minGrowth);
+    }
+}
+----
+
+从上述代码中可以看出,数组进行扩容时,会将老数组中的元素重新拷贝一份到新的数 组中,每次数组容量的增长大约是其原容量的 1.5 倍.这种操作的代价是很高的,因此在实
+际使用时,我们应该尽量避免数组容量的扩张.当我们可预知要保存的元素的多少时,要在构造 `ArrayList` 实例时,就指定其容量,以避免数组扩容的发生.或者根据实际需求,通过
+调用 `ensureCapacity` 方法来手动增加 `ArrayList` 实例的容量.
+
+`ArrayList` 还给我们提供了将底层数组的容量调整为当前列表保存的实际元素的大小的功能.它可以通过 `trimToSize` 方法来实现.代码如下:
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+public void trimToSize() {
+    modCount++;
+    if (size < elementData.length) {
+        elementData = (size == 0)
+          ? EMPTY_ELEMENTDATA
+          : Arrays.copyOf(elementData, size);
+    }
+}
+----
+
+        
+[[java-arraylist-fast-fail]]
+===  Fail-Fast 机制
+
+`ArrayList` 也采用了快速失败的机制,通过记录 `modCount` 参数来实现.在面对并发的 修改时,迭代器很快就会完全失败,而不是冒着在将来某个不确定时间发生任意不确定行为的风险.
+具体介绍请参考我之前的文章 <<java-hashmap,Java 集合之 HashMap>>  中的 Fail-Fast 机制
+
+[[java-arraylist-qa]]
+==  Q&A
+
+
+[[java-arraylist-extends]]
+==  扩展

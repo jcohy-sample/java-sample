@@ -20,7 +20,7 @@ public class SupplierTest {
     // tag::supplier[]
     //获取指定个数数字
     public List<Integer> getNumList(int num, Supplier<Integer> supplier) {
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<>(3);
         for (int i = 0; i < num; i++) {
             Integer integer = supplier.get();
             list.add(integer);
@@ -49,4 +49,13 @@ public class SupplierTest {
         }
     }
     // end::supplier[]
+
+    @Test
+    void teste() {
+        System.out.println(Integer.toBinaryString(10));
+        System.out.println(10 >> 4);
+        System.out.println(Integer.toBinaryString(10 >> 4));
+        System.out.println(10 << 4);
+        System.out.println(Integer.toBinaryString(10 << 4));
+    }
 }
