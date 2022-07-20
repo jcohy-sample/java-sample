@@ -1,14 +1,11 @@
 package com.jcohy.sample.build;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.jcohy.convention.conventions.ConventionsPlugin;
 import com.jcohy.convention.deployed.DeployedPlugin;
 import org.asciidoctor.gradle.jvm.AbstractAsciidoctorTask;
-import org.asciidoctor.gradle.jvm.AsciidoctorJExtension;
 import org.asciidoctor.gradle.jvm.AsciidoctorJPlugin;
 import org.gradle.api.JavaVersion;
 import org.gradle.api.Plugin;

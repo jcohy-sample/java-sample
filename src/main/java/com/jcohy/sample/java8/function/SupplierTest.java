@@ -1,7 +1,9 @@
 package com.jcohy.sample.java8.function;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,7 @@ public class SupplierTest {
     // tag::supplier[]
     //获取指定个数数字
     public List<Integer> getNumList(int num, Supplier<Integer> supplier) {
-        List<Integer> list = new ArrayList<>(3);
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             Integer integer = supplier.get();
             list.add(integer);
@@ -51,11 +53,16 @@ public class SupplierTest {
     // end::supplier[]
 
     @Test
-    void teste() {
-        System.out.println(Integer.toBinaryString(10));
-        System.out.println(10 >> 4);
-        System.out.println(Integer.toBinaryString(10 >> 4));
-        System.out.println(10 << 4);
-        System.out.println(Integer.toBinaryString(10 << 4));
+    void test() {
+        Map<String,String> maps = new HashMap<>();
+
+        for(int i = 0; i < 16; i++ ){
+            maps.put("key" + i, "value" + i);
+        }
+//        System.out.println(Integer.toBinaryString(10));
+//        System.out.println(10 >> 4);
+//        System.out.println(Integer.toBinaryString(10 >> 4));
+//        System.out.println(10 << 4);
+//        System.out.println(Integer.toBinaryString(10 << 4));
     }
 }

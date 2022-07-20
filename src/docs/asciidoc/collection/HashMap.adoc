@@ -68,10 +68,10 @@ public V put(K key, V value) {
             return oldValue;
             }
     }
-    // 如果i 索引处的Entry 为null,表明此处还没有Entry.
+    // 如果 i 索引处的 Entry 为 null,表明此处还没有 Entry.
     modCount++;
 
-     // 将key、value 添加到i 索引处.
+     // 将 key、value 添加到 i 索引处.
      addEntry(hash, key, value, i);
      return null;
  }
@@ -96,48 +96,47 @@ void addEntry(int hash, K key, V value, int bucketIndex) {
 
 `addEntry(hash, key, value, i)` 方法根据计算出的 `hash` 值,将 key-value 对放在数组 table 的 `i` 索引处.`addEntry` 是 `HashMap` 提供的一个包访问权限的方法.
 
-当系统决定存储 `HashMap` 中的key-value 对时,完全没有考虑 `Entry` 中的 `value`,仅仅只是根据 `key` 来计算并决定每个 `Entry` 的存储位置.我们完全可以把 `Map` 集合中的 `value` 当成 `key` 的附属,当系统决定了 `key` 的存储位置之后,`value` 随之保存在那里即可.
+当系统决定存储 `HashMap` 中的 key-value 对时,完全没有考虑 `Entry` 中的 `value`,仅仅只是根据 `key` 来计算并决定每个 `Entry` 的存储位置.我们完全可以把 `Map` 集合中的 `value` 当成 `key` 的附属,当系统决定了 `key` 的存储位置之后,`value` 随之保存在那里即可.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-                   static int hash(int h) {
-                         h ^= (h >>> 20) ^ (h >>> 12);
-                         return h ^ (h >>> 7) ^ (h >>> 4);
-                   }
+static int hash(int h) {
+     h ^= (h >>> 20) ^ (h >>> 12);
+     return h ^ (h >>> 7) ^ (h >>> 4);
+}
 ----
 
                          
 `hash(int h)` 方法根据 `key` 的 `hashCode` 重新计算一次散列.此算法加入了高位计算,防止低位不变,高位变化时,造成的 `hash` 冲突.
 
-我们可以看到在 `HashMap` 中要找到某个元素,需要根据 `key` 的 `hash` 值来求得对应数组中的位置.如何计算这个位置就是 `hash` 算法.前面说过 `HashMap` 的数据结构是数组和 链表的结合,所以我们当然希望这个 `HashMap` 里面的 元素位置尽量的分布均匀些,尽量
+我们可以看到在 `HashMap` 中要找到某个元素,需要根据 `key` 的 `hash` 值来求得对应数组中的位置.如何计算这个位置就是 `hash` 算法.前面说过 `HashMap` 的数据结构是数组和链表的结合,所以我们当然希望这个 `HashMap` 里面的 元素位置尽量的分布均匀些,尽量
 使得每个位置上的元素数量只有一个,那么当我们用 `hash` 算法求得这个位置的时候,马上就可以知道对应位置的元素就是我们要的,而不用再去遍历链表,这样就大大优化了查询的效率.
 
 对于任意给定的对象,只要它的 `hashCode()` 返回值相同,那么程序调用 `hash(int h)` 方 法所计算得到的 hash 码值总是相同的.我们首先想到的就是把  `hash` 值对数组长度取模运 算,这样一来,元素的分布相对来说是比较均匀的.但是, "模" 运算的消耗还是比较大的,
-在HashMap 中是这样做的: 调用 `indexFor(int h, int length)` 方法来计算该对象应该保存在 `table` 数组的哪个索引处.`indexFor(int h, int length)` 方法的代码如下:
+在 HashMap 中是这样做的: 调用 `indexFor(int h, int length)` 方法来计算该对象应该保存在 `table` 数组的哪个索引处.`indexFor(int h, int length)` 方法的代码如下:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-                static int indexFor(int h, int length) {
-                        return h & (length-1);
-                 }
+static int indexFor(int h, int length) {
+        return h & (length-1);
+}
 ----
 
-                 
 这个方法非常巧妙,它通过 `h & (table.length -1)` 来得到该对象的保存位,而 `HashMap` 底层数组的长度总是 2 的 n 次方,这是 `HashMap` 在速度上的优化.在 `HashMap` 构造器中有如下代码:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-                int capacity = 1;
-                    while (capacity < initialCapacity)
-                    capacity <<= 1;
+int capacity = 1;
+    while (capacity < initialCapacity)
+    capacity <<= 1;
 ----
 
-这段代码保证初始化时 `HashMap` 的容量总是 2 的 n 次方,即底层数组的长度总是为 2 的 n 次方.当 `length` 总是 2 的n 次方时,`h& (length-1)` 运算等价于对 `length` 取模,也就是 `h%length`,但是 `&` 比 `%` 具有更高的效率. 这看上去很简单,其实比较有玄机的,我们举个例子来说明:
+这段代码保证初始化时 `HashMap` 的容量总是 2 的 n 次方,即底层数组的长度总是为 2 的 n 次方.当 `length` 总是 2 的  n 次方时,`h& (length-1)` 运算等价于对 `length` 取模,也就是 `h%length`,但是 `&` 比 `%` 具有更高的效率. 这看上去很简单,其实比较有玄机的,我们举个例子来说明:
 
-假设数组长度分别为 15 和16,优化后的 hash 码分别为 8 和9,那么 `&` 运算后的结果如下:
+假设数组长度分别为 15 和 16,优化后的 hash 码分别为 8 和9,那么 `&` 运算后的结果如下:
 
 image::{oss-images}/java-hashmap2.png[]
 
@@ -159,29 +158,27 @@ image::{oss-images}/java-hashmap2.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-                public V get(Object key) {
-                    if (key == null)
-                        return getForNullKey();
-                    int hash = hash(key.hashCode());
-                    for (Entry<K,V> e = table[indexFor(hash, table.length)];
-                        e != null;
-                        e = e.next) {
-                        Object k;
-                    if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
-                        1return e.value;
-                     }
-                     return null;
-                }
+public V get(Object key) {
+    if (key == null)
+        return getForNullKey();
+    int hash = hash(key.hashCode());
+    for (Entry<K,V> e = table[indexFor(hash, table.length)];
+        e != null;
+        e = e.next) {
+        Object k;
+    if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
+        1return e.value;
+     }
+     return null;
+}
 ----
 
-
-
-有了上面存储时的hash 算法作为基础,理解起来这段代码就很容易了.从上面的源代码中可以看出: 从 `HashMap` 中 `get` 元素时,首先计算 `key` 的 `hashCode`,找到数组中对应 位置的某一元素,然后通过 `key` 的 `equals` 方法在对应位置的链表中找到需要的元素.
+有了上面存储时的 hash 算法作为基础,理解起来这段代码就很容易了.从上面的源代码中可以看出: 从 `HashMap` 中 `get` 元素时,首先计算 `key` 的 `hashCode`,找到数组中对应 位置的某一元素,然后通过 `key` 的 `equals` 方法在对应位置的链表中找到需要的元素.
 归纳起来简单地说,`HashMap` 在底层将 key-value 当成一个整体进行处理,这个整体 就是一个 `Entry` 对象.`HashMap` 底层采用一个 `Entry[]` 数组来保存所有的 key-value 对,当
 需要存储一个 `Entry` 对象时,会根据 `hash` 算法来决定其在数组中的存储位置,在根据 `equals`方法决定其在该数组位置上的链表中的存储位置;当需要取出一个Entry 时,也会根据 `hash` 算法找到其在数组中的存储位置,再根据 `equals` 方法从该位置上的链表中取出该 `Entry`
 
 [[java-hashmap-resize]]
-==  HashMap的resize(rehash)
+==  HashMap 的 resize(rehash)
 
 当 `HashMap` 中的元素越来越多的时候,`hash` 冲突的几率也就越来越高,因为数组的 长度是固定的.所以为了提高查询的效率,就要对 `HashMap` 的数组进行扩容,数组扩容这
 个操作也会出现在 `ArrayList` 中,这是一个常用的操作,而在 `HashMap` 数组扩容之后,最 消耗性能的点就出现了: 原数组中的数据必须重新计算其在新数组中的位置,并放进去,这 就是 `resize`.
@@ -224,13 +221,13 @@ loadFactor: 负载因子 `loadFactor` 定义为: 散列表的实际元素数目(
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-            if (size++ >= threshold)
-                resize(2 * table.length);
+if (size++ >= threshold)
+    resize(2 * table.length);
 ----
 
 
 [[java-hashmap-fast-fail]]
-==  Fail-Fast机制
+==  Fail-Fast 机制
 
 我们知道 `java.util.HashMap` 不是线程安全的,因此如果在使用迭代器的过程中有其他线程修改了 map,那么将抛出 `ConcurrentModificationException`,这就是所谓fail-fast 策略.
 
@@ -239,13 +236,13 @@ loadFactor: 负载因子 `loadFactor` 定义为: 散列表的实际元素数目(
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-                HashIterator() {
-                    expectedModCount = modCount;
-                    if (size > 0) { // advance to first entry
-                            Entry[] t = table;
-                    while (index < t.length && (next = t[index++]) == null);
-                    }
-                }
+HashIterator() {
+    expectedModCount = modCount;
+    if (size > 0) { // advance to first entry
+            Entry[] t = table;
+    while (index < t.length && (next = t[index++]) == null);
+    }
+}
 ----
 
                 
@@ -254,9 +251,9 @@ loadFactor: 负载因子 `loadFactor` 定义为: 散列表的实际元素数目(
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-                final Entry<K,V> nextEntry() {
-                    if (modCount != expectedModCount)
-                        throw new ConcurrentModificationException();
+final Entry<K,V> nextEntry() {
+    if (modCount != expectedModCount)
+        throw new ConcurrentModificationException();
 ----
 
 在 `HashMap` 的API 中指出:由所有 `HashMap` 类的 "collection 视图方法" 所返回的迭代器都是快速失败的: 在迭代器创建之后,如果从结构上对映射进行修改,除非通过迭代器本身的 `remove` 方法,其他任何
@@ -270,20 +267,18 @@ loadFactor: 负载因子 `loadFactor` 定义为: 散列表的实际元素数目(
 [[java-hashmap-qa]]
 ==  Q&A
 [qanda]
-当两个对象的hashcode相同会发生什么? ::
-    因为hashcode相同,所以它们的bucket位置相同,‘碰撞’会发生.因为HashMap使用链表存储对象,这个Entry(包含有键值对的Map.Entry对象)会存储在链表中.
-如果两个键的hashcode相同,你如何获取值对象? ::
-    当我们调用get()方法,HashMap会使用键对象的hashcode找到bucket位置,找到bucket位置之后,会调用keys.equals()方法去找到链表中正确的节点,最终找到要找的值对象.
-重新调整HashMap大小存在什么问题吗? ::
-    可能产生条件竞争(race condition).因为如果两个线程都发现HashMap需要重新调整大小了,它们会同时试着调整大小.在调整大小的过程中,存储在链表中的元素的次序会反过来,因为移动到新的bucket位置的时候,HashMap并不会将元素放在链表的尾部,而是放在头部,这是为了避免尾部遍历(tail traversing).如果条件竞争发生了,那么就死循环了.
-为什么String, Interger这样的wrapper类适合作为键? ::
-    因为String是不可变的,也是final的,而且已经重写了equals()和hashCode()方法了.其他的wrapper类也有这个特点.不可变性是必要的,因为为了要计算hashCode(),就要防止键值改变,如果键值在放入时和获取时返回不同的hashcode的话,那么就不能从HashMap中找到你想要的对象.不可变性还有其他的优点如线程安全.
+当两个对象的 hashcode 相同会发生什么? ::
+    因为 hashcode 相同,所以它们的 bucket 位置相同,‘碰撞’会发生.因为 HashMap 使用链表存储对象,这 个Entry(包含有键值对的 Map.Entry 对象)会存储在链表中.
+如果两个键的 hashcode 相同,你如何获取值对象? ::
+    当我们调用 get() 方法,HashMap 会使用键对象的 hashcode 找到 bucket 位置,找到 bucket 位置之后,会调用 keys.equals() 方法去找到链表中正确的节点,最终找到要找的值对象.
+重新调整 HashMap 大小存在什么问题吗? ::
+    可能产生条件竞争(race condition).因为如果两个线程都发现 HashMap 需要重新调整大小了,它们会同时试着调整大小.在调整大小的过程中,存储在链表中的元素的次序会反过来,因为移动到新的 bucket 位置的时候,HashMap 并不会将元素放在链表的尾部,而是放在头部,这是为了避免尾部遍历(tail traversing).如果条件竞争发生了,那么就死循环了.
+为什么 String, Integer 这样的 wrapper 类适合作为键? ::
+    因为 String 是不可变的,也是 final 的,而且已经重写了 equals() 和 hashCode() 方法了.其他的 wrapper 类也有这个特点.不可变性是必要的,因为为了要计算 hashCode(),就要防止键值改变,如果键值在放入时和获取时返回不同的 hashcode 的话,那么就不能从 HashMap 中找到你想要的对象.不可变性还有其他的优点如线程安全.
 
 [[java-hashmap-extend]]
 ==  扩展
 
 *  ConcurrentHashMap.
-//*  <<java-hashmap8,Java8中的HashMap>>
-
-    
+*  <<java-hashmap8,Java8 中的 HashMap>>
     

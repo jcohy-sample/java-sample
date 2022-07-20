@@ -19,7 +19,7 @@ image::{oss-images}/java/collections-uml.png[]
 
 include::collection/ArrayList.adoc[leveloffset=+1]
 
-include::collection/HashMap.adoc[leveloffset=+1]
+include::collection/HashMap8.adoc[leveloffset=+1]
 
 include::collection/LinkedHashMap.adoc[leveloffset=+1]
 
