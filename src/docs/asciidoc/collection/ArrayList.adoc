@@ -64,7 +64,7 @@ public ArrayList(Collection<? extends E> c) {
 }
 ----
    
-关于构造函数明明构建了一个空列表，为什么说初始化容量为 `10` 呢？其实这里是为了节省内存内存，使用了懒加载机制，当我们使用 add 方法添加元素时，会将容量设置为 `10`。我们继续往下看
+关于构造函数明明构建了一个空列表，为什么说初始化容量为 `10` 呢？其实这里是为了节省内存内存，使用了懒加载机制，当我们使用 add 方法添加元素时，会将容量设置为 `10`。我们在调整数组容量章节中再讲
                   
 [[java-arraylist-set]]
 ===  存储
@@ -124,8 +124,7 @@ private Object[] grow() {
 }
 
 private Object[] grow(int minCapacity) {
-    // minCapacity = 1
-    // oldCapacity = 0
+    // 初始化时 minCapacity = 1，oldCapacity = 0
     int oldCapacity = elementData.length;
     // 条件为 false，直接执行 else 语句
     if (oldCapacity > 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
@@ -137,25 +136,6 @@ private Object[] grow(int minCapacity) {
     } else {
         // 如果 minCapacity 小于默认容量，则将数组设置为默认容量，默认大小为 10
         return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
-    }
-}
-----
-
-我们只分析了一种添加元素的方法，其他的方法也一样，他们最终都会调用 `grow()` 方法来调整数组的容量。
-
-
-向 `ArrayList` 中存储元素的代码中,我们看到,每当向数组中添加元素时, 都要去检查添加后元素的个数是否会超出当前数组的长度,如果超出,数组将会进行扩容, 以满足添加数据的需求.数组扩容通过一个公开的方法 ensureCapacity(int minCapacity)来 实现.在实际添加大量元素前,我也可以使用 ensureCapacity 来手动增加 ArrayList 实例的容量,以减少递增式再分配的数量.
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java
-----
-public void ensureCapacity(int minCapacity) {
-    if (minCapacity > elementData.length
-        && !(elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA
-             && minCapacity <= DEFAULT_CAPACITY)) {
-        modCount++;
-        // 可以看出，这里也使用 grow 方法。
-        grow(minCapacity);
     }
 }
 ----
@@ -177,6 +157,7 @@ private Object[] grow(int minCapacity) {
                 minCapacity - oldCapacity, /* minimum growth */
                 // oldCapacity >> 1的功能是将 oldCapacity 进行位运算，右移一位，也就是减半，preferred growth 的值即为 oldCapacity 大小的一半。
                 oldCapacity >> 1           /* preferred growth */);
+        // 数组拷贝
         return elementData = Arrays.copyOf(elementData, newCapacity);
     } else {
         return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
@@ -201,9 +182,11 @@ public static int newLength(int oldLength, int minGrowth, int prefGrowth) {
 }
 ----
 
-从上述代码中可以看出,数组进行扩容时,会将老数组中的元素重新拷贝一份到新的数 组中,每次数组容量的增长大约是其原容量的 1.5 倍.这种操作的代价是很高的,因此在实
-际使用时,我们应该尽量避免数组容量的扩张.当我们可预知要保存的元素的多少时,要在构造 `ArrayList` 实例时,就指定其容量,以避免数组扩容的发生.或者根据实际需求,通过
+从上述代码中可以看出,数组进行扩容时,会将老数组中的元素重新拷贝一份到新的数 组中,每次数组容量的增长大约是其原容量的 `1.5` 倍.这种操作的代价是很高的,因此在实
+际使用时, 我们应该尽量避免数组容量的扩张.当我们可预知要保存的元素的多少时, 要在构造 `ArrayList` 实例时,就指定其容量,以避免数组扩容的发生.或者根据实际需求,通过
 调用 `ensureCapacity` 方法来手动增加 `ArrayList` 实例的容量.
+
+我们只分析了一种添加元素的方法，其他的方法也一样，他们最终都会调用 `grow()` 方法来调整数组的容量。
 
 `ArrayList` 还给我们提供了将底层数组的容量调整为当前列表保存的实际元素的大小的功能.它可以通过 `trimToSize` 方法来实现.代码如下:
 
@@ -220,12 +203,11 @@ public void trimToSize() {
 }
 ----
 
-        
 [[java-arraylist-fast-fail]]
 ===  Fail-Fast 机制
 
 `ArrayList` 也采用了快速失败的机制,通过记录 `modCount` 参数来实现.在面对并发的 修改时,迭代器很快就会完全失败,而不是冒着在将来某个不确定时间发生任意不确定行为的风险.
-具体介绍请参考我之前的文章 <<java-hashmap,Java 集合之 HashMap>>  中的 Fail-Fast 机制
+具体介绍请参考 <<java-hashmap8,Java 集合之 HashMap>>  中的 Fail-Fast 机制
 
 [[java-arraylist-qa]]
 ==  Q&A

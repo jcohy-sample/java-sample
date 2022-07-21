@@ -1,5 +1,5 @@
 [[java-hashmap8]]
-= Java8 中的 HashMap
+= HashMap
 
 [[java-hashmap8-overview]]
 == 概述
@@ -15,9 +15,9 @@
 
 image::{oss-images}/java-hashmap1.png[]
 
-从上图中可以看出,`HashMap` 底层就是一个数组结构,类型为 `Node<K,V>[] table`,数组中的每一项又是一个链表，有 `next` 指针指向下一个对象组成链表。当新建一个 `HashMap` 的时候,就会初始化一个数组.
+从上图中可以看出,`HashMap` 底层就是一个数组结构,类型为 `Node<K,V>[] table`,数组中的每一项又是一个链表，有 `next` 指针指向下一个对象组成链表。
 
-我们来看看 `HashMap` 的源码 Java 代码:
+我们来看看 `HashMap` 的节点源码 Java 代码:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
@@ -54,10 +54,10 @@ static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
 
 HashMap 提供了四个初始化方法
 
-*  HashMap(): 构建一个初始容量为 16,负载因子为 0.75 的 HashMap.
-*  HashMap(int initialCapacity): 构建一个初始容量为 initialCapacity,负载因子为 0.75 的 HashMap.
-*  HashMap(int initialCapacity, float loadFactor): 以指定初始容量、指定的负载因子创建一个 HashMap.
-* HashMap(Map<? extends K, ? extends V> m): 构造一个与指定 Map 具有相同映射的新的 HashMap。
+*  HashMap(): 构建一个初始容量为 `16`,负载因子为 `0.75` 的 HashMap.
+*  HashMap(int initialCapacity): 构建一个初始容量为 `initialCapacity`,负载因子为 `0.75` 的 `HashMap`.
+*  HashMap(int initialCapacity, float loadFactor): 以指定初始容量、指定的负载因子创建一个 `HashMap`.
+* HashMap(Map<? extends K, ? extends V> m): 构造一个与指定 `Map` 具有相同映射的新的 `HashMap`。
 
 我们可以来看看他们的源码：
 
@@ -160,7 +160,9 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                     p.next = newNode(hash, key, value, null);
                     // 因为 binCount 是从 0 开始的，所以当节点数大于 8 时。
                     if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
-                        // 将链表转为红黑树，注意，此时还不会转换，因为转换为红黑树必须满足两个条件，这里的链表节点数大于 8 只是其中一个条件
+                        // 将链表转为红黑树，注意，此时还不会转换，因为转换为红黑树必须满足两个条件，
+                        // 这里的链表节点数大于 8 只是其中一个条件,另外一个条件是数组长度必须大于 64.
+                        // 可在 treeifyBin 方法中查看
                         treeifyBin(tab, hash);
                     break;
                 }
@@ -176,6 +178,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
             V oldValue = e.value;
             if (!onlyIfAbsent || oldValue == null)
                 e.value = value;
+            // 此处为 LinkedHashMap 服务，在 LinkedHashMap 中讲解
             afterNodeAccess(e);
             return oldValue;
         }
@@ -185,6 +188,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     if (++size > threshold)
         // 当存储元素到达数组容量的 0.75，进行容量调整
         resize();
+    // 此处为 LinkedHashMap 服务，在 LinkedHashMap 中讲解
     afterNodeInsertion(evict);
     return null;
 }
@@ -194,7 +198,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 如果数组该位置上已经存放有其他元素了,那么在这个位置上的元素将以链表的形式存放,新加入的放在链尾, 如果数组该位置上没有元素,就直接将该元素放到此数组中的该位置上.
 
-当系统决定存储 `HashMap` 中的 key-value 对时,完全没有考虑 `Entry` 中的 `value`,仅仅只是根据 `key` 来计算并决定每个 `Entry` 的存储位置.我们完全可以把 `Map` 集合中的 `value` 当成 `key` 的附属,当系统决定了 `key` 的存储位置之后,`value` 随之保存在那里即可.
+当系统决定存储 `HashMap` 中的 key-value 对时,完全没有考虑 `Node` 中的 `value`,仅仅只是根据 `key` 来计算并决定每个 `Node` 的存储位置.我们完全可以把 `Map` 集合中的 `value` 当成 `key` 的附属,当系统决定了 `key` 的存储位置之后,`value` 随之保存在那里即可.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
@@ -267,7 +271,7 @@ final Node<K,V>[] resize() {
 `h % (table.length -1)`,但是 `&` 比 `%` 具有更高的效率. 这看上去很简单,其实比较有玄机的,我们举个例子来说明:
 假设数组长度分别为 15 和 16,优化后的 hash 码分别为 8 和 9,那么 `&` 运算后的结果如下:
 
-![hashmap](https://github.com/jcohy23/StudyNote/blob/master/src/img/hashmap2.png)
+image::{oss-images}/java-hashmap2.png[]
 
 从上面的例子中可以看出: 当它们和 15-1(1110) "与" 的时候,产生了相同的结果, 也就是说它们会定位到数组中的同一个位置上去,这就产生了碰撞,8 和9 会被放到数组中 的同一个位置上形成链表,那么查询的时候就需要遍历这个链 表,得到 8 或者 9,这样就 降低了查询的效率.同时,我们也可以发现,当数组长度为 15 的时候,hash 值会与 15-1 (1110) 进行 "与" ,那么 最后一位永远是 0,而 `0001,0011,0101,1001,1011,0111,
 1101` 这几个位置永远都不能存放元素了,空间浪费相当大,更糟的是这种情况中,数组可以使用的位置比数组长度小了很多,这意味着进一步增加了碰撞的几率,减慢了查询的效率！
@@ -321,7 +325,7 @@ final Node<K,V> getNode(Object key) {
 算法找到其在数组中的存储位置,再根据 `equals` 方法从该位置上的链表中取出该 `Node`
 
 [[java-hashmap8-put-resize]]
-== HashMap 的 resize(resize)
+== HashMap 的 resize
 
 当 HashMap 中的元素越来越多的时候,hash 冲突的几率也就越来越高,因为数组的长度是固定的.所以为了提高查询的效率,就要对 HashMap 的数组进行扩容,数组扩容这个操作也会出现在 ArrayList 中,这是一个常用的操作,而在 HashMap 数组扩容之后,最消耗性能的点就出现了: 原数组中的数据必须重新计算其在新数组中的位置,并放进去,这就是 resize.
 
@@ -350,25 +354,25 @@ final Node<K,V> getNode(Object key) {
 
 &nbsp;&nbsp; Q:当两个对象的 hashcode 相同会发生什么?
 
-&nbsp;&nbsp; A:因为 hashcode 相同,所以它们的 bucket 位置相同,‘碰撞’会发生.因为 HashMap 使用链表存储对象,这个 Entry (包含有键值对的 Map.Entry 对象)会存储在链表中.
+&nbsp;&nbsp; A:因为 `hashcode` 相同,所以它们在数组中位置相同,‘碰撞’会发生.因为 `HashMap` 使用链表存储对象,这个 `Node` (包含有键值对的 Map.Entry 对象)会存储在链表中.
 
 *  例子二
 
-&nbsp;&nbsp; Q:如果两个键的 hashcode 相同,你如何获取值对象?
+&nbsp;&nbsp; Q:如果两个键的 `hashcode` 相同,你如何获取值对象?
 
-&nbsp;&nbsp; A:当我们调用 `get()` 方法,HashMap 会使用键对象的 hashcode 找到 bucket 位置,找到 bucket 位置之后,会调用 `keys.equals()` 方法去找到链表中正确的节点,最终找到要找的值对象.
+&nbsp;&nbsp; A:当我们调用 `get()` 方法,HashMap 会使用键对象的 `hashcode` 找到在数组中位置, 找到位置之后,会调用 `keys.equals()` 方法去找到链表中正确的节点,最终找到要找的值对象.
 
 *  例子三
 
-&nbsp;&nbsp; Q:重新调整 HashMap 大小存在什么问题吗?
+&nbsp;&nbsp; Q:重新调整 `HashMap` 大小存在什么问题吗?
 
-&nbsp;&nbsp; A:可能产生条件竞争(race condition).因为如果两个线程都发现 HashMap 需要重新调整大小了,它们会同时试着调整大小.在调整大小的过程中,存储在链表中的元素的次序会反过来,因为移动到新的 bucket 位置的时候,HashMap 并不会将元素放在链表的尾部,而是放在头部,这是为了避免尾部遍历(tail traversing).如果条件竞争发生了,那么就死循环了.
+&nbsp;&nbsp; A:可能产生条件竞争(race condition).因为如果两个线程都发现 `HashMap` 需要重新调整大小了,它们会同时试着调整大小.在调整大小的过程中,存储在链表中的元素的次序会反过来,因为移动到新的数组中的位置的时候,`HashMap` 并不会将元素放在链表的尾部,而是放在头部,这是为了避免尾部遍历(tail traversing).如果条件竞争发生了,那么就死循环了.
 
 *  例子四
 
 &nbsp;&nbsp; Q:为什么 String, Integer 这样的 wrapper 类适合作为键?
 
-&nbsp;&nbsp; A:因为 String 是不可变的,也是 final 的,而且已经重写了 equals() 和 hashCode() 方法了.其他的 wrapper 类也有这个特点.不可变性是必要的,因为为了要计算 hashCode(),就要防止键值改变,如果键值在放入时和获取时返回不同的 hashcode 的话,那么就不能从 HashMap 中找到你想要的对象.不可变性还有其他的优点如线程安全.
+&nbsp;&nbsp; A:因为 String 是不可变的,也是 `final` 的,而且已经重写了 `equals()` 和 `hashCode()` 方法了.其他的 wrapper 类也有这个特点.不可变性是必要的,因为为了要计算 `hashCode()`,就要防止键值改变,如果键值在放入时和获取时返回不同的 `hashcode` 的话,那么就不能从 `HashMap` 中找到你想要的对象.不可变性还有其他的优点如线程安全.
 
 [[java-hashmap8-kuozhan]]
 == 扩展
