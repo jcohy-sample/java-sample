@@ -710,6 +710,8 @@ Found 1 deadlock.
 [[java-juc-sample1]]
 == 生产者消费者示例
 
+使用 synchronized 实现生产者消费者
+
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
