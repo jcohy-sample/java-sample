@@ -9,7 +9,7 @@ import java.util.concurrent.FutureTask;
  *
  * 二、执行 Callable 方式，需要 FutureTask 实现类的支持，用于接收运算结果。  FutureTask 是  Future 接口的实现类
  */
-public class TestCallable {
+public class CallableDemo {
 
 	public static void main(String[] args) {
 		ThreadDemo td = new ThreadDemo();
@@ -22,6 +22,7 @@ public class TestCallable {
 		// 2.接收线程运算后的结果
 		try {
 			Integer sum = result.get(); // FutureTask 可用于 闭锁
+			// 705082704
 			System.out.println(sum);
 			System.out.println("------------------------------------");
 		}

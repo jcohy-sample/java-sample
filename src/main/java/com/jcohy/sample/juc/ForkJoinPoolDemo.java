@@ -9,7 +9,7 @@ import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 
-public class TestForkJoinPool {
+public class ForkJoinPoolDemo {
 
 	public static void main(String[] args) {
 		Instant start = Instant.now();

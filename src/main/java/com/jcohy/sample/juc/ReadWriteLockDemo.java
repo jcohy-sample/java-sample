@@ -10,33 +10,21 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 读读 不需要互斥
  *
  */
-public class TestReadWriteLock {
+public class ReadWriteLockDemo {
 
 	public static void main(String[] args) {
-		ReadWriteLockDemo rw = new ReadWriteLockDemo();
+		ReadWriteLockDemoTest rw = new ReadWriteLockDemoTest();
 
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				rw.set((int) (Math.random() * 101));
-			}
-		}, "Write:").start();
+		new Thread(() -> rw.set((int) (Math.random() * 101)), "Write:").start();
 
 		for (int i = 0; i < 100; i++) {
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					rw.get();
-				}
-			}).start();
+			new Thread(() -> rw.get()).start();
 		}
 	}
 
 }
 
-class ReadWriteLockDemo {
+class ReadWriteLockDemoTest {
 
 	private int number = 0;
 

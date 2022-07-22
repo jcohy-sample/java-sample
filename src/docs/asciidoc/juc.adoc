@@ -127,7 +127,7 @@ Java 语言提供了一种稍弱的同步机制,即 `volatile` 变量.用来确�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestCompareAndSwap.java[]
+include::{java-code}/juc/CompareAndSwapMock.java[]
 ----
 
 [[java-juc-cas-atomic]]
@@ -276,7 +276,7 @@ JUC 提供了一个类实现带版本号的原子引用.`AtomicStampedReference`
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/CountDownLatchTest.java[]
+include::{java-code}/juc/CountDownLatchDemo.java[]
 ----
 
 [[java-juc-cyclicbarrier]]
@@ -311,7 +311,7 @@ include::{java-code}/juc/SemaphoreDemo.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestCallable.java[]
+include::{java-code}/juc/CallableDemo.java[]
 ----
 
 [[java-juc-lock]]
@@ -323,7 +323,7 @@ include::{java-code}/juc/TestCallable.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestLock.java[]
+include::{java-code}/juc/LockDemo.java[]
 ----
 
 [[java-juc-condition]]
@@ -334,14 +334,14 @@ include::{java-code}/juc/TestLock.java[]
 * `Condition` 实例实质上被绑定到一个锁上.要为特定 `Lock` 实例获得 `Condition` 实例,请使用其 `newCondition()` 方法.
 
 [[java-juc-loop]]
-== 线程按序交替
+=== 线程按序交替
 
 编写一个程序,开启3 个线程,这三个线程的 ID 分别为 `A、B、C`,每个线程将自己的ID 在屏幕上打印 `10` 遍,要求输出的结果必须按顺序显示.如: ABCABCABC…… 依次递归
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestABCAlternate.java[]
+include::{java-code}/juc/ABCAlternateDemo.java[]
 ----
 
 [[java-juc-readwritelock]]
@@ -353,7 +353,7 @@ include::{java-code}/juc/TestABCAlternate.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestReadWriteLock.java[]
+include::{java-code}/juc/ReadWriteLockDemo.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
@@ -560,7 +560,7 @@ image::{oss-images}/java-juc-fork-join13.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestForkJoinPool.java[]
+include::{java-code}/juc/ForkJoinPoolDemo.java[]
 ----
 
 [[java-juc-sample]]
@@ -707,3 +707,37 @@ JNI global references: 33
 Found 1 deadlock.
 ----
 
+[[java-juc-sample1]]
+== 生产者消费者示例
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestProductorAndConsumer.java[]
+----
+
+使用锁实现生产者消费者案例：
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestProductorAndConsumerForLock.java[]
+----
+
+使用阻塞队列实现生产者消费者
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestProductorAndConsumerForBlockQueue.java[]
+----
+
+[[java-juc-sample2]]
+== 判断打印的 "one" or "two" ?
+
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestThread8Monitor.java[]
+----

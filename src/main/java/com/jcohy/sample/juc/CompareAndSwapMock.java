@@ -3,7 +3,7 @@ package com.jcohy.sample.juc;
 /*
  * 模拟 CAS 算法
  */
-public class TestCompareAndSwap {
+public class CompareAndSwapMock {
 
 	public static void main(String[] args) {
 		final CompareAndSwap cas = new CompareAndSwap();

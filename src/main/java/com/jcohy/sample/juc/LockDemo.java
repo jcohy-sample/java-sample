@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 3. 同步锁 Lock
  * 注意: 是一个显示锁，需要通过 lock() 方法上锁，必须通过 unlock() 方法进行释放锁
  */
-public class TestLock {
+public class LockDemo {
 
 	public static void main(String[] args) {
 		Ticket ticket = new Ticket();
@@ -29,7 +29,7 @@ public class TestLock {
 
 class Ticket implements Runnable {
 
-	private int tick = 100;
+	private int tick = 10;
 
 	private Lock lock = new ReentrantLock();
 
@@ -55,5 +55,15 @@ class Ticket implements Runnable {
 			}
 		}
 	}
-
+	// 输出：
+	// 1号窗口 完成售票，余票为: 9
+	// 1号窗口 完成售票，余票为: 8
+	// 1号窗口 完成售票，余票为: 7
+	// 1号窗口 完成售票，余票为: 6
+	// 1号窗口 完成售票，余票为: 5
+	// 1号窗口 完成售票，余票为: 4
+	// 1号窗口 完成售票，余票为: 3
+	// 1号窗口 完成售票，余票为: 2
+	// 1号窗口 完成售票，余票为: 1
+	// 1号窗口 完成售票，余票为: 0
 }

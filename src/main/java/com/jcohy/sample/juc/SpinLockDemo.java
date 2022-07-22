@@ -56,3 +56,8 @@ public class SpinLockDemo {
 	}
 
 }
+// 输出
+// AA	 come in
+// BB	 come in
+// AA	 invoked myUnLock()
+// BB	 invoked myUnLock()

@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  * @version 2022.0.1 2022/7/21:18:21
  * @since 2022.0.1
  */
-public class CountDownLatchTest {
+public class CountDownLatchDemo {
     // 主线程等待子线程执行完成再执行
     public static void main(String[] args) throws InterruptedException {
         ExecutorService service = Executors.newFixedThreadPool(3);
@@ -34,8 +34,17 @@ public class CountDownLatchTest {
             });
         }
 
-        System.out.println("主线程" + Thread.currentThread().getName() + "等待子线程执行完毕。。。。");
+        System.out.println("主线程 " + Thread.currentThread().getName() + " 等待子线程执行完毕。。。。");
         latch.await();
-        System.out.println("主线程" + Thread.currentThread().getName() + "开始执行");
+        System.out.println("主线程 " + Thread.currentThread().getName() + " 开始执行");
+		// 输出：
+		// 子线程 pool-1-thread-3 开始执行
+		// 主线程 main 等待子线程执行完毕。。。。
+		// 子线程 pool-1-thread-1 开始执行
+		// 子线程 pool-1-thread-2 开始执行
+		// 子线程 pool-1-thread-3 执行完毕
+		// 子线程 pool-1-thread-1 执行完毕
+		// 子线程 pool-1-thread-2 执行完毕
+		// 主线程main开始执行
     }
 }
