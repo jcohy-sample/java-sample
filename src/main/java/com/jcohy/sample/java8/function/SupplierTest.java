@@ -2,6 +2,7 @@ package com.jcohy.sample.java8.function;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -54,11 +55,14 @@ public class SupplierTest {
 
     @Test
     void test() {
-        Map<String,String> maps = new HashMap<>();
+        Map<String,String> maps = new LinkedHashMap<>();
 
         for(int i = 0; i < 16; i++ ){
             maps.put("key" + i, "value" + i);
         }
+
+//        Map<String,String> map = new LinkedHashMap<>();
+//        map.put(null,null);
 //        System.out.println(Integer.toBinaryString(10));
 //        System.out.println(10 >> 4);
 //        System.out.println(Integer.toBinaryString(10 >> 4));

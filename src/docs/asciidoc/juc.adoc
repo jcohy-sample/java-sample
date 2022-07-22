@@ -79,7 +79,7 @@ Java 语言规范第三版中对 `volatile` 的定义: Java 编程语言允许�
 
 Java 语言提供了一种稍弱的同步机制,即 `volatile` 变量.用来确保将变量的更新操作通知到其他线程,保证了新值能立即同步到主内存,以及每次使用前立即从主内存刷新. 当把变量声明为 `volatile` 类型后,编译器与运行时都会注意到这个变量是共享的.`volatile` 修饰变量,每次被线程访问时强迫其从主内存重读该值,修改后再写回.保证读取的可见性,对其他线程立即可见.`volatile` 的另一个语义是禁止指令重排序优化.但是 `volatile` 并不保证原子性,也就不能保证线程安全.
 
-=== volatile语义
+=== volatile 语义
 
 第一是保证 `volatile` 修饰的变量对所有线程的可见性
 
@@ -287,7 +287,11 @@ include::{java-code}/juc/CyclicBarrierDemo.java[]
 
 `Semaphore` 主要用于两个目的,一个用于多个共享资源的互斥使用,另外一个用于并发线程数的控制.
 
-代码示例: 参考 github
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/SemaphoreDemo.java[]
+----
 
 [[java-juc-callable]]
 == 实现 Callable 接口
@@ -296,11 +300,23 @@ include::{java-code}/juc/CyclicBarrierDemo.java[]
 * `Callable` 接口类似于 `Runnable`,两者都是为那些其实例可能被另一个线程执行的类设计的.但是 `Runnable` 不会返回结果,并且无法抛出经过检查的异常.
 * `Callable` 需要依赖 `FutureTask` ,`FutureTask` 也可以用作闭锁.
 
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestCallable.java[]
+----
+
 [[java-juc-lock]]
 == Lock 同步锁
 
 * 在 Java 5.0 之前,协调共享对象的访问时可以使用的机制只有 `synchronized` 和 `volatile` .Java 5.0 后增加了一些新的机制,但并不是一种替代内置锁的方法,而是当内置锁不适用时,作为一种可选择的高级功能.
 * `ReentrantLock` 实现了 `Lock` 接口,并提供了与 `synchronized` 相同的互斥性和内存可见性.但相较于 `synchronized` 提供了更高的处理锁的灵活性.
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestLock.java[]
+----
 
 [[java-juc-condition]]
 == Condition 控制线程通信
@@ -314,12 +330,29 @@ include::{java-code}/juc/CyclicBarrierDemo.java[]
 
 编写一个程序,开启3 个线程,这三个线程的 ID 分别为 `A、B、C`,每个线程将自己的ID 在屏幕上打印 `10` 遍,要求输出的结果必须按顺序显示.如: ABCABCABC…… 依次递归
 
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestABCAlternate.java[]
+----
+
 [[java-juc-readwritelock]]
 == ReadWriteLock 读写锁
 
 * `ReadWriteLock` 维护了一对相关的锁,一个用于只读操作,另一个用于写入操作.只要没有 `writer`,读取锁可以由多个 `reader` 线程同时保持.写入锁是独占的..
 * `ReadWriteLock` 读取操作通常不会改变共享资源,但执行写入操作时,必须独占方式来获取锁.对于读取操作占多数的数据结构.`ReadWriteLock` 能提供比独占锁更高的并发性.而对于只读的数据结构,其中包含的不变性可以完全不需要考虑加锁操作.
 
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestReadWriteLock.java[]
+----
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/ReadWriteLockDemo2.java[]
+----
 
 [[java-juc-enight]]
 == 线程八锁
@@ -345,7 +378,14 @@ include::{java-code}/juc/CyclicBarrierDemo.java[]
 * Executors.newFixedThreadPool(int)(固定大小线程池)
 * Executors.newSingleThreadExecutor()(单个后台线程)
 * Executors.newScheduledThreadPool()
-* Executors.newWorkStealingPool(int)(java8新增,使用目前机器上可用的处理器作为它的并行级别),它们均为大多数使用场景预定义了设置.
+* Executors.newWorkStealingPool(int)(Java 8 新增,使用目前机器上可用的处理器作为它的并行级别),它们均为大多数使用场景预定义了设置.
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestThreadPool.java[]
+----
+
 
 [[java-juc-executorspool-params]]
 === 线程池7大参数简介
@@ -486,8 +526,8 @@ userThreadPool.execute(thread);
 
 .如何合理的配置线程池?
 ****
-- CPU密集型: 任务配置尽可能少的线程数量.一般公式: CPU核数+1个线程的线程池
-- IO密集型: 1、CPU核数*2..2、CPU核数/(1-阻塞系数).这个阻塞系数一般在0.8~0.9之间.
+- CPU密集型: 任务配置尽可能少的线程数量.一般公式: CPU 核数+1 个线程的线程池
+- IO密集型: 1、CPU核数*2.. 2、CPU核数/(1-阻塞系数).这个阻塞系数一般在0.8~0.9之间.
 ****
 
 [[java-juc-executorspool-scheduling]]
@@ -509,6 +549,12 @@ image::{oss-images}/java-juc-fork-join13.jpg[]
 * 相对于一般的线程池实现,fork/join 框架的优势体现在对其中包含的任务的处理方式上.在一般的线程池中,如果一个线程正在执行的任务由于某些原因无法继续运行,那么该线程会处于等待状态.而在 fork/join 框架实现中,
 如果某个子问题由于等待另外一个子问题的完成而无法继续运行.那么处理该子问题的线程会主动寻找其他尚未运行的子问题来执行.这种方式减少了线程的等待时间,提高了性能.
 
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestForkJoinPool.java[]
+----
+
 [[java-juc-sample]]
 == 死锁编码及定位分析
 
@@ -519,50 +565,22 @@ image::{oss-images}/java-juc-fork-join13.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-class HoldLoadThread implements Runnable{
-    private String lockA;
-    private String lockB;
-
-    public HoldLoadThread(String lockA, String lockB) {
-        this.lockA = lockA;
-        this.lockB = lockB;
-    }
-
-    @Override
-    public void run() {
-        synchronized (lockA){
-            System.out.println(Thread.currentThread().getName()+"\t 自己持有: "+lockA+"\t 尝试获得: "+lockB);
-            try { TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
-            synchronized (lockB){
-                System.out.println(Thread.currentThread().getName()+"\t 自己持有: "+lockB+"\t 尝试获得: "+lockA);
-
-            }
-        }
-    }
-}
-public class DeadLockDemo {
-    public static void main(String[] args) {
-        String lockA = "lockA";
-        String lockB = "lockB";
-        new Thread(new HoldLoadThread(lockA,lockB),"ThreadAAA").start();
-        new Thread(new HoldLoadThread(lockB,lockA),"ThreadBBB").start();
-
-    }
-}
+include::{java-code}/juc/HoldLoadThread.java[]
 ----
 
 === 定位分析
 
 JPS命令定位进程号
 
-```shell
+[source,shell]
+----
 E:\workspace\IdeaProjects\jcohy-study-sample-master>jps
 10784 RemoteMavenServer
 11696 Launcher
 9488
 9876 DeadLockDemo
 1240 Jps
-```
+----
 
 jstack 找到死锁查看
 
