@@ -122,6 +122,14 @@ Java 语言提供了一种稍弱的同步机制,即 `volatile` 变量.用来确�
 
 * 当且仅当 V 的值等于 A 时,CAS 通过原子方式用新值 B 来更新 V 的值,否则不会执行任何操作.
 
+模拟实现 CAS 算法
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/juc/TestCompareAndSwap.java[]
+----
+
 [[java-juc-cas-atomic]]
 === 原子变量
 
@@ -238,14 +246,14 @@ include::{java-code}/juc/AtomicDemo.java[]
 
 * 循环时间长开销很大、如果CAS失败,会一直进行尝试,如果长时间一直不成功,可能会给 CPU 带来很大的开销
 * 只能对一个共享变量的原子操作
-* 引出来ABA问题
+* 引出来 ABA 问题
 
-.什么是ABA问题?
+.什么是 ABA 问题?
 ****
-假如一个线程想要对变量 `count` 进行修改,实际操作之前获取 `count` 的值为A,此时来了一个线程将 `count` 值修改为B,又来一个线程获取 `count` 的值为B并将 `count` 修改为A,此时第一个线程全然不知道 `count` 的值已经被修改两次了,虽然值还是A,但是实际上数据已经是脏的.
+假如一个线程想要对变量 `count` 进行修改,实际操作之前获取 `count` 的值为A,此时来了一个线程将 `count` 值修改为 B,又来一个线程获取 `count` 的值为 B并将 `count` 修改为A,此时第一个线程全然不知道 `count` 的值已经被修改两次了,虽然值还是 A,但是实际上数据已经是脏的.
 
-一个解决办法是,对count的每次操作都记录下当前的一个时间戳,这样当我们原子操作 `count` 之前,不仅查看 `count` 的最新数值,还记录下该 `count` 的时间戳,在实际操作的时候,只有在 `count` 的数值和时间戳都没有被更改的情况之下才完成修改操作.
-JUC提供了一个类实现带版本号的原子引用.`AtomicStampedReference`
+一个解决办法是,对 count 的每次操作都记录下当前的一个时间戳,这样当我们原子操作 `count` 之前,不仅查看 `count` 的最新数值,还记录下该 `count` 的时间戳,在实际操作的时候,只有在 `count` 的数值和时间戳都没有被更改的情况之下才完成修改操作.
+JUC 提供了一个类实现带版本号的原子引用.`AtomicStampedReference`
 ****
 
 [[java-juc-concurrenthashmap]]
@@ -565,7 +573,7 @@ include::{java-code}/juc/TestForkJoinPool.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/HoldLoadThread.java[]
+include::{java-code}/juc/DeadLockDemo.java[]
 ----
 
 === 定位分析
