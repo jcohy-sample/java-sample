@@ -15,9 +15,9 @@ https://www.jcohy.com[*https://www.jcohy.com/projects*]
 [horizontal]
 <<feature.adoc#java-overview, Java 基础>> :: Java 个版本新特性
 
-<<nio.adoc#java-nio, Java NIO>> :: Java NIO
-
 <<collections.adoc#java-collection, Java 集合>> :: ArrayList, HashMap, HashSet, LinkedHashMap
+
+<<nio.adoc#java-nio, Java NIO>> :: Java NIO
 
 <<juc.adoc#java-juc, Java 集合>> :: volatile, CAS, 线程八锁, 线程池, ForkJoinPool
 
