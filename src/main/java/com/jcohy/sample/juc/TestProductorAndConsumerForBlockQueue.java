@@ -107,7 +107,7 @@ class Consumer3 implements Runnable {
 
 public class TestProductorAndConsumerForBlockQueue {
 
-	public static void main(String[] 陈妍) {
+	public static void main(String[] args) {
 		BlockingQueue blockingQueue = new ArrayBlockingQueue(10);
 
 		Clerk3 clerk3 = new Clerk3(blockingQueue);
