@@ -78,7 +78,8 @@ image::{oss-images}/java-14-4.png[]
 
 几乎每个程序都包含某种逻辑,这些逻辑结合了对表达式是否具有某种类型或结构的判断,然后有条件地提取其状态的组件以进行进一步处理. 例如,以下是所有Java程序员都熟悉的一种惯用法:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 if (obj instanceof String) {
     String s = (String) obj;
@@ -111,7 +112,8 @@ if (obj instanceof String) {
 
 与局部变量的范围不同,绑定变量的范围由包含的表达式和语句的语义确定. 例如,在此代码中:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 if (!(obj instanceof String s)) {
     .. s.contains(..) ..
@@ -124,14 +126,16 @@ if (!(obj instanceof String s)) {
 
 当 `if` 语句的条件变得比单个 `instanceof` 更复杂时,绑定变量的范围也会相应地增长. 例如,在此代码中:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 if (obj instanceof String s && s.length() > 5) {.. s.contains(..) ..}
 ----
 
 绑定变量 `s` 在 `&&` 运算符右侧以及 `true` 块中. (仅当 `instanceof` 成功匹配时,才考虑到右边.)另一方面,在此代码中:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 if (obj instanceof String s || s.length() > 5) {.. s.contains(..) ..}
 ----
@@ -142,7 +146,8 @@ if (obj instanceof String s || s.length() > 5) {.. s.contains(..) ..}
 
 在 `instanceof` 中使用模式匹配应大大减少 Java 程序中显式强制转换的总数. 此外,类型测试模式在编写相等方法时特别有用. 考虑以下选自 https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/[Effective Java book] 第10条的相等方法:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 @Override public boolean equals(Object o) {
     return (o instanceof CaseInsensitiveString) &&
@@ -249,14 +254,16 @@ Java 为了更方便的了解运行的 JVM 情况,在之前的 JDK11 版本中�
 每个Java开发人员都遇到过 `NullPointerExceptions`(NPE). 由于 NPE 几乎可以出现在程序中的任何位置,因此尝试捕获和恢复它们通常是不切实际的.
 结果,开发人员只能依靠 JVM 查明 NPE 实际发生的时间. 例如,假设此代码中出现一个NPE:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 a.i = 99;
 ----
 
 JVM 将打印出导致 NPE 的方法,文件名和行号:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 Exception in thread "main" java.lang.NullPointerException
     at Prog.main(Prog.java:5)
@@ -264,7 +271,8 @@ Exception in thread "main" java.lang.NullPointerException
 
 在此报告中,开发人员可以找到 a.i = 99; 并推断 `a` 为空. 但是,对于更复杂的代码,如果不使用调试器就无法确定哪个变量为空. 假设此代码中出现一个NPE:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 a.b.c.i = 99;
 ----
@@ -273,7 +281,8 @@ a.b.c.i = 99;
 
 数组访问和分配也会发生类似的问题. 假设此代码中出现一个 NPE:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 a[i][j][k] = 99;
 ----
@@ -282,7 +291,8 @@ a[i][j][k] = 99;
 
 一行代码可能包含多个访问路径,每个访问路径都可能是 `NPE` 的来源. 假设此代码中出现一个NPE:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 a.i = b.j;
 ----
@@ -291,7 +301,8 @@ a.i = b.j;
 
 最后,`NPE` 可能源于方法调用. 假设此代码中出现一个NPE:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 x().y().i = 99;
 ----
@@ -312,7 +323,8 @@ JVM 在程序试图取消 null 引用的地方抛出 NullPointerException (NPE),
 ====
 例如,赋值语句中的 NPE a.i = 99; 将生成此消息:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot assign field "i" because "a" is null
@@ -321,7 +333,8 @@ Exception in thread "main" java.lang.NullPointerException:
 
 如果更复杂的 `a.b.c.i = 99`; 抛出一个 NPE,异常消息将剖析该语句并通过显示导致空值的完整访问路径来查明原因:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot read field "c" because "a.b" is null
@@ -332,7 +345,8 @@ Exception in thread "main" java.lang.NullPointerException:
 
 同样,如果数组访问和赋值语句 `a[i][j][k]=99`; 引发NPE:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot load from object array because "a[i][j]" is null
@@ -341,7 +355,8 @@ Exception in thread "main" java.lang.NullPointerException:
 
 同样,如果 `a.i = b.j`; throws an NPE:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot read field "j" because "b" is null
@@ -422,7 +437,8 @@ include::{java-code}/java14/RecordTest.java[tag=record]
 
 如果我们在生成的类文件上运行 `javap` 工具，我们将看到类文件。
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 public final class com.howtodoinjava.core.basic.EmployeeRecord
                     extends java.lang.Record {
@@ -466,7 +482,8 @@ public final class com.howtodoinjava.core.basic.EmployeeRecord
 
 尽管所有的 record 声明的类都继承了 `java.lang.Record` 类，但我们并不能显式初始化 `java.lang.Record` 的子类，编译器不能通过。
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 final class Data extends Record {
   private final int unit;
@@ -578,7 +595,8 @@ include::{java-code}/java14/SwitchTest.java[tag=switch3]
 
 在通常情况下,switch 表达式如下所示:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 T result = switch (arg) {
     case L1 -> e1;
@@ -593,7 +611,8 @@ switch 表达式是聚合表达式; 如果目标类型已知,则将该类型推�
 
 大多数 switch 表达式在 “case L->” switch 标签的右侧都有一个表达式. 如果需要一个完整的块,我们引入一个新的 `yield` 语句来产生一个值,该值成为封闭的 switch 表达式的值.
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 int j = switch (day) {
     case MONDAY  -> 0;
@@ -608,7 +627,8 @@ int j = switch (day) {
 
 像 switch 语句一样,switch 表达式也可以使用带有 “case L:” switch 标签的传统 switch 块(暗示着语义下降). 在这种情况下,使用新的 `yield` 语句产生值:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 int result = switch (s) {
     case "Foo":
@@ -631,7 +651,8 @@ int result = switch (s) {
 * return 将控制权返回给方法或构造函数的调用者。
 * yield 语句通过使封闭的 switch 表达式产生指定的值来转移控制。
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 SwitchExpression:
 	YieldStatement:
@@ -654,7 +675,8 @@ switch 表达式的情况必须详尽无遗;对于所有可能的值,必须有�
 
 此外,switch 表达式必须正常完成一个值,或者必须通过抛出异常来完成.这有许多后果.首先,编译器检查每个 switch 标签是否匹配,然后产生一个值.
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 int i = switch (day) {
     case MONDAY -> {
@@ -674,7 +696,8 @@ i = switch (day) {
 
 进一步的结果是,控制语句 `break`,`yield`,`return` 和 `continue` 无法跳过 switch 表达式,例如以下所示:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 for (int i = 0; i < MAX_VALUE; ++i) {
     int k = switch (e) {
@@ -710,7 +733,8 @@ CMS 的弊端
 
 移除了 CMS 垃圾收集器,如果在 JDK14 中使用 `-XX:+UseConcMarkSweepGC` 的话,JVM 不会报错,只是给出一个 warning 信息.
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 Java HotSpot(TM) 64-Bit Server VM warning: Ignoring option UseConcMarkSweepGC; \
 support was removed in <version>
@@ -741,7 +765,8 @@ JDK 官方给出将这个 GC 组合标记为 Deprecate 的理由是:这个 GC �
 
 废弃了 parallel young generation GC 与 SerialOld GC 的组合 ( `-XX:+UseParallelGC` 与 `-XX:-UseParallelOldGC` 配合开启 )),现在使用 `-XX:+UseParallelGC` `-XX:-UseParallelOldGC` 或者 `-XX:-UseParallelOldGC` 都会出现告警 如下:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 Java HotSpot(TM) 64 Bit Server VM warning: Option
 UseParallelOldGC was deprecated in version 14.0 and will likely
@@ -789,7 +814,8 @@ be removed in a future release.
 
 例如,文本块:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 """
 line 1
@@ -800,14 +826,16 @@ line 3
 
 相当于字符串文字:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 "line 1\nline 2\nline 3\n"
 ----
 
 或字符串文字的串联:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 "line 1\n" +
 "line 2\n" +
@@ -816,7 +844,8 @@ line 3
 
 如果在字符串的末尾不需要行终止符,则可以将结束定界符放在内容的最后一行. 例如,文本块:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 """
 line 1
@@ -826,14 +855,16 @@ line 3"""
 
 相当于字符串文字:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 "line 1\nline 2\nline 3"
 ----
 
 文本块可以表示空字符串,尽管不建议这样做,因为它需要两行源代码:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String empty = """
 """;
@@ -841,7 +872,8 @@ String empty = """
 
 以下是一些格式错误的文本块的示例:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String a = """""";   // no line terminator after opening delimiter
 String b = """ """;  // no line terminator after opening delimiter
@@ -881,7 +913,8 @@ String d = """
 
 JDK13 引入的 text blocks 进行第二轮 preview JDK14 的版本主要增加了两个 escape sequences ,分别是 `\` 与 `\s`
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String literal = "Lorem ipsum dolor sit amet, consectetur adipiscing " +
                  "elit, sed do eiusmod tempor incididunt ut labore " +
@@ -890,7 +923,8 @@ String literal = "Lorem ipsum dolor sit amet, consectetur adipiscing " +
 
 使用 `\` 转义序列,可以表示为:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String text = """
                 Lorem ipsum dolor sit amet, consectetur adipiscing \
@@ -905,7 +939,8 @@ String text = """
 
 在此示例中,在每行末尾使用 `\s` 可以确保每行正好是六个字符长:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String colors = """
     red  \s
@@ -920,7 +955,8 @@ String colors = """
 
 可以在可以使用字符串文字的任何地方使用文本块.例如,文本块和字符串文字可以互换使用:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String code = "public void print(Object o) {" +
               """
@@ -929,9 +965,10 @@ String code = "public void print(Object o) {" +
               """;
 ----
 
-但是,涉及文本块的串联可能会变得很笨拙.以以下文本块为起点:
+但是,涉及文本块的串联可能会变得很笨拙.以下文本块为起点:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String code = """
               public void print(Object o) {
@@ -942,7 +979,8 @@ String code = """
 
 假设需要更改,以便 `o` 的类型来自变量. 使用串联,包含尾随代码的文本块将需要从新行开始. 不幸的是,如下所示,在程序中直接插入换行符会导致类型和以 `o` 开头的文本之间存在很大的空白:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String code = """
               public void print(""" + type + """
@@ -954,7 +992,8 @@ String code = """
 
 可以手动删除空格,但这会损害引用代码的可读性:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String code = """
               public void print(""" + type + """
@@ -966,7 +1005,8 @@ String code = """
 
 替代方法是使用 `String::replace` 或 `String::format`,如下所示:
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String code = """
               public void print($type o) {
@@ -981,7 +1021,9 @@ String code = String.format("""
 ----
 
 另一种选择是引入新的实例方法 `String::formatted`,该方法可以按如下方式使用:
-[source,java]
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 14
 ----
 String source = """
                 public void print(%s object) {
