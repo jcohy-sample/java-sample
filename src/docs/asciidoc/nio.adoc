@@ -501,7 +501,8 @@ Java 7 增加了一个新特性,该特性提供了另外一种管理资源的方
 
 当 `try` 代码块结束时,自动释放资源.因此不需要显示的调用 `close()` 方法.该形式也称为 "带资源的 `try` 语句".
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
     try(需要关闭的资源声明){
         //可能发生异常的语句

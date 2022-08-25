@@ -72,7 +72,8 @@ Java 在 2018 年 3 月 21 日发布了第十个大版本.为了更快地迭代�
 * 字段类型
 * 异常形式（或任何其他类型的变量声明）
 
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java 10
 ----
 public class Application {
 
