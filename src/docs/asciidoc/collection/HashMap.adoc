@@ -13,7 +13,7 @@
 
 `HashMap` 实际上是一个 "链表散列" 的数据结构,即数组和链表的结合体.
 
-image::{oss-images}/java-hashmap1.png[]
+image::{oss-images}/collection/java-hashmap1.png[]
 
 `HashMap` 底层就是一个数组结构,数组中的每一项又是一个链表.当新建一个 `HashMap` 的时候,就会初始化一个数组.
 
@@ -107,7 +107,7 @@ static int hash(int h) {
 }
 ----
 
-                         
+
 `hash(int h)` 方法根据 `key` 的 `hashCode` 重新计算一次散列.此算法加入了高位计算,防止低位不变,高位变化时,造成的 `hash` 冲突.
 
 我们可以看到在 `HashMap` 中要找到某个元素,需要根据 `key` 的 `hash` 值来求得对应数组中的位置.如何计算这个位置就是 `hash` 算法.前面说过 `HashMap` 的数据结构是数组和链表的结合,所以我们当然希望这个 `HashMap` 里面的 元素位置尽量的分布均匀些,尽量
@@ -138,7 +138,7 @@ int capacity = 1;
 
 假设数组长度分别为 15 和 16,优化后的 hash 码分别为 8 和9,那么 `&` 运算后的结果如下:
 
-image::{oss-images}/java-hashmap2.png[]
+image::{oss-images}/collection/java-hashmap2.png[]
 
 从上面的例子中可以看出: 当它们和 `15-1(1110)` "&" 的时候,产生了相同的结果, 也就是说它们会定位到数组中的同一个位置上去,这就产生了碰撞,8 和 9 会被放到数组中 的同一个位置上形成链表,那么查询的时候就需要遍历这个链 表,得到 8 或者 9,这样就
 降低了查询的效率.同时,我们也可以发现,当数组长度为 15 的时候,`hash` 值会与 `15-1 (1110)` 进行 `&`,那么 最后一位永远是 0,而 `0001,0011,0101,1001,1011,0111,1101` 这几个位置永远都不能存放元素了,空间浪费相当大,更糟的是这种情况中,数组可
@@ -245,7 +245,7 @@ HashIterator() {
 }
 ----
 
-                
+
 在迭代过程中,判断 `modCount` 跟 `expectedModCount` 是否相等,如果不相等就表示已经有其他线程修改了 `Map`: 注意到 `modCount` 声明为 `volatile`,保证线程之间修改的可见性.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
@@ -281,4 +281,4 @@ final Entry<K,V> nextEntry() {
 
 *  ConcurrentHashMap.
 *  <<java-hashmap8,Java8 中的 HashMap>>
-    
+

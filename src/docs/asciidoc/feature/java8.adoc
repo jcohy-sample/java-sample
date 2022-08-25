@@ -368,7 +368,7 @@ Stream 操作是延迟执行的.这意味着他们会等到需要结果的时候
 
 一个终止操作,执行中间操作链,并产生结果
 
-image::{oss-images}/java-stream1.jpg[]
+image::{oss-images}/java8/java-stream1.jpg[]
 
 [[java-8-feature-stream-use-create]]
 ==== 创建 Stream
@@ -641,7 +641,7 @@ Java 8 中将并行进行了优化,我们可以很容易的对数据进行并行
 
 Fork/Join 框架: 就是在必要的情况下,将一个大任务,进行拆分(fork)成若干个小任务(拆到不可再拆时),再将一个个的小任务运算的结果进行join 汇总
 
-image::{oss-images}/java-fork-join.jpg[]
+image::{oss-images}/java8/java-fork-join.jpg[]
 
 .Fork/Join 框架与传统线程池的区别
 ****

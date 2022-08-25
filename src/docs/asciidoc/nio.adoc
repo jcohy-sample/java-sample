@@ -64,7 +64,7 @@ Buffer 中的重要概念:
 标记、位置、限制、容量遵守以下不变式: 0<=mark<=position<=limit<=capacity
 ====
 
-image::{oss-images}/java-nio-buffer1.jpg[]
+image::{oss-images}/nio/java-nio-buffer1.jpg[]
 
 [[java-nio-buffer-method]]
 === `Buffer` 常用方法
@@ -133,9 +133,9 @@ image::{oss-images}/java-nio-buffer1.jpg[]
 
 字节缓冲区是直接缓冲区还是非直接缓冲区可通过调用其 `isDirect()` 方法来确定.提供此方法是为了能够在性能关键型代码中执行显式缓冲区管理.
 
-image::{oss-images}/java-nio-buffer2.jpg[]
+image::{oss-images}/nio/java-nio-buffer2.jpg[]
 
-image::{oss-images}/java-nio-buffer3.jpg[]
+image::{oss-images}/nio/java-nio-buffer3.jpg[]
 ****
 
 [[java-nio-buffer-sample]]
@@ -152,7 +152,7 @@ include::{java-code}/nio/NioTest.java[]
 
 通道(`Channel`): 由 `java.nio.channels` 包定义的.`Channel` 表示 IO 源与目标打开的连接.`Channel` 类似于传统的 "流".只不过 `Channel` 本身不能直接访问数据,`Channel` 只能与 `Buffer` 进行交互.
 
-image::{oss-images}/java-nio-channel1.jpg[]
+image::{oss-images}/nio/java-nio-channel1.jpg[]
 
 Java 为 `Channel` 接口提供的最主要实现类如下:
 
@@ -196,7 +196,7 @@ int bytesRead = inChannel.read(buf);
 
 分散读取(Scattering Reads)是指从 `Channel` 中读取的数据 "分散" 到多个 `Buffer` 中.
 
-image::{oss-images}/java-nio-channel2.jpg[]
+image::{oss-images}/nio/java-nio-channel2.jpg[]
 
 [NOTE]
 ====
@@ -205,7 +205,7 @@ image::{oss-images}/java-nio-channel2.jpg[]
 
 聚集写入(Gathering Writes)是指将多个 `Buffer` 中的数据 "聚集" 到 `Channel`.
 
-image::{oss-images}/java-nio-channel3.jpg[]
+image::{oss-images}/nio/java-nio-channel3.jpg[]
 
 [NOTE]
 ====
@@ -275,7 +275,7 @@ Java NIO 是非阻塞模式的.当线程从某通道进行读写数据时,若没
 
 **SelectableChannle** 的结构如下图:
 
-image::{oss-images}/java-nio-select1.jpg[]
+image::{oss-images}/nio/java-nio-select1.jpg[]
 
 [[java-nio-selector-use]]
 === 选择器(Selector)的应用
@@ -389,7 +389,7 @@ include::{java-code}/nio/DatagramChannelTest.java[]
 
 Java NIO 管道是 2 个线程之间的单向数据连接.`Pipe` 有一个 `source` 通道和一个 `sink` 通道.数据会被写到 `sink` 通道,从 `source` 通道读取.
 
-image::{oss-images}/java-nio-pipe1.png[]
+image::{oss-images}/nio/java-nio-pipe1.png[]
 
 向管道写数据
 

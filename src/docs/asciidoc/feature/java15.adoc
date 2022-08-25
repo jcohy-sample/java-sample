@@ -705,7 +705,7 @@ Nashorn 是 JDK 1.8 引入的一个 JavaScript 脚本引擎，用来取代 Rhino
 
 Graal VM 在 HotSpot VM 基础上增强而成的跨语言全栈虚拟机，可以作为 "任何语言" 的运行平台使用。语言包括: Java、Scala、Groovy、Kotlin；C、C++、JavaScript、Ruby、Python、R 等
 
-image::{oss-images}/graalvm.jpeg[]
+image::{oss-images}/java15/graalvm.jpeg[]
 
 [[java-15-feature-datagramsocket]]
 == 重新实现旧版 DatagramSocket API
@@ -741,7 +741,7 @@ image::{oss-images}/graalvm.jpeg[]
 如果在启动时未设置任何值或将其设置为 "true"，则将使用旧版实现；否则，将使用新的(基于 NIO )实现。在某些将来的版本中，我们将删除旧版实现和系统属性。
 在某些时候，我们还可能弃用并删除 `DatagramSocketImpl` 和 `DatagramSocketImplFactory`。
 
-image::{oss-images}/ReimplementDS.png[]
+image::{oss-images}/java15/ReimplementDS.png[]
 
 默认情况下启用新的实现。 通过直接使用选择器提供程序的平台默认实现(`sun.nio.ch.SelectorProviderImpl` 和 `sun.nio.ch.DatagramChannelImpl`)，它为数据报和多播套接字提供了不间断的行为。
 因此，安装自定义选择器提供程序将对 `DatagramSocket` 和 `MulticastSocket` 无效。

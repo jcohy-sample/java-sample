@@ -63,7 +63,7 @@ Oracle版本: https://www.oracle.com/java/technologies/javase-jdk14-downloads.ht
 
 * 项目设置
 
-image::{oss-images}/java-14-4.png[]
+image::{oss-images}/java14/java-14-4.png[]
 
 [[java-14-feature-instanceof]]
 == instanceof 模式匹配 (预览语言)
@@ -202,7 +202,7 @@ NUMA 就是非统一内存访问架构(英语: non uniform memory access ,简称
 
 有了这个 JEP，G1 垃圾收集器得到了增强，以便在 Linux 操作系统下更好地管理内存。
 
-image::{oss-images}/java-14-7.png[]
+image::{oss-images}/java14/java-14-7.png[]
 
 [[java-14-feature-streaming]]
 == JFR 事件流
@@ -723,9 +723,9 @@ ZGC 与 Shenandoah 目标高度相似,在尽可能对吞吐量影响不大的前
 
 深入理解 Java 虚拟机 一书中这样定义 ZGC,ZGC 收集器是一款基于 Region 内存布局的,(暂时)不设分代的,使用了读屏障、染色指针和内存多重映射等技术来实现可并发的标记 压缩算法的, 以低延迟为首要目标的一款垃圾收集器.
 
-image::{oss-images}/java-14-5.png[]
+image::{oss-images}/java14/java-14-5.png[]
 
-image::{oss-images}/java-14-6.png[]
+image::{oss-images}/java14/java-14-6.png[]
 
 JDK14 之前, ZGC 仅 Linux 才支持 .
 尽管许多使用 ZGC 的用户都使用类 Linux 的环境,但在 Windows 和 macOS 上,人们也需要 ZGC 进行开发部署和测试.许多桌面应用也可以从 ZGC 中受益.因此, ZGC 特性被移植到了 Windows 和 macOS 上.
