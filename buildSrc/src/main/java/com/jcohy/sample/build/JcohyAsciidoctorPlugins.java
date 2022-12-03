@@ -40,8 +40,8 @@ public class JcohyAsciidoctorPlugins implements Plugin<Project> {
 
     private void configureJavaCompileConventions(Project project) {
         project.getTasks().withType(JavaCompile.class, compile -> {
-            compile.setSourceCompatibility(JavaVersion.VERSION_18.toString());
-            compile.setTargetCompatibility(JavaVersion.VERSION_18.toString());
+            compile.setSourceCompatibility(JavaVersion.VERSION_11.toString());
+            compile.setTargetCompatibility(JavaVersion.VERSION_11.toString());
         });
     }
 
