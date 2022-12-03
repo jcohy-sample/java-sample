@@ -24,9 +24,10 @@ public class OssUploadPlugins implements Plugin<Project> {
 		});
 		AliOssExtension extension = project.getExtensions().getByType(AliOssExtension.class);
 		extension.setBucket("jcohy-study");
+//		extension.setBucket();
 		String buildDir = project.getRootProject().getBuildDir().getName();
 		extension.getUpload().setSource(buildDir+"/generated");
-		extension.getUpload().setPrefix("");
+		extension.getUpload().setPrefix("java");
 
 		extension.getUpload().setIgnoreSourceDir(true);
 	}

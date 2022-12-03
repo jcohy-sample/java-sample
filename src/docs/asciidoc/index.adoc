@@ -19,6 +19,6 @@ https://www.jcohy.com[*https://www.jcohy.com/projects*]
 
 <<nio.adoc#java-nio, Java NIO>> :: Java NIO
 
-<<juc.adoc#java-juc, Java 集合>> :: volatile, CAS, 线程八锁, 线程池, ForkJoinPool
+<<juc.adoc#java-juc, Java 并发包>> :: volatile, CAS, 线程八锁, 线程池, ForkJoinPool
 
-<<AnnotationProcess.adoc#java-annotation-process, Java 集合>> :: 注解处理器
+<<AnnotationProcess.adoc#java-annotation-process, Java 注解处理器>> :: 注解处理器
