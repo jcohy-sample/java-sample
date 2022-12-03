@@ -107,7 +107,7 @@ static int hash(int h) {
 }
 ----
 
-                         
+
 `hash(int h)` 方法根据 `key` 的 `hashCode` 重新计算一次散列.此算法加入了高位计算,防止低位不变,高位变化时,造成的 `hash` 冲突.
 
 我们可以看到在 `HashMap` 中要找到某个元素,需要根据 `key` 的 `hash` 值来求得对应数组中的位置.如何计算这个位置就是 `hash` 算法.前面说过 `HashMap` 的数据结构是数组和链表的结合,所以我们当然希望这个 `HashMap` 里面的 元素位置尽量的分布均匀些,尽量
@@ -245,7 +245,7 @@ HashIterator() {
 }
 ----
 
-                
+
 在迭代过程中,判断 `modCount` 跟 `expectedModCount` 是否相等,如果不相等就表示已经有其他线程修改了 `Map`: 注意到 `modCount` 声明为 `volatile`,保证线程之间修改的可见性.
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
@@ -281,4 +281,4 @@ final Entry<K,V> nextEntry() {
 
 *  ConcurrentHashMap.
 *  <<java-hashmap8,Java8 中的 HashMap>>
-    
+

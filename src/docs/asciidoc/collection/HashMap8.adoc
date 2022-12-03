@@ -337,9 +337,9 @@ final Node<K,V> getNode(Object key) {
 我们知道 `java.util.HashMap` 不是线程安全的,因此如果在使用迭代器的过程中有其他线程修改了 map,那么将抛出 `ConcurrentModificationException`,这就是所谓 fail-fast 策略.
 
 这一策略在源码中的实现是通过 `modCount` 域,`modCount` 顾名思义就是修改次数,对 HashMap 内容的修改都将增加这个值,那么在迭代器初始化过程中会将这个值赋给迭代器的 `expectedModCount`.
-           
+
 在迭代过程中,判断 `modCount` 跟 `expectedModCount` 是否相等,如果不相等就表示已经有其他线程修改了 Map: 注意到 `modCount` 声明为 `volatile`,保证线程之间修改的可见性.
-           
+
 在 HashMap 的API 中指出: 由所有 HashMap 类的 "collection 视图方法" 所返回的迭代器都是快速失败的: 在迭代器创建之后,如果从结构上对映射进行修改,除非通过迭代器本身的 remove 方法,其他任何时间任何方式的修改,迭代器都将抛出 `ConcurrentModificationException`.因此,面对并发的修改,迭代器很快就会完全失败,而不冒在将来不确定的时间发生任意不确定行为的风险.
 
 [NOTE]
@@ -378,5 +378,5 @@ final Node<K,V> getNode(Object key) {
 == 扩展
 *  ConcurrentHashMap.
 
-    
-    
+
+
