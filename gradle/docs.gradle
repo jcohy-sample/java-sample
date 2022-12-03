@@ -12,7 +12,7 @@ asciidoctor {
 
 task asciidoctorMultipage(type: org.asciidoctor.gradle.jvm.AsciidoctorTask) {
 	sources {
-		include "*.adoc"
+		include "index.adoc"
 	}
 }
 

@@ -300,7 +300,7 @@ include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet]
 
 生成的文档使用了 `String::stripIndent` 去除了内容前面的空格，与 `<pre>{@code ...}</pre>` 不同，这个显示的文本总是在空格和星号之后才开始。而在 snippet 中，生成的文本块的内容的位置是相对于源文件中右大括号的位置进行缩进。上面的例子生成的文档如下：
 
-image::{oss-images}/java18-snippet1.png[]
+image::{oss-images}/java18/java18-snippet1.png[]
 
 内联代码段的内容有两个限制：
 
@@ -328,7 +328,7 @@ include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet2]
 
 在此示例中，输出和上面的一样
 
-image::{oss-images}/java18-snippet1.png[]
+image::{oss-images}/java18/java18-snippet1.png[]
 
 与内联片段不同，外部片段对其内容没有限制。 特别是，它们可能包含 /* ... */ 注释。
 
@@ -392,7 +392,7 @@ include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet3]
 
 输出为：
 
-image::{oss-images}/java18-snippet3.png[]
+image::{oss-images}/java18/java18-snippet3.png[]
 
 下面的示例使用正则高亮显示一行中的 `arg`
 
@@ -404,7 +404,7 @@ include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet4]
 
 输出为：
 
-image::{oss-images}/java18-snippet4.png[]
+image::{oss-images}/java18/java18-snippet4.png[]
 
 [[java-18-feature-snippet-modifying]]
 === 修改显示的文本
@@ -429,7 +429,7 @@ include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet5]
 
 输出为：
 
-image::{oss-images}/java18-snippet5.png[]
+image::{oss-images}/java18/java18-snippet5.png[]
 
 [NOTE]
 ====
@@ -457,7 +457,7 @@ include::{java-code}/java18/snippets/SnippetsTest.java[tag=snippet6]
 
 输出为：
 
-image::{oss-images}/java18-snippet6.png[]
+image::{oss-images}/java18/java18-snippet6.png[]
 
 [[java-18-feature-snippet-file]]
 === 其他类型的文件

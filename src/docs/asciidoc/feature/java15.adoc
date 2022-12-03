@@ -113,8 +113,7 @@ API 将重用为 XDH 开发的 `NamedParameterSpec` 类，以描述曲线域参�
 
 API用法示例:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 // example: generate a key pair and sign
 KeyPairGenerator kpg = KeyPairGenerator.getInstance("Ed25519");
@@ -137,7 +136,7 @@ PublicKey pubKey = kf.generatePublic(pubSpec);
 [[java-15-feature-eddsa-alternatives]]
 === 备选方案
 
-* 本地实现(例如现有的 ECC 代码)可能会提供更好的性能。 EdDSA 的性能应该类似于 XDH，因此 Java 实现可能足够快。
+* 本地实现(例如现有的ECC代码)可能会提供更好的性能。 EdDSA 的性能应该类似于 XDH，因此 Java 实现可能足够快。
 * 可以使用现有 ECC 代码中的点算术来实现此签名方案，但是这种方法不能提供 RFC 8032 的所有安全/性能优势。
 * 用户可以使用提供对 EdDSA 支持的第三方库。 上面的动机部分介绍了在 JDK 中包含 EdDSA 实现的动机。
 * 使用现有的 ECC API 类来指定 EdDSA 密钥和参数在技术上可能是可行的，但这会带来密钥滥用的巨大风险。 可以在 https://bugs.openjdk.java.net/browse/JDK-8166597[JDK-8166597] 中找到更多信息。
@@ -175,8 +174,7 @@ PublicKey pubKey = kf.generatePublic(pubSpec);
 
 Java 开发人员熟悉限制子类集合的思想，因为它经常出现在 API 设计中。该语言在这方面提供了有限的工具:要么使一个类为 `final`，这样它就没有子类;要么使一个类或它的构造函数为 `package-private`，这样它就只能在同一个包中有子类。 https://hg.openjdk.java.net/jdk/jdk/file/tip/src/java.base/share/classes/java/lang/[JDK 中] 出现了一个 `package-private` 超类的示例
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package java.lang;
 
@@ -197,8 +195,7 @@ public final class StringBuilder extends AbstractStringBuilder {...}
 一个密封的类或接口只能由那些允许的类和接口来扩展或实现。通过将 `sealed` 修饰符应用到类的声明，这样的类叫密封类。
 然后，在任何 `extends` 和 `implements` 子句之后，声明 `permits` 子句指定允许扩展密封类的类。例如，下面的 `Shape`  指定了三个允许的子类
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package com.example.geometry;
 
@@ -209,8 +206,7 @@ public abstract sealed class Shape
 上面 `permits` 指定的类必须位于超类附近:要么在同一个模块中(如果超类在一个命名的模块中)，要么在同一个包中(如果超类在一个未命名的模块中)。
 例如，在下面的 `Shape` 中，它允许的子类都位于同一个命名模块的不同包中
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package com.example.geometry;
 
@@ -223,8 +219,7 @@ public abstract sealed class Shape
 当允许的子类在大小和数量上都比较小时，在与 `sealed` 类中声明它们可能比较方便。当在这种情况下声明它们时，密封类可能会省略 `permits`  子句，Java 编译器将从源文件(可能是辅助类或嵌套类)的声明中推断允许的子类。
 例如，如果 `Shape` 找到以下代码。然后密封类 `Shape` 被推断为有三个允许的子类
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package com.example.geometry;
 
@@ -237,8 +232,7 @@ abstract sealed class Shape {...}
 密封类的目的是让客户端代码清楚地、确切地了解所有允许的子类。判断子类的传统方法是使用 `instanceof` 测试的 `if-else` 链，但是对编译器来说，分析这样的链是困难的，因此它不能确定测试是否涵盖了所有允许的子类。
 例如，下面的方法会导致编译时错误，因为编译器不相信开发人员的判断，即 `Shape` 的每个子类都经过测试，并导致返回语句
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 int getCenter(Shape shape) {
     if (shape instanceof Circle) {
@@ -256,8 +250,7 @@ int getCenter(Shape shape) {
 在未来版本中的 https://cr.openjdk.java.net/~briangoetz/amber/pattern-match.html[模式匹配] 将实现清晰明确地推断允许的子类的能力。 客户端代码无需使用 `if-else` 检查密封类的实例，而是可以使用 `switch` 类型测试切换实例(https://openjdk.java.net/jeps/375[JEP 375])。
 这使编译器可以检查测试是否详尽。 例如，给定以下代码，编译器将推断 `Shape` 的每个允许的子类都被覆盖，因此不需要任何默认子句(或其他模式)。 此外，如果缺少以下三种情况之一，则编译器将给出错误:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 int getCenter(Shape shape) {
     return switch (shape) {
@@ -280,8 +273,7 @@ int getCenter(Shape shape) {
 
 作为三个约束的示例，圆形是 `final`，而矩形是 `sealed`，而方形是 `non-sealed`:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package com.example.geometry;
 
@@ -312,8 +304,7 @@ public non-sealed class Square extends Shape {...}
 
 与类的情况类似，通过对接口应用 `sealed` 修饰符来密封接口。在任何用于指定超接口的 `extends` 子句之后，使用 `permits`  子句指定实现类和子接口。例如
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package com.example.expression;
 
@@ -331,8 +322,7 @@ public final class NegExpr      implements Expr {...}
 
 密封类与 <<java-15-feature-record,Records>> (http://openjdk.java.net/jeps/384[JEP 384])一起工作得很好，后者是 Java 15 的另一个预览特性。Records 默认是 `final` 的，因此带有 Records 的密封类层次结构比上面的示例稍微简洁一些
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package com.example.expression;
 
@@ -352,8 +342,7 @@ public record NegExpr(Expr e)           implements Expr {...}
 
 关于如何在 JDK 中使用密封类的一个例子是在 `java.lang.constant` 包中，该包为 https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/constant/package-summary.html[JVM 实体的模型描述符]:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 package java.lang.constant;
 
@@ -405,8 +394,7 @@ Java 虚拟机在运行时识别密封类和接口，并防止未经授权的子
 
 尽管 `sealed` 是类修饰符，但 `ClassFile` 结构中没有 `ACC_SEALED` 标志。 相反，密封类的类文件具有 `PermittedSubclasses` 属性，该属性隐式指示 `sealed` 修饰符，并显式指定允许的子类:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 PermittedSubclasses_attribute {
     u2 attribute_name_index;
@@ -455,7 +443,7 @@ PermittedSubclasses_attribute {
 [[java-15-feature-hidden-summary]]
 === 简介
 
-隐藏类，就是不能直接被其他 class 的二进制代码使用的 class，主要被一些框架用来生成运行时类，但是这些类不是被用来直接使用的，而是通过反射机制来调用。隐藏类可被定义为访问控制嵌套的成员，并且可以独立于其他类进行卸载。
+隐藏类，就是不能直接被其他class的二进制代码使用的class，主要被一些框架用来生成运行时类，但是这些类不是被用来直接使用的，而是通过反射机制来调用。隐藏类可被定义为访问控制嵌套的成员，并且可以独立于其他类进行卸载。
 
 [[java-15-feature-hidden-goals]]
 === 目标
@@ -474,7 +462,7 @@ PermittedSubclasses_attribute {
 [[java-15-feature-hidden-motivation]]
 === 动机
 
-基于 JVM 的很多语言都有动态生成类的机制，这样可以提高语言的灵活性和效率。 例如，对于 Java 语言，javac 不会在编译的时候将 lambda 表达式转换成为专门的类，而是在运行时将相应的字节码 https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/invoke/LambdaMetafactory.html[动态生成相应的类对象]。
+基于JVM的很多语言都有动态生成类的机制，这样可以提高语言的灵活性和效率。 例如，对于 Java 语言，javac 不会在编译的时候将 lambda 表达式转换成为专门的类，而是在运行时将相应的字节码 https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/invoke/LambdaMetafactory.html[动态生成相应的类对象]。
 同样，非 Java 语言的运行时通常使用 https://docs.oracle.com/en/java/javase/14/docs/api/java.base/java/lang/reflect/Proxy.html[动态代理] 来实现那些语言的高级功能，这些代理也可以动态生成类。
 
 语言实现者通常希望动态生成的类在逻辑上成为静态生成的类的实现的一部分。那么我们希望这些动态生成的类需要具有什么特性呢？:
@@ -492,7 +480,7 @@ PermittedSubclasses_attribute {
 
 * `java.lang.reflect.Proxy` 可以定义隐藏类作为实现代理接口的代理类。
 * `java.lang.invoke.StringConcatFactory` 可以生成隐藏类来保存常量连接方法；
-* `java.lang.invoke.LambdaMetaFactory` 可以生成隐藏的 nestmate 类，以容纳访问封闭变量的 lambda 主体；
+* `java.lang.invoke.LambdaMetaFactory` 可以生成隐藏的nestmate类，以容纳访问封闭变量的 lambda 主体；
 * JavaScript 引擎可以为从 JavaScript 程序转换的字节码生成隐藏类，因为当引擎不再使用这些类时，这些类将被卸载。
 
 [[java-15-feature-hidden-description]]
@@ -508,7 +496,7 @@ Java 9 通过引入方法 `Lookup::defineClass(byte[])` 增强了查找对象的
 该 JEP 建议扩展 `Lookup` API 以支持定义只能通过反射访问的隐藏类。JVM 在字节码链接期间无法发现隐藏的类，也不能通过显式使用类加载器的程序(例如，通过 `Class::forName` 和 `ClassLoader::loadClass`) 发现隐藏的类。
 当隐藏的类不再可访问时，可以将其卸载，也可以共享一个类加载器的生存期，以便仅在对类加载器进行垃圾回收时才将其卸载。 (可选)可以将隐藏类创建为访问控制嵌套的成员。
 
-为简便起见，此 JEP 称 "隐藏类"，但应理解为表示隐藏类或接口。 同样，"普通类" 表示普通类或接口，即 `ClassLoader::defineClass` 的结果。
+为简便起见，此JEP称 "隐藏类"，但应理解为表示隐藏类或接口。 同样，"普通类" 表示普通类或接口，即 `ClassLoader::defineClass` 的结果。
 
 [[java-15-feature-hidden-description-create]]
 ==== 创建隐藏类
@@ -537,8 +525,7 @@ Java 9 通过引入方法 `Lookup::defineClass(byte[])` 增强了查找对象的
 使用 `/` 表示 `Class::getName` 输出中的隐藏类也通过使用 `/` 在堆栈跟踪中在样式上对齐，以通过其定义的模块和加载程序来限定类(请参见 StackTraceElement::toString)。
 下面的错误日志显示了两个隐藏的类，它们都在模块m1中: 一个隐藏的类具有方法测试，另一个具有适用的方法。
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 java.lang.Error: thrown from hidden class com.example.Foo/0x0000000800b7a470
     at m1/com.example.Foo/0x0000000800b7a470.toString(Foo.java:16)
@@ -705,7 +692,7 @@ Nashorn 是 JDK 1.8 引入的一个 JavaScript 脚本引擎，用来取代 Rhino
 
 Graal VM 在 HotSpot VM 基础上增强而成的跨语言全栈虚拟机，可以作为 "任何语言" 的运行平台使用。语言包括: Java、Scala、Groovy、Kotlin；C、C++、JavaScript、Ruby、Python、R 等
 
-image::{oss-images}/graalvm.jpeg[]
+image::{oss-images}/java15/graalvm.jpeg[]
 
 [[java-15-feature-datagramsocket]]
 == 重新实现旧版 DatagramSocket API
@@ -741,7 +728,7 @@ image::{oss-images}/graalvm.jpeg[]
 如果在启动时未设置任何值或将其设置为 "true"，则将使用旧版实现；否则，将使用新的(基于 NIO )实现。在某些将来的版本中，我们将删除旧版实现和系统属性。
 在某些时候，我们还可能弃用并删除 `DatagramSocketImpl` 和 `DatagramSocketImplFactory`。
 
-image::{oss-images}/ReimplementDS.png[]
+image::{oss-images}/java15/ReimplementDS.png[]
 
 默认情况下启用新的实现。 通过直接使用选择器提供程序的平台默认实现(`sun.nio.ch.SelectorProviderImpl` 和 `sun.nio.ch.DatagramChannelImpl`)，它为数据报和多播套接字提供了不间断的行为。
 因此，安装自定义选择器提供程序将对 `DatagramSocket` 和 `MulticastSocket` 无效。
@@ -876,8 +863,7 @@ https://openjdk.java.net/jeps/305[JEP 305] 于 2017 年中提出了 `instanceof`
 
 几乎每个程序都包含某种逻辑,这些逻辑结合了对表达式是否具有某种类型或结构的判断,然后有条件地提取其状态的组件以进行进一步处理. 例如,以下是所有Java程序员都熟悉的一种惯用法:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 if (obj instanceof String) {
     String s = (String) obj;
@@ -910,8 +896,7 @@ if (obj instanceof String) {
 
 与局部变量的范围不同,绑定变量的范围由包含的表达式和语句的语义确定. 例如,在此代码中:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 if (!(obj instanceof String s)) {
     .. s.contains(..) ..
@@ -924,16 +909,14 @@ if (!(obj instanceof String s)) {
 
 当 `if` 语句的条件变得比单个 `instanceof` 更复杂时,绑定变量的范围也会相应地增长. 例如,在此代码中:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 if (obj instanceof String s && s.length() > 5) {.. s.contains(..) ..}
 ----
 
 绑定变量 `s` 在 `&&` 运算符右侧以及 `true` 块中. (仅当 `instanceof` 成功匹配时,才考虑到右边.)另一方面,在此代码中:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 if (obj instanceof String s || s.length() > 5) {.. s.contains(..) ..}
 ----
@@ -944,8 +927,7 @@ if (obj instanceof String s || s.length() > 5) {.. s.contains(..) ..}
 
 在 `instanceof` 中使用模式匹配应大大减少 Java 程序中显式强制转换的总数. 此外,类型测试模式在编写相等方法时特别有用. 考虑以下选自 https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/[Effective Java book] 第10条的相等方法:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 @Override public boolean equals(Object o) {
     return (o instanceof CaseInsensitiveString) &&
@@ -1100,8 +1082,7 @@ https://openjdk.java.net/jeps/355[JEP 355] 于 2019 年 6 月针对 JDK 13 作�
 
 使用 "one-dimensional" 字符串文本
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = "<html>\n" +
               "    <body>\n" +
@@ -1112,8 +1093,7 @@ String html = "<html>\n" +
 
 使用 "two-dimensional" 字符串文本
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
               <html>
@@ -1129,8 +1109,7 @@ String html = """
 
 使用 "one-dimensional" 字符串文本
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String query = "SELECT \"EMP_ID\", \"LAST_NAME\" FROM \"EMPLOYEE_TB\"\n" +
                "WHERE \"CITY\" = 'INDIANAPOLIS'\n" +
@@ -1139,8 +1118,7 @@ String query = "SELECT \"EMP_ID\", \"LAST_NAME\" FROM \"EMPLOYEE_TB\"\n" +
 
 使用 "two-dimensional" 字符串文本
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String query = """
                SELECT "EMP_ID", "LAST_NAME" FROM "EMPLOYEE_TB"
@@ -1154,8 +1132,7 @@ String query = """
 
 使用 "one-dimensional" 字符串文本
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 ScriptEngine engine = new ScriptEngineManager().getEngineByName("js");
 Object obj = engine.eval("function hello() {\n" +
@@ -1167,8 +1144,7 @@ Object obj = engine.eval("function hello() {\n" +
 
 使用 "two-dimensional" 字符串文本
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 ScriptEngine engine = new ScriptEngineManager().getEngineByName("js");
 Object obj = engine.eval("""
@@ -1195,8 +1171,7 @@ Object obj = engine.eval("""
 
 与字符串文字中的字符不同,内容可以直接包含行终止符. 允许在文本块中使用 `\n`,但不是必需或不建议使用. 例如,文本块:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 """
 line 1
@@ -1207,16 +1182,14 @@ line 3
 
 相当于字符串文字:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 "line 1\nline 2\nline 3\n"
 ----
 
 或字符串文字的串联:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 "line 1\n" +
 "line 2\n" +
@@ -1225,8 +1198,7 @@ line 3
 
 如果在字符串的末尾不需要行终止符,则可以将结束定界符放在内容的最后一行. 例如,文本块:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 """
 line 1
@@ -1236,16 +1208,14 @@ line 3"""
 
 相当于字符串文字:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 "line 1\nline 2\nline 3"
 ----
 
 文本块可以表示空字符串,尽管不建议这样做,因为它需要两行源代码:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String empty = """
 """;
@@ -1253,8 +1223,7 @@ String empty = """
 
 以下是一些格式错误的文本块的示例:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String a = """""";   // no line terminator after opening delimiter
 String b = """ """;  // no line terminator after opening delimiter
@@ -1293,8 +1262,7 @@ Java 编译器将内容中的行终止符从 CR (\u000D)  和 CRLF (\u000D\u000A
 
 上面显示的文本块比连接起来的字符串文本更容易阅读，但是文本块内容应该包括添加的空格来表示这是一个缩进嵌入的字符串，以便它与开始的分隔符整齐地对齐。下面是使用 `.` 来可视化开发人员为缩进而添加的空格的 HTML 示例
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
 ..............<html>
@@ -1310,8 +1278,7 @@ String html = """
 
 空格也可能出现在每行的末尾，尤其是当文本块是通过从其他文件中粘贴粘贴的片段填充时(这些文本片段本身可能是通过从更多文件中粘贴而形成的)。 这是用一些结尾的空格重新构造的 HTML 示例，再次使用 `.` 来可视化空格:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
 ..............<html>...
@@ -1345,7 +1312,7 @@ String html = """
 . 从第5步中删除各个行的已修改列表中所有行的所有尾随空白。此步骤折叠已修改列表中的全空白行，以便它们为空，但不丢弃它们。
 . 通过将LF作为行之间的分隔符，将步骤6中各个行的修改后的列表中的所有行连接起来，来构造结果字符串。 如果步骤6的列表中的最后一行为空，则前一行的连接LF将是结果字符串中的最后一个字符。
 
-该算法不解释转义序列 `\b`(退格)，`\t`(制表符)和 `\s`(空格)。 转义处理稍后发生。 类似地，`\`  转义序列不会阻止行终止符上的行拆分，因为在转义处理之前，该序列被视为两个单独的字符。
+该算法不解释转义序列 `\b`(退格)，`\t`(制表符)和 `\s`(空格)。 转义处理稍后发生。 类似地，\ <line-terminator> 转义序列不会阻止行终止符上的行拆分，因为在转义处理之前，该序列被视为两个单独的字符。
 
 重新缩进算法在 Java 语言规范中是规范性的。 开发人员可以通过 `String::stripIndent`(一种新的实例方法)访问它。
 
@@ -1357,8 +1324,7 @@ String html = """
 
 例如，当关闭定界符一直向左移动时，没有附带的空格可以用点显示:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
               <html>
@@ -1371,8 +1337,7 @@ String html = """
 
 包括结尾的空白行和结束定界符在内，公共空白前缀为零，因此从每行的开头删除零空白。 该算法因此产生: (使用|可视化左边距)
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 |              <html>
 |                  <body>
@@ -1383,8 +1348,7 @@ String html = """
 
 或者，假设关闭定界符没有一直移到最左侧，而是移到html的t下，因此它比变量声明深了8个空格:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
               <html>
@@ -1397,8 +1361,7 @@ String html = """
 
 用点显示的空间被认为是偶然的:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
 ........      <html>
@@ -1411,8 +1374,7 @@ String html = """
 
 包括结尾的空白行和结束定界符在内，公共空白前缀为8，因此从每行的开头删除了八个空白。 因此，该算法保留了内容相对于结束定界符的本质缩进:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 |      <html>
 |          <body>
@@ -1423,8 +1385,7 @@ String html = """
 
 最后，假设将结束定界符稍微移到内容的右侧:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
               <html>
@@ -1437,8 +1398,7 @@ String html = """
 
 用点显示的空间被认为是偶然的:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
 ..............<html>
@@ -1451,8 +1411,7 @@ String html = """
 
 常见的空白前缀为14，因此从每行的开头删除了14个空白。 删除尾随的空白行以留下空白行，然后丢弃该空白行。 换句话说，将结束定界符移到内容的右侧无效，并且该算法再次保留了内容的基本缩进:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 |<html>
 |    <body>
@@ -1468,8 +1427,7 @@ String html = """
 
 解释转义是最后一步，允许开发人员使用 `\n，\f 和 \r` 进行字符串的垂直格式化，而又不影响步骤 1 中行终止符的转换，并使用 `\b` 和 `\t` 进行 a 的水平格式化 字符串，而不会影响步骤 2 中偶然空格的去除。例如，考虑包含 `\r` 转义序列(CR)的文本块:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String html = """
               <html>\r
@@ -1482,8 +1440,7 @@ String html = """
 
 在将行终止符标准化为 LF 之后，才处理 CR 转义。 使用 Unicode 转义以可视化LF  LF (\u000A) 和 CR (\u000D)，结果是:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 |<html>\u000D\u000A
 |    <body>\u000D\u000A
@@ -1494,8 +1451,7 @@ String html = """
 
 请注意，在文本块内自由使用 " and "" 是合法的，除非紧接在结束定界符之前，例如，以下文本块是合法的:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String story = """
     "When I use a word," Humpty Dumpty said,
@@ -1515,8 +1471,7 @@ String code =
 
 但是，为了避免模仿结束定界符，三个 " 字符必须至少转义一个。 (n 个字符序列至少需要转义其中的 Math.floorDiv(n,3)。)紧接在定界分隔符之前使用 " 也需要转义。 例如:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String code =
     """
@@ -1557,22 +1512,20 @@ System.out.println("""
 
 为了更好地控制换行符和空格的处理，我们引入了两个新的转义序列。
 
-首先, `\` 转义序列明确禁止插入换行符.
+首先,\ <line-terminator> 转义序列明确禁止插入换行符.
 
 例如,通常的做法是将很长的字符串文字拆分为较小的子字符串的串联,然后将结果字符串表达式包装到多行中:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String literal = "Lorem ipsum dolor sit amet, consectetur adipiscing " +
                  "elit, sed do eiusmod tempor incididunt ut labore " +
                  "et dolore magna aliqua.";
 ----
 
-使用 `\` 转义序列,可以表示为:
+使用 \<line-terminator> 转义序列,可以表示为:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String text = """
                 Lorem ipsum dolor sit amet, consectetur adipiscing \
@@ -1581,14 +1534,13 @@ String text = """
                 """;
 ----
 
-由于字符文字和传统字符串文字不允许嵌入换行符的简单原因, `\` 转义序列仅适用于文本块.
+由于字符文字和传统字符串文字不允许嵌入换行符的简单原因,\<line-terminator> 转义序列仅适用于文本块.
 
-其次,新的 `\s` 转义序列仅转换为一个空格 (\u0020).
+其次,新的 \s 转义序列仅转换为一个空格 (\u0020).
 
 在此示例中,在每行末尾使用 `\s` 可以确保每行正好是六个字符长:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String colors = """
     red  \s
@@ -1603,8 +1555,7 @@ String colors = """
 
 可以在可以使用字符串文字的任何地方使用文本块.例如,文本块和字符串文字可以互换使用:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String code = "public void print(Object o) {" +
               """
@@ -1615,8 +1566,7 @@ String code = "public void print(Object o) {" +
 
 但是,涉及文本块的串联可能会变得很笨拙.以以下文本块为起点:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String code = """
               public void print(Object o) {
@@ -1627,8 +1577,7 @@ String code = """
 
 假设需要更改,以便 `o` 的类型来自变量. 使用串联,包含尾随代码的文本块将需要从新行开始. 不幸的是,如下所示,在程序中直接插入换行符会导致类型和以 `o` 开头的文本之间存在很大的空白:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String code = """
               public void print(""" + type + """
@@ -1640,8 +1589,7 @@ String code = """
 
 可以手动删除空格,但这会损害引用代码的可读性:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String code = """
               public void print(""" + type + """
@@ -1653,8 +1601,7 @@ String code = """
 
 替代方法是使用 `String::replace` 或 `String::format`,如下所示:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String code = """
               public void print($type o) {
@@ -1669,8 +1616,7 @@ String code = String.format("""
 ----
 
 另一种选择是引入新的实例方法 `String::formatted`,该方法可以按如下方式使用:
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 String source = """
                 public void print(%s object) {
@@ -1895,8 +1841,7 @@ https://bugs.openjdk.java.net/browse/JDK-4837564[4837564] 和 https://bugs.openj
 
 可以从多种来源创建内存段，例如本机内存缓冲区，内存映射文件，Java 数组和字节缓冲区(直接或基于堆)。 例如，可以如下创建本机内存段:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 try (MemorySegment segment = MemorySegment.allocateNative(100)) {
    ...
@@ -1912,8 +1857,7 @@ try (MemorySegment segment = MemorySegment.allocateNative(100)) {
 
 内存访问 `var` 句柄是使用 `MemoryHandles` 类中的工厂方法获得的。 例如，要设置本机内存段的元素，我们可以使用如下所示的 `memory-access` var句柄:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 VarHandle intHandle = MemoryHandles.varHandle(int.class,
         ByteOrder.nativeOrder());
@@ -1929,8 +1873,7 @@ try (MemorySegment segment = MemorySegment.allocateNative(100)) {
 内存访问 `var` 句柄可以获取长类型的额外访问坐标，以支持更复杂的寻址方案，例如对原本平坦的内存段进行多维寻址。 通常通过调用在 `MemoryHandles` 类中定义的组合器方法来获得这种内存访问 `var` 句柄。
 例如，设置本机内存段元素的一种更直接的方法是通过索引的内存访问 `var` 句柄，其构造如下:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 VarHandle intHandle = MemoryHandles.varHandle(int.class,
         ByteOrder.nativeOrder());
@@ -1946,8 +1889,7 @@ try (MemorySegment segment = MemorySegment.allocateNative(100)) {
 
 为了增强API的表达能力，并减少对诸如上述示例中的显式数值计算的需求，可以使用 `MemoryLayout` 来以编程方式描述 `MemorySegment` 的内容。 例如，以上示例中使用的本机内存段的布局可以通过以下方式描述:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 SequenceLayout intArrayLayout
     = MemoryLayout.ofSequence(25,
@@ -1957,8 +1899,7 @@ SequenceLayout intArrayLayout
 
 这将创建一个顺序存储器布局，其中给定的元素布局(32位值)重复 25 次。 一旦有了内存布局，就可以摆脱代码中的所有手动数值计算，还可以简化所需内存访问 `var` 句柄的创建，如以下示例所示:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 SequenceLayout intArrayLayout
     = MemoryLayout.ofSequence(25,
@@ -2008,8 +1949,7 @@ try (MemorySegment segment = MemorySegment.allocateNative(intArrayLayout)) {
 
 外部内存访问 API 提供了两种方法来放松线程限制的障碍。 首先，线程可以通过执行显式的切换操作来协作地共享段，其中一个线程在给定的段上释放其所有权并将其转移到另一个线程上。 考虑以下代码:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 MemorySegment segmentA = MemorySegment.allocateNative(10); // confined by thread A
 ...
@@ -2020,8 +1960,7 @@ var segmentB = segmentA.withOwnerThread(threadB); // confined by thread B
 
 其次，通过从存储段中获取一个 `Splitter` 实例，仍然可以并行处理存储段的内容(例如，使用诸如 Fork/Join 之类的框架)。 例如，要对一个内存段的所有 32 位值进行并行求和，我们可以使用以下代码:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
+[source,java]
 ----
 SequenceLayout seq = MemoryLayout.ofSequence(1_000_000, MemoryLayouts.JAVA_INT);
 SequenceLayout seq_bulk = seq.reshape(-1, 100);
@@ -2061,363 +2000,7 @@ int sum = StreamSupport.stream(MemorySegment.spliterator(segment, seq_bulk), tru
 [[java-15-feature-record]]
 == Record (第二次预览)
 
-[[java-15-feature-record-summary]]
-=== 简介
-
-Records 是在 2019 年年中由 https://openjdk.java.net/jeps/359[JEP 359] 提出的，并在 2020 年初在 JDK 14 中作为一个预览特性。这个 JEP 提议重新预览 JDK 15 中的特性，以结合基于反馈的改进，并支持 Java 语言中本地类和接口的其他形式。
-
-在第二次预览中，record 有一些小的变化。 现在不应通过反射修改 record 中的字段，因为它会抛出 `IllegalAccessException`。
-
-[[java-15-feature-record-goal]]
-=== 目标
-
-* 设计一个表达简单值集合的面向对象的构造。
-* 帮助程序员专注于对不可变数据进行建模，而不是对可扩展行为进行建模。
-* 自动实现数据驱动的方法，例如 `equals` 和 `accessors`。
-* 保留 Java 的规则，例如 nominal 类型和迁移兼容性。
-
-[[java-15-feature-record-non-goals]]
-=== 非目标实现
-
-* 这不是挑起 "war on boilerplate"； 特别是，使用 JavaBean 命名约定来解决可变类的问题并不是目标。
-* 不会添加诸如属性或注解驱动的代码生成之类的功能特性，通常建议这些功能来简化 "普通Java对象" 类的声明。
-
-[[java-15-feature-record-motivation]]
-=== 动机和目标
-
-很多程序员一样抱怨 “Java 太啰嗦” 或有太多的 “繁文缛节 ”,开发人员想要创建纯数据载体类(plain data carriers)通常都必须编写大量低价值、
-重复的、容易出错的代码.如:构造函数、 `getter/setter`、 `equals()`、 `hashCode()` 以及 `toString()` 等 . 例如，带有 x 和 y 坐标的类会如下声明
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-class Point {
-    private final int x;
-    private final int y;
-
-    Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    int x() { return x; }
-    int y() { return y; }
-
-    public boolean equals(Object o) {
-        if (!(o instanceof Point)) return false;
-        Point other = (Point) o;
-        return other.x == x && other.y = y;
-    }
-
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
-
-    public String toString() {
-        return String.format("Point[x=%d, y=%d]", x, y);
-    }
-}
-----
-
-有时，开发人员倾向于通过省略诸如 `equals` 之类的方法来偷工减料，从而会导致了令人吃惊的表现( surprising behavior )和糟糕的可调试性 (poor debuggability)。
-
-IDE 有助于在数据载体类中编写大多数代码，但是并没有做任何事情来帮助读者从数十行代码中提取 "我是x，y和z的数据载体" 的设计意图。 样板。 编写对少量值建模的 Java 代码应该更容易编写，阅读和验证正确。
-
-从表面上看，records 主要作用是减少代码量，但是我们选择了一个更语义的目标: 为数据建模。 (如果语义正确，则样例将自行处理。)声明数据载体类应简单明了，这些载体类默认情况下使其数据不可变并提供生成和使用数据的方法的惯用实现。
-
-[[java-15-feature-record-description]]
-=== 描述
-
-Records 是 Java 语言中一种新型的类型声明。 像枚举一样，Records 是类的一种受限形式。 它声明其表示形式，并提交与该表示形式匹配的 API。 Records 放弃了类通常享有的自由: 将 API 与表示分离的能力。
-因此，Records 获得了很大程度的简洁性。
-
-record 的声明指定 name，header 和 body。 header 列出了 record 的组成部分，它们是构成其状态的变量。 (组件列表有时称为状态描述。)例如:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-record Point(int x, int y) { }
-----
-
-因为 record 在语义上声称是其数据的透明载体，所以 record 会自动获取标准成员:
-
-* 对于 header 中的每个组件，都有两个成员: 一个与该组件具有相同名称和返回类型的公共访问器方法，以及一个与该组件具有相同类型的私有 final 字段；
-* 一个规范化的构造函数，其签名与 header 相同，并将每个私有字段分配给实例化 record 的新表达式中的相应参数；
-* `equals` 和 `hashCode` 方法，如果两个记录属于同一类型并且包含相同的组件值，则表示它们是相等的;和
-* `toString` 的实现，其中包括所有记录组件的字符串表示形式及其名称。
-
-[[java-15-feature-record-description-ruls]]
-==== records 规则
-
-可以显式声明从 header 自动派生的任何成员，但从 record 组件派生的私有字段除外。 访问器或 equals/hashCode 的任何显式实现都应小心保存 record 的语义不变量。
-
-record 中的构造函数规则与普通类中的规则不同。 没有任何构造函数声明的普通类将自动获得默认的构造函数。 相反，没有任何构造函数声明的 record 会自动获得规范的构造函数，该规范的构造函数将所有私有字段分配给实例化 record 的新表达式的相应参数。
-例如，先前声明的 record--record Point(int x, int y) { } 将被编译为:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-record Point(int x, int y) {
-    // Implicitly declared fields
-    private final int x;
-    private final int y;
-
-    // Other implicit declarations elided ...
-
-    // Implicitly declared canonical constructor
-    Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-----
-
-可以使用与 record header 匹配的形式参数列表显式地声明规范构造函数，如上所示，或者可以以更紧凑的形式声明该规范构造函数，以帮助开发人员专注于验证和规范化参数，而无需进行繁琐的分配参数工作到领域模型。
-紧凑的规范构造函数消除了形式参数列表； 它们是隐式声明的，与 record 组件相对应的私有字段不能在主体中分配，而是在构造函数的末尾自动分配给相应的形式参数  (this.x = x;) 。
-例如，这是一个紧凑的规范构造函数，用于验证其(隐式)形式参数:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-record Range(int lo, int hi) {
-    Range {
-        if (lo > hi)  // referring here to the implicit constructor parameters
-            throw new IllegalArgumentException(String.format("(%d,%d)", lo, hi));
-    }
-}
-----
-
-records 声明有很多限制:
-
-* record  没有扩展子句。 record 的超类始终为 `java.lang.Record`，类似于枚举的超类始终为 `java.lang.Enum`。 即使普通类可以显式扩展其隐式超类 Object，record 也不能显式扩展任何类，甚至其隐式超类 `Record` 也不能。
-* record 是隐含 `final` 的，并且不能是抽象的。 这些限制强调 record 的 API 仅由其状态描述定义，并且以后不能由另一个类或 record 进行增强。
-* record 不能显式声明实例字段，并且不能包含实例初始化程序。 这些限制可确保仅 record header 定义 record 值的状态。
-* record 类的 record 组件的的字段隐式声明为 `final`，并且不能通过反射进行修改(这样做将引发 `IllegalAccessException`)。 这些限制体现了一种不可更改的默认策略，该策略广泛适用于数据载体类。
-* 否则将自动派生的成员的任何显式声明都必须与自动派生成员的类型完全匹配，而不必考虑显式声明上的类型注解。
-* record 不能声明本地方法。 如果 record 可以声明本地方法，则 record 的行为根据定义将取决于外部状态，而不是 record 的显式状态。 带有本地方法的类都不适合迁移到 record。
-
-除上述限制外，record 的行为类似于普通类:
-
-* 使用 `new` 关键字实例化 record。
-* 可以将它们声明为顶级或嵌套，可以是通用的
-* 可以声明静态方法，静态字段和静态初始化方法。
-* 可以声明实例方法。即，一条 record 可以显式声明与组件相对应的公共访问器方法，也可以声明其他实例方法。
-* 可以实现接口。 尽管一条 record 不能指定超类(因为这将意味着继承，而不是 header 中描述的状态)，但是一条 record 可以自由地指定超接口并声明实例方法来帮助实现它们。 就像类一样，接口可以有效地记录许多 record 的行为。
-该行为可以是与 domain 无关的(例如，`Comparable`)或特定于域的，在这种情况下，record 可以是捕获域的密封层次结构的一部分(参见下文)。
-* 可以声明嵌套的类型，包括嵌套的 record。如果 record 本身是嵌套的，则它是默认是静态的；这避免了立即密封的实例，该实例将以静态方式将状态添加到 record 中。
-* 可以对 record 及其状态描述中的组件进行注解。 注解将传播到自动派生的字段，方法和构造函数参数。 record 组件类型的类型注解也将传播到自动派生成员的类型。
-
-[[java-15-feature-record-description-sealed]]
-==== Records 和 Sealed Types
-
-Records 与 <<java-15-feature-sealed,密封类>> https://openjdk.java.net/jeps/360[(JEP 360)] 配合良好。 例如，一系列 Records 可以实现相同的密封接口:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-package com.example.expression;
-
-public sealed interface Expr
-    permits ConstantExpr, PlusExpr, TimesExpr, NegExpr {...}
-
-public record ConstantExpr(int i)       implements Expr {...}
-public record PlusExpr(Expr a, Expr b)  implements Expr {...}
-public record TimesExpr(Expr a, Expr b) implements Expr {...}
-public record NegExpr(Expr e)           implements Expr {...}
-----
-
-Record 和密封类一起构成通常称为 https://en.wikipedia.org/wiki/Algebraic_data_type[代数数据类型的构造]。Records 使我们能够表达产品类型，密封 Records 使我们能够表达类型数量。
-
-[[java-15-feature-record-description-local]]
-==== 本地 record
-
-产生和使用 records 的程序可能会处理许多中间值，这些中间值本身就是简单的变量组。 声明 records 以对那些中间值建模通常会很方便。 一种选择是声明静态且嵌套的 "helper" records ，就像今天许多程序声明帮助程序类一样。
-一个更方便的选择是在方法内部声明一条 records，该 records 靠近操纵变量的代码。 因此，该 JEP 提出了类似于 https://docs.oracle.com/javase/specs/jls/se14/html/jls-14.html#jls-14.3[本地类] 的传统构造的本地 records。
-
-在下面的示例中，使用本地 record  `MerchantSales` 对商人和每月销售额进行汇总。 使用此 record  可提高以下流操作的可读性:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-List<Merchant> findTopMerchants(List<Merchant> merchants, int month) {
-    // Local record
-    record MerchantSales(Merchant merchant, double sales) {}
-
-    return merchants.stream()
-        .map(merchant -> new MerchantSales(merchant, computeSales(merchant, month)))
-        .sorted((m1, m2) -> Double.compare(m2.sales(), m1.sales()))
-        .map(MerchantSales::merchant)
-        .collect(toList());
-}
-----
-
-本地 records 是嵌套 records 的一种特殊情况。 像所有嵌套 records 一样，本地 records 是隐式静态的。 这意味着它们自己的方法无法访问封闭方法的任何变量； 反过来，这避免了捕获立即密封的实例，该实例将以静默方式将状态添加到 records 中。
-本地 records 是隐式静态的，这与不是隐式静态的本地类相反。
-实际上，局部类永远不会是静态的(隐式或显式)，并且始终可以访问密封方法中的变量。
-
-考虑到本地 records 的有用性，也具有本地枚举和本地接口将很有用。 由于担心它们的语义，传统上在 Java 中不允许使用它们。 具体来说，嵌套枚举和嵌套接口是隐式静态的，因此局部枚举和本地接口也应隐式静态的。
-但是，Java 语言中的本地声明(本地变量，本地类)永远不会是静态的。 但是，在 https://openjdk.java.net/jeps/359[JEP 359] 中引入本地 records 克服了这种语义上的担忧，允许本地声明为静态，并为本地枚举和本地接口打开了大门。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-record Range(int lo, int hi) {
-  public Range {
-    if (lo > hi)  /* referring here to the implicit constructor parameters */
-      throw new IllegalArgumentException(String.format("(%d,%d)", lo, hi));
-  }
-}
-----
-
-[[java-15-feature-record-description-annotations]]
-==== record 组件上的注解
-
-record 组件在 record 声明中具有多个角色。 record 组件是一种高级的概念，每个组件对应于一个具有相同名称和类型的字段，一个具有相同名称和返回类型的访问器方法以及一个具有相同名称和类型的构造函数参数。
-
-这就提出了一个问题: 当对组件进行注解时，实际上是在注解什么？ 答案是 "所有适用于此特定注解的所有内容"。 这样，可以将在其字段，构造函数参数或访问器方法上使用注解的类迁移到 record，而不必重复声明这些成员。 例如，如下所示的类
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-public final class Card {
-    private final @MyAnno Rank rank;
-    private final @MyAnno Suit suit;
-    @MyAnno Rank rank() { return this.rank; }
-    @MyAnno Suit suit() { return this.suit; }
-    ...
-}
-----
-
-可以使用可读性更高的 record 声明:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-public record Card(@MyAnno Rank rank, @MyAnno Suit suit) { ... }
-----
-
-注解的适用性使用 `@Target` 元注解声明。考虑以下:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-@Target(ElementType.FIELD)
-    public @interface I1 {...}
-----
-
-这将声明注解 `@I1`，并且适用于字段声明。我们可以声明一个有多个声明的注解；例如:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-@Target({ElementType.FIELD, ElementType.METHOD})
-    public @interface I2 {...}
-----
-
-这声明了一个注解 `@I2`，它适用于字段声明和方法声明。
-
-返回到 record 组件上的注解，这些注解出现在适用的相应程序点处。 换句话说，传播是在程序员使用 `@Target` 元注解的控制下进行的。 传播规则是系统且直观的，并且遵循所有适用的规则:
-
-* 如果 record 组件上的注解适用于字段声明，则注解将出现在相应的专用字段上。
-* 如果 record 组件上的注解适用于方法声明，则该注解将出现在相应的访问器方法上。
-* 如果 record 组件上的注解适用于形式参数，则如果未显式声明注解，则该注解将出现在规范构造函数的相应形式参数上；如果显式声明一个注解，则注解将出现在紧凑构造函数的相应形式参数上。
-* 如果 record 组件上的注解适用于某个类型，则传播规则与声明注解相同，不同之处在于，该注解出现在相应的类型使用而不是声明上。
-
-如果显式声明了公共访问器方法或(非紧凑型)规范构造函数，则它仅具有直接显示在其上的注解；没有任何内容从相应的 record 组件传播到这些成员。
-
-也可以使用新的注解声明 `@Target(RECORD_COMPONENT)` 声明注解来自记录组件上定义的注解。 可以通过反射来检索这些注解，如以下 "反射API" 部分中所述。
-
-[[java-15-feature-record-description-grammar]]
-==== 语法
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-RecordDeclaration:
-  {ClassModifier} `record` TypeIdentifier [TypeParameters]
-    RecordHeader [SuperInterfaces] RecordBody
-
-RecordHeader:
- `(` [RecordComponentList] `)`
-
-RecordComponentList:
- RecordComponent { `,` RecordComponent}
-
-RecordComponent:
- {Annotation} UnannType Identifier
- VariableArityRecordComponent
-
-VariableArityRecordComponent:
- {Annotation} UnannType {Annotation} `...` Identifier
-
-RecordBody:
-  `{` {RecordBodyDeclaration} `}`
-
-RecordBodyDeclaration:
-  ClassBodyDeclaration
-  CompactConstructorDeclaration
-
-CompactConstructorDeclaration:
- {Annotation} {ConstructorModifier} SimpleTypeName ConstructorBody
-----
-
-[[java-15-feature-record-description-representation]]
-==== Class-file representation
-
-record 类文件使用 Record 属性来存储有关 record 组件的信息:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-Record_attribute {
-    u2 attribute_name_index;
-    u4 attribute_length;
-    u2 components_count;
-    record_component_info components[components_count];
-}
-
-record_component_info {
-    u2 name_index;
-    u2 descriptor_index;
-    u2 attributes_count;
-    attribute_info attributes[attributes_count];
-}
-----
-
-如果 record 组件具有与删除的描述符不同的通用签名，那么 `record_component_info` 结构中必须具有 `Signature` 属性。
-
-[[java-15-feature-record-description-reflection]]
-==== Reflection API
-
-以下公共方法将添加到java.lang.Class:
-
-* RecordComponent[] getRecordComponents()
-* boolean isRecord()
-
-方法 `getRecordComponents()` 返回一个 `java.lang.reflect.RecordComponent` 对象的数组，其中 `java.lang.reflect.RecordComponent` 是一个新类。
-此数组的元素与 Record 的组件相对应，其顺序与 Record 声明中出现的顺序相同。 可以从数组中的每个 `RecordComponent` 提取其他信息，包括其名称，类型，泛型类型，注解及其访问器方法。
-
-如果将给定的类声明为 Record，则 `isRecord()` 方法将返回 `true`。 (与 `isEnum()` 比较。)
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 15
-----
-record Point(int x, int y) { }
-----
-
-[[java-15-feature-record-alternatives]]
-=== 备选方案
-
-记录可以视为元组的名义形式。 代替记录，我们可以实现结构化元组。 但是，虽然元组可以提供表示某些聚合的轻量级方法，但结果通常是劣等的聚合:
-
-* Java 设计哲学的一个很重要的核心是名称。 类及其成员具有有意义的名称，而元组和元组组件则没有。 也就是说，具有 firstName 和 lastName 属性的 Person 类比 String 和 String 的匿名元组更清晰和安全。
-* 类通过其构造函数支持状态验证。 元组不。 某些数据集合(例如数字范围)具有不变量，如果由构造函数强制实施，则此后可以依赖这些不变量； 元组不提供此功能。
-* 类可以具有基于其状态的行为。 将状态和行为并置放置可以使行为更易于发现和访问。 元组是原始数据，不提供此类功能。
-
-[[java-15-feature-record-dependencies]]
-=== 依赖
-
-除了上述 records 和密封类的组合以外，records 自然会适合 https://cr.openjdk.java.net/~briangoetz/amber/pattern-match.html[模式匹配] 也能很好的组合。由于 Record 将其 API 与其状态描述相结合，因此我们最终也将能够导出记录的解构模式，并使用密封类类型信息来确定具有类型模式或解构模式的 switch 的穷举性。
+请参考正式版的说明 <<java-16-feature-records>>
 
 [[java-15-feature-rmi]]
 == 弃用 RMI 激活机制

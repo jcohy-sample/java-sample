@@ -1,8 +1,8 @@
 [[java-14-feature]]
-= Java 14 新特性
+= Java14 新特性
 
 [[java-14-feature-overview]]
-== Java 14 新特性一览
+== Java14 新特性一览
 
 2020 年 3 月 17 日,JDK/Java 14 正式 GA(General Available) .这是自从Java 采用六个月一次的发布周期之后的第五次发布.
 
@@ -11,7 +11,7 @@
 资料来源:  http://openjdk.java.net/projects/jdk/14/
 
 [[java-14-feature-overview-tbl]]
-.Java 14 新特性一览
+.Java14 新特性一览
 |===
 | 新特性 | 翻译
 
@@ -59,11 +59,11 @@ Oracle版本: https://www.oracle.com/java/technologies/javase-jdk14-downloads.ht
 
 * 修改环境变量.
 
-* IDE:需要使用 Idea 2020.1 版本.或者其他支持 Java 14 的 ide.
+* IDE:需要使用 Idea 2020.1 版本.或者其他支持 java14 的ide.
 
 * 项目设置
 
-image::{oss-images}/java-14-4.png[]
+image::{oss-images}/java14/java-14-4.png[]
 
 [[java-14-feature-instanceof]]
 == instanceof 模式匹配 (预览语言)
@@ -78,8 +78,7 @@ image::{oss-images}/java-14-4.png[]
 
 几乎每个程序都包含某种逻辑,这些逻辑结合了对表达式是否具有某种类型或结构的判断,然后有条件地提取其状态的组件以进行进一步处理. 例如,以下是所有Java程序员都熟悉的一种惯用法:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 if (obj instanceof String) {
     String s = (String) obj;
@@ -112,8 +111,7 @@ if (obj instanceof String) {
 
 与局部变量的范围不同,绑定变量的范围由包含的表达式和语句的语义确定. 例如,在此代码中:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 if (!(obj instanceof String s)) {
     .. s.contains(..) ..
@@ -126,16 +124,14 @@ if (!(obj instanceof String s)) {
 
 当 `if` 语句的条件变得比单个 `instanceof` 更复杂时,绑定变量的范围也会相应地增长. 例如,在此代码中:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 if (obj instanceof String s && s.length() > 5) {.. s.contains(..) ..}
 ----
 
 绑定变量 `s` 在 `&&` 运算符右侧以及 `true` 块中. (仅当 `instanceof` 成功匹配时,才考虑到右边.)另一方面,在此代码中:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 if (obj instanceof String s || s.length() > 5) {.. s.contains(..) ..}
 ----
@@ -146,8 +142,7 @@ if (obj instanceof String s || s.length() > 5) {.. s.contains(..) ..}
 
 在 `instanceof` 中使用模式匹配应大大减少 Java 程序中显式强制转换的总数. 此外,类型测试模式在编写相等方法时特别有用. 考虑以下选自 https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/[Effective Java book] 第10条的相等方法:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 @Override public boolean equals(Object o) {
     return (o instanceof CaseInsensitiveString) &&
@@ -187,16 +182,10 @@ Pattern::
 [[java-14-feature-packaging]]
 == 打包工具(孵化器模式)
 
-在 JDK 8 中，一个名为 javapackager 的工具作为 JavaFX 工具包的一部分发布。 然而，随着 JDK 11 的发布，JavaFX 从 Java 中分离出来后，流行的 javapackager 不再可用。
+这个孵化器工具为开发者带来了一种打包 Java 应用的方式,目的在于创建一个简
+单的打包工具,可以用于构建 exe 、 pkg 、 dmg 、 deb 、 rpm 格式的安装文件 .
 
-这个 JEP 创建了一个简单的打包工具，基于支持原生打包格式的 javapackager 工具，并在安装的时候提供给用户体验。 这些格式包括 Windows 上的 `msi` 和  `exe`，macOS 上的 `pkg` 和 `dmg`，以及 Linux 上的 `deb` 和 `rpm`。
-
-可以从命令行直接调用该工具，也可以通过 ToolProvider API 以编程方式调用该工具。
-
-[source,shell]
-----
-$ jpackage --name myapp --input lib --main-jar main.jar
-----
+JDK14 引入了 `jdk.incubator.jpackage.jmod` ,它基于 JavaFX javapackager tool 构建.
 
 [[java-14-feature-numa]]
 == G1 的 NUMA Aware 的内存分配
@@ -205,9 +194,7 @@ $ jpackage --name myapp --input lib --main-jar main.jar
 
 NUMA 就是非统一内存访问架构(英语: non uniform memory access ,简称 NUMA ),是一种为多处理器的电脑设计的内存架构,内存访问时间取决于内存相对于处理器的位置.
 
-有了这个 JEP，G1 垃圾收集器得到了增强，以便在 Linux 操作系统下更好地管理内存。
-
-image::{oss-images}/java-14-7.png[]
+image::{oss-images}/java14/java-14-7.png[]
 
 [[java-14-feature-streaming]]
 == JFR 事件流
@@ -229,8 +216,6 @@ Java 为了更方便的了解运行的 JVM 情况,在之前的 JDK11 版本中�
 与易失性存储器(RAM )不同,它们在非易失性数据存储 NVM ,非易失性存储器上工作.但是,目标平台是 Linux x64 .
 
 非易失性内存能够持久保持数据,因此可以利用该特性来改进性能.
-
-最近对 MappedByteBuffer API 的修改意味着它支持所有需要的行为，允许直接内存更新，并提供更高层次的持久性保证，Java 客户端库实现持久数据类型(例如，块文件系统，日志，持久对象等)。
 
 [[java-14-feature-nullpointerexception]]
 == 非常实用的 NullPointerException
@@ -254,16 +239,14 @@ Java 为了更方便的了解运行的 JVM 情况,在之前的 JDK11 版本中�
 每个Java开发人员都遇到过 `NullPointerExceptions`(NPE). 由于 NPE 几乎可以出现在程序中的任何位置,因此尝试捕获和恢复它们通常是不切实际的.
 结果,开发人员只能依靠 JVM 查明 NPE 实际发生的时间. 例如,假设此代码中出现一个NPE:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 a.i = 99;
 ----
 
 JVM 将打印出导致 NPE 的方法,文件名和行号:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 Exception in thread "main" java.lang.NullPointerException
     at Prog.main(Prog.java:5)
@@ -271,18 +254,16 @@ Exception in thread "main" java.lang.NullPointerException
 
 在此报告中,开发人员可以找到 a.i = 99; 并推断 `a` 为空. 但是,对于更复杂的代码,如果不使用调试器就无法确定哪个变量为空. 假设此代码中出现一个NPE:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 a.b.c.i = 99;
 ----
 
 文件名和行号不能精确指出哪个变量为空. 是 `a` 还是 `b` 或 `c`？
 
-数组访问和分配也会发生类似的问题. 假设此代码中出现一个 NPE:
+数组访问和分配也会发生类似的问题. 假设此代码中出现一个NPE:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 a[i][j][k] = 99;
 ----
@@ -291,8 +272,7 @@ a[i][j][k] = 99;
 
 一行代码可能包含多个访问路径,每个访问路径都可能是 `NPE` 的来源. 假设此代码中出现一个NPE:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 a.i = b.j;
 ----
@@ -301,8 +281,7 @@ a.i = b.j;
 
 最后,`NPE` 可能源于方法调用. 假设此代码中出现一个NPE:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 x().y().i = 99;
 ----
@@ -323,8 +302,7 @@ JVM 在程序试图取消 null 引用的地方抛出 NullPointerException (NPE),
 ====
 例如,赋值语句中的 NPE a.i = 99; 将生成此消息:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot assign field "i" because "a" is null
@@ -333,8 +311,7 @@ Exception in thread "main" java.lang.NullPointerException:
 
 如果更复杂的 `a.b.c.i = 99`; 抛出一个 NPE,异常消息将剖析该语句并通过显示导致空值的完整访问路径来查明原因:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot read field "c" because "a.b" is null
@@ -345,8 +322,7 @@ Exception in thread "main" java.lang.NullPointerException:
 
 同样,如果数组访问和赋值语句 `a[i][j][k]=99`; 引发NPE:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot load from object array because "a[i][j]" is null
@@ -355,8 +331,7 @@ Exception in thread "main" java.lang.NullPointerException:
 
 同样,如果 `a.i = b.j`; throws an NPE:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 Exception in thread "main" java.lang.NullPointerException:
         Cannot read field "j" because "b" is null
@@ -381,174 +356,7 @@ null-detail 消息的第一部分是根据弹出空值的字节码指令计算�
 [[java-14-feature-record]]
 == Record (预览特性)
 
-=== 简介
-
-早在2019 年 2 月份, Java 语言架构师 Brian Goetz ,曾经 写过一篇文章,详尽的说明了并吐槽了 Java 语言,他和很多程序员一样抱怨 “Java 太啰嗦” 或有太多的 “繁文缛节 ”,他提到:开发人员想要创建纯数据载体类(plain data carriers)通常都必须编写大量低价值、
-重复的、容易出错的代码.如:构造函数、 `getter/setter`、 `equals()`、 `hashCode()` 以及 `toString()` 等 .
-
-以至于很多人选择使用 IDE 的功能来自动生成这些代码.还有一些开发会选择使用一些第三方类库,如 Lombok 等来生成这些方法,从而会导致了令人吃惊的表现( surprising behavior )和糟糕的可调试性 (poor debuggability) .
-
-通过 records 增强 Java 编程语言. 记录提供了一种紧凑的语法来声明类,效果类似 lombok 的 @Data 注解.Kotlin 中的 data class . 它们的共同点是类的部分或全部状态可以直接在类头中描述 ,并且这个类中只 包含了纯数据而已. 这是 JDK 14 中的预览语言功能.
-
-=== 描述
-
-当你用 record 声明一个类时,该类将自动拥有以下功能:
-
-* 获取成员变量的简单方法,以上面代码为例 `name()` 和 `partner()` .注意区别于我们平常 getter 的写法.
-* 一个 equals 方法的实现,执行比较时会比较该类的所有成员属性
-* 重写 equals 当然要重写 hashCode
-* 一个可以打印该类所有成员属性的 toString 方法.
-
-[NOTE]
-====
-请注意只会有一个构造方法
-====
-
-和枚举类型一样,记录也是类的一种受限形式. 作为回报,Record 对象在简洁性方面提供了显著的好处 .
-
-还可以在 Record 声明的类中定义静态字段、静态方法、构造器或实例方法.
-
-不能在 Record 声明的类中定义实例字段;类不能声明为 abstract;不能声明显式的父类等.
-
-为了在 Java 14 中引入这种新类型,需要在 Java.lang.Class 对象中添加如下两个新方法:
-
-* RecordComponent[] getRecordComponents(): 返回 RecordComponent 对象数组
-* boolean isRecord: 判断是不是 record
-* ElementType 枚举有一个用于 record 的新常量 RECORD_COMPONENT。
-* ElementKind 枚举为 instanceof 特征的 record 和模式匹配添加了三个新常量，即 `BINDING_VARIABLE`、`RECORD` 和 `RECORD_COMPONENT`。
-
-看下面的示例
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-include::{java-code}/java14/RecordTest.java[tag=record]
-----
-
-当我们创建 EmployeeRecord 记录时，编译器会创建字节码并在生成的类文件中包含以下内容：
-
-* 包含所有参数的构造器
-* 打印所有字段的 toString() 方法
-* equals() 和 hashCode() 方法使用基于 invokedynamic 的机制。
-* 名称与字段名称相似的 getter 方法，即 `id()`、`firstName()`、`lastName()`、`email()` 和 `age()`。
-* 该类扩展了 java.lang.Record，它是所有 record 的基类。 这意味着 record 不能扩展其他类。
-* 该类被标记为 `final`，这意味着我们不能创建它的子类。
-* 它没有任何设置方法，这意味着 record 实例被设计为不可变的。
-
-如果我们在生成的类文件上运行 `javap` 工具，我们将看到类文件。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-public final class com.howtodoinjava.core.basic.EmployeeRecord
-                    extends java.lang.Record {
-  //1
-  public com.howtodoinjava.core.basic
-    .EmployeeRecord(java.lang.Long, java.lang.String, java.lang.String, java.lang.String, int);
-
-  //2
-  public java.lang.String toString();
-
-  //3
-  public final int hashCode();
-  public final boolean equals(java.lang.Object);
-
-  //4
-  public java.lang.Long id();
-  public java.lang.String firstName();
-  public java.lang.String lastName();
-  public java.lang.String email();
-  public int age();
-}
-----
-
-=== 我们什么时候应该使用 Record
-
-* 对于领域模型（可能通过 ORM 持久化）或者用于数据传输对象（DTO）进行建模时，record 时理想的对象
-* record 在存储临时数据时很有用，例如 JSON 反序列化。通常在反序列化期间，我们不希望程序改变从 JSON 读取的数据。 我们只是读取数据并将其传递给数据处理器或验证器。
-* 此外，record 不能替代可变 Java bean，因为记录在设计上是不可变的。
-* 当一个类打算将数据保存一段时间并且我们希望避免编写大量样板代码时，请使用 record。
-* 我们可以在各种其他情况下使用 record，例如 保存来自方法、stream joins、复合 keys 和数据结构（如树节点）的多个返回值。
-
-=== 深入了解
-
-==== invokedynamic
-
-如果我们看到 Java 编译器生成的字节码来检查 `toString()`（以及 `equals()` 和 `hashCode()`）的方法实现，它们是使用基于 `invokedynamic` 的机制实现的。
-
-`invokedynamic` 是一个字节码指令，它通过动态方法调用来促进动态语言（对于 JVM）的实现。
-
-==== 不能显式初始化 record
-
-尽管所有的 record 声明的类都继承了 `java.lang.Record` 类，但我们并不能显式初始化 `java.lang.Record` 的子类，编译器不能通过。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-final class Data extends Record {
-  private final int unit;
-}
-
-// Compiler error : The type Data may not subclass Record explicitly
-----
-
-这意味着获取 Record 的唯一方法是显式声明一条 record 并让 javac 创建类文件。
-
-==== 使用注解
-
-我们可以为 record 的组件添加注解。 例如，我们可以将 `@Transient` 注解应用于 `id` 字段。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-include::{java-code}/java14/RecordTest.java[tag=record2]
-----
-
-==== 序列化
-
-record 的 Java 序列化与常规类不同。record 对象的序列化形式是从对象的不可变实例字段派生的一系列值。record 对象的在流中格式与普通对象的在流中的格式相同。
-
-在反序列化过程中，如果指定的本地类也是 record 类，则首先读取流中的字段并重构为 record 的值；其次，通过调用 record 的规范构造函数来创建 record 对象，其中组件值作为参数（如果流中不存在组件值，则使用组件类型的默认值）。
-
-除非显式声明，否则记录类的 `serialVersionUID` 为 `0L`。record 类也免除了匹配 `serialVersionUID` 值的要求。
-
-record 对象的序列化过程不能自定义；在序列化和反序列化过程中，record 类定义的任何特定于类的  `<code>writeObject、readObject、readObjectNoData、readResolve、writeExternal` 和 `readExternal` 方法都将被忽略。但是，`writeReplace` 方法可用于返回要序列化的替代对象。
-
-在执行任何序列化或反序列化之前，我们必须确保 record 必须是可序列化或可外部化的。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-include::{java-code}/java14/RecordTest.java[tag=record3]
-----
-
-==== 额外的字段和方法
-
-也可以添加新字段和方法，但是并不推荐。
-
-添加到 record 的新字段（未添加到组件列表中）必须是 `static` 的。 添加一个可以访问 record 字段内部状态的方法也是可能的。
-
-编译器不会在隐式生成的字节码中使用添加的字段和方法，因此它们不是任何方法实现的一部分，例如 `equals()`、`hashCode()` 或 `toString()`。 我们必须根据需要明确使用它们。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-include::{java-code}/java14/RecordTest.java[tag=record4]
-----
-
-==== 紧凑的构造函数
-
-我们可以在紧凑构造函数中添加特定于构造函数的代码以进行数据验证。
-
-紧凑的构造函数不会导致编译器生成单独的构造函数。 相反，您在紧凑构造函数中指定的代码在会在规范构造函数的开头显示。
-
-我们不需要将构造函数参数指定给字段。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-include::{java-code}/java14/RecordTest.java[tag=record5]
-----
+请参考正式版的说明 <<java-16-feature-records>>
 
 [[java-14-feature-switch]]
 == switch 表达式
@@ -560,43 +368,56 @@ include::{java-code}/java14/RecordTest.java[tag=record5]
 
 === 描述
 
-Switch 表达式
-
-* 在 Java 14 中，switch 表达式是一个标准特性。 在 Java 13 和 Java 12 中，它被添加为预览功能。
-* 它支持多个 case 标签，并使用关键字 `yield` 代替旧的 `return` 关键字来返回值。
-* 它还支持通过标签规则（类似于 lambda 的箭头运算符）返回值。
-* 如果我们使用箭头 (->) 运算符，我们可以跳过 `yield` 关键字，如 isWeekDayV1_1() 所示。
-* 如果我们使用冒号 (:) 运算符，我们需要使用 `yield` 关键字，如 isWeekDayV1_2() 所示。
-* 如果有多个语句，请使用大括号和 `yield` 关键字，如 isWeekDayV2() 所示。
-* 在枚举的情况下，我们可以跳过 default 分支。 如果有任何未处理的缺失值，编译器会报错。 在所有其他表达式类型（int、strings 等）中，我们必须提供 default 分支。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-include::{java-code}/java14/SwitchTest.java[tag=switch1]
-----
-
 ==== 数组标签(Arrow labels)
 除了 switch 块中的传统 “case L:” 标签外,我们还定义了一种新的简化形式,带有 “case L ->” 标签. 如果标签匹配,则仅执行箭头右侧的表达式或语句;否则,将不执行任何操作. 没有失败. 例如,给定以下使用新标签形式的 switch 语句:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
-include::{java-code}/java14/SwitchTest.java[tag=switch2]
+static void howMany(int k) {
+    switch (k) {
+        case 1  -> System.out.println("one");
+        case 2  -> System.out.println("two");
+        default -> System.out.println("many");
+    }
+}
+----
+
+执行下面的代码:
+
+[source,java]
+----
+howMany(1);
+howMany(2);
+howMany(3);
+----
+
+结果:
+
+[source,java]
+----
+one
+two
+many
 ----
 
 我们扩展 `switch` 语句,以便可以将其用作表达式. 例如,可以将上面的 `howMany` 方法重写为使用 switch 表达式,因此它仅使用单个 println.
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
-include::{java-code}/java14/SwitchTest.java[tag=switch3]
+static void howMany(int k) {
+    System.out.println(
+        switch (k) {
+            case  1 -> "one";
+            case  2 -> "two";
+            default -> "many";
+        }
+    );
+}
 ----
 
 在通常情况下,switch 表达式如下所示:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 T result = switch (arg) {
     case L1 -> e1;
@@ -611,8 +432,7 @@ switch 表达式是聚合表达式; 如果目标类型已知,则将该类型推�
 
 大多数 switch 表达式在 “case L->” switch 标签的右侧都有一个表达式. 如果需要一个完整的块,我们引入一个新的 `yield` 语句来产生一个值,该值成为封闭的 switch 表达式的值.
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 int j = switch (day) {
     case MONDAY  -> 0;
@@ -627,8 +447,7 @@ int j = switch (day) {
 
 像 switch 语句一样,switch 表达式也可以使用带有 “case L:” switch 标签的传统 switch 块(暗示着语义下降). 在这种情况下,使用新的 `yield` 语句产生值:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 int result = switch (s) {
     case "Foo":
@@ -646,37 +465,16 @@ int result = switch (s) {
 `yield` 不是一个关键字,而是一个受限制的标识符(如 `var`),这意味着名为 `yield` 的类是非法的.
 如果作用域中存在一元方法 `yield`,则表达式 `yield(x)` 将是不明确的(可以是方法调用,或者是操作数是括号表达式的 `yield` 语句),并且解决了这种歧义,有利于 `yield` 声明. 如果首选方法调用,则应使用实例方法或静态方法的类名来限定该方法.
 
-.yield 和 return 的区别
-****
-* return 将控制权返回给方法或构造函数的调用者。
-* yield 语句通过使封闭的 switch 表达式产生指定的值来转移控制。
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
-----
-SwitchExpression:
-	YieldStatement:
-    	       yield Expression;
-----
-
-在上面的伪代码中:
-
-* SwitchExpression 试图找到一个正确的 YieldStatement 以将控制权转移到最里面的 yield 目标。
-* SwitchExpression 正常终止，Expression 的值变成 SwitchExpression 的值。
-* 如果 Expression 的求值由于某种原因突然完成，那么 yield 语句也会由于同样的原因而突然完成。
-****
-
 ==== 穷举(Exhaustiveness)
 
-switch 表达式的情况必须详尽无遗;对于所有可能的值,必须有一个匹配的 switch 标签. (显然,switch 语句不需要穷举.)
+switch 表达式的情况必须详尽无遗;对于所有可能的值,必须有一个匹配的 switch 标签. (显然,switch语句不需要穷举.)
 
-实际上,这通常意味着需要一个默认子句.但是,对于涵盖所有已知常量的枚举 switch 表达式,编译器将插入默认子句以指示枚举定义已在编译时和运行时之间更改.依靠这种隐式默认子句的插入可以使代码更健壮.现在,当重新编译代码时,编译器将检查所有情况是否得到明确处理.
+实际上,这通常意味着需要一个默认子句.但是,对于涵盖所有已知常量的枚举 switch 表达式,编译器将插入默认子句以指示枚举定义已在编译时和运行时之间更改.依靠这种隐式默认子句的插入可以使代码更健壮.现在,当重新编​​译代码时,编译器将检查所有情况是否得到明确处理.
 如果开发人员插入了显式的默认子句(如今天的情况),则可能的错误将被隐藏.
 
 此外,switch 表达式必须正常完成一个值,或者必须通过抛出异常来完成.这有许多后果.首先,编译器检查每个 switch 标签是否匹配,然后产生一个值.
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 int i = switch (day) {
     case MONDAY -> {
@@ -696,8 +494,7 @@ i = switch (day) {
 
 进一步的结果是,控制语句 `break`,`yield`,`return` 和 `continue` 无法跳过 switch 表达式,例如以下所示:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 for (int i = 0; i < MAX_VALUE; ++i) {
     int k = switch (e) {
@@ -725,7 +522,7 @@ for (int i = 0; i < MAX_VALUE; ++i) {
 
 该来的总会来,自从 G1 基于 Region 分代 )横空 出世后, CMS 在 JDK9 中就被标记为 Deprecate 了 (JEP 291: Deprecate the Concurrent Mark Sweep (CMS) Garbage Collector)
 CMS 的弊端
-. 会产生内存碎片,导致并发清除后,用户线程可用的空间不足 .
+. 会 产生内存碎片,导致并发清除后,用户线程可用的空间不足 .
 . 既然 强调了并发( Concurrent CMS 收集器 对 CPU 资源非常敏感
 . CMS 收集器无法处理浮动 垃圾
 
@@ -733,8 +530,7 @@ CMS 的弊端
 
 移除了 CMS 垃圾收集器,如果在 JDK14 中使用 `-XX:+UseConcMarkSweepGC` 的话,JVM 不会报错,只是给出一个 warning 信息.
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 Java HotSpot(TM) 64-Bit Server VM warning: Ignoring option UseConcMarkSweepGC; \
 support was removed in <version>
@@ -747,9 +543,9 @@ ZGC 与 Shenandoah 目标高度相似,在尽可能对吞吐量影响不大的前
 
 深入理解 Java 虚拟机 一书中这样定义 ZGC,ZGC 收集器是一款基于 Region 内存布局的,(暂时)不设分代的,使用了读屏障、染色指针和内存多重映射等技术来实现可并发的标记 压缩算法的, 以低延迟为首要目标的一款垃圾收集器.
 
-image::{oss-images}/java-14-5.png[]
+image::{oss-images}/java14/java-14-5.png[]
 
-image::{oss-images}/java-14-6.png[]
+image::{oss-images}/java14/java-14-6.png[]
 
 JDK14 之前, ZGC 仅 Linux 才支持 .
 尽管许多使用 ZGC 的用户都使用类 Linux 的环境,但在 Windows 和 macOS 上,人们也需要 ZGC 进行开发部署和测试.许多桌面应用也可以从 ZGC 中受益.因此, ZGC 特性被移植到了 Windows 和 macOS 上.
@@ -765,8 +561,7 @@ JDK 官方给出将这个 GC 组合标记为 Deprecate 的理由是:这个 GC �
 
 废弃了 parallel young generation GC 与 SerialOld GC 的组合 ( `-XX:+UseParallelGC` 与 `-XX:-UseParallelOldGC` 配合开启 )),现在使用 `-XX:+UseParallelGC` `-XX:-UseParallelOldGC` 或者 `-XX:-UseParallelOldGC` 都会出现告警 如下:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 Java HotSpot(TM) 64 Bit Server VM warning: Option
 UseParallelOldGC was deprecated in version 14.0 and will likely
@@ -779,11 +574,11 @@ be removed in a future release.
 删除软件包中的 `pack200` 和 `unpack200` 工具以及 `Pack200API` `java.util.jar`.不推荐在 Java SE 11 中删除这些工具和API ,并明确打算在将来的版本中删除它们.
 
 [[java-14-feature-text-blocks]]
-== 文本块(第二次预览)
+== 文本块(预览第二版)
 
 === 简介
 
-将文本块添加到 Java 语言. 文本块是多行字符串文字,它避免了大多数转义的需要,以一种可预测的方式自动设置字符串的格式,并在需要时使开发人员可以控制格式. 这是 JDK 14 中的预览语言功能.
+将文本块添加到Java语言. 文本块是多行字符串文字,它避免了大多数转义的需要,以一种可预测的方式自动设置字符串的格式,并在需要时使开发人员可以控制格式. 这是 JDK 14中的预览语言功能.
 
 === 目标
 
@@ -805,17 +600,17 @@ be removed in a future release.
 
 文本块是 Java 语言中一种新型的文字. 它可以用来表示可能出现字符串文字的任何地方的字符串,但是可以提供更高的表现力和更少的意外复杂性.
 
-文本块语法：
+文本块由零个或多个内容字符组成,并由开头和结尾定界符括起来.
 
-* 文本块由多行文本组成，并使用三个双引号字符 (""") 作为其开始和结束分隔符。
-* 开头的三个双引号字符后面总是跟着一个行结束符。
-* 我们不能将分隔符和文本块放在一行上。开始的分隔符必须在它自己的行上。内容只能从下一行开始。
-* 如果文本内容包含单引号或双引号，则不需要转义它们。
+开头定界符是一个由三个双引号字符(“”“)组成的序列,后跟零个或多个空格,后跟一个行终止符.内容从开头定界符的行终止符之后的第一个字符开始.
 
-例如,文本块:
+结束定界符是三个双引号字符的序列. 内容在结束定界符的第一个双引号之前的最后一个字符处结束.
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+与字符串文字中的字符不同,内容可以直接包含双引号字符. 允许在文本块中使用 `\“`,但不是必需的或不建议使用.`”` 选择了三引号定界符(“”“),以便 `”` 字符可以显示为未转义的字符,还可以在视觉上区分文本块和字符串文字.
+
+与字符串文字中的字符不同,内容可以直接包含行终止符. 允许在文本块中使用 `\n`,但不是必需或不建议使用. 例如,文本块:
+
+[source,java]
 ----
 """
 line 1
@@ -826,16 +621,14 @@ line 3
 
 相当于字符串文字:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 "line 1\nline 2\nline 3\n"
 ----
 
 或字符串文字的串联:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 "line 1\n" +
 "line 2\n" +
@@ -844,8 +637,7 @@ line 3
 
 如果在字符串的末尾不需要行终止符,则可以将结束定界符放在内容的最后一行. 例如,文本块:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 """
 line 1
@@ -855,16 +647,14 @@ line 3"""
 
 相当于字符串文字:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 "line 1\nline 2\nline 3"
 ----
 
 文本块可以表示空字符串,尽管不建议这样做,因为它需要两行源代码:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String empty = """
 """;
@@ -872,8 +662,7 @@ String empty = """
 
 以下是一些格式错误的文本块的示例:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String a = """""";   // no line terminator after opening delimiter
 String b = """ """;  // no line terminator after opening delimiter
@@ -884,17 +673,12 @@ String d = """
            """;      // unescaped backslash (see below for escape processing)
 ----
 
-文本块保留其内容的缩进。 为了执行此操作，JEP 将空间划分为附带和必要的缩进。
-
-为了在上下文中讨论，让我们参考第一个例子。
-
-
 === 编译时处理
 
 文本块是 String 类型的常量表达式,就像字符串文字一样.但是,与字符串文字不同,Java 编译器通过三个不同的步骤处理文本块的内容
 
-* 内容中的行终止符将转换为 LF (\u000A).这种转换的目的是在跨平台移动 Java 源代码时遵循 "最小原则".
-* 删除了内容周围附带的空白,以匹配 Java 源代码的缩进.
+* 内容中的行终止符将转换为 LF (\u000A).这种转换的目的是在跨平台移动Java源代码时遵循 "最小惊讶原则".
+* 删除了内容周围附带的空白,以匹配Java源代码的缩进.
 * 内容中的转义序列被解释.作为最后一步执行解释意味着开发人员可以编写转义序列,例如 `\n`,而无需通过较早的步骤进行修改或删除.
 
 处理的内容作为常量池中的 `CONSTANT_String_info` 记录在类文件中,就像字符串文字的字符一样. 该类文件不记录 `CONSTANT_String_info` 是从文本块还是字符串文字来的.
@@ -911,20 +695,18 @@ String d = """
 
 === 新的转义序列
 
-JDK13 引入的 text blocks 进行第二轮 preview JDK14 的版本主要增加了两个 escape sequences ,分别是 `\` 与 `\s`
+JDK13 引入的 text blocks 进行第二轮 preview JDK14 的版本主要增加了两个 escape sequences ,分别是 \<line-terminator> 与 \s <escape-sequence>
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String literal = "Lorem ipsum dolor sit amet, consectetur adipiscing " +
                  "elit, sed do eiusmod tempor incididunt ut labore " +
                  "et dolore magna aliqua.";
 ----
 
-使用 `\` 转义序列,可以表示为:
+使用 \<line-terminator> 转义序列,可以表示为:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String text = """
                 Lorem ipsum dolor sit amet, consectetur adipiscing \
@@ -933,14 +715,13 @@ String text = """
                 """;
 ----
 
-由于字符文字和传统字符串文字不允许嵌入换行符的简单原因,`\` 转义序列仅适用于文本块.
+由于字符文字和传统字符串文字不允许嵌入换行符的简单原因,\<line-terminator> 转义序列仅适用于文本块.
 
 其次,新的 \s 转义序列仅转换为一个空格 (\u0020).
 
 在此示例中,在每行末尾使用 `\s` 可以确保每行正好是六个字符长:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String colors = """
     red  \s
@@ -955,8 +736,7 @@ String colors = """
 
 可以在可以使用字符串文字的任何地方使用文本块.例如,文本块和字符串文字可以互换使用:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String code = "public void print(Object o) {" +
               """
@@ -965,10 +745,9 @@ String code = "public void print(Object o) {" +
               """;
 ----
 
-但是,涉及文本块的串联可能会变得很笨拙.以下文本块为起点:
+但是,涉及文本块的串联可能会变得很笨拙.以以下文本块为起点:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String code = """
               public void print(Object o) {
@@ -979,8 +758,7 @@ String code = """
 
 假设需要更改,以便 `o` 的类型来自变量. 使用串联,包含尾随代码的文本块将需要从新行开始. 不幸的是,如下所示,在程序中直接插入换行符会导致类型和以 `o` 开头的文本之间存在很大的空白:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String code = """
               public void print(""" + type + """
@@ -992,8 +770,7 @@ String code = """
 
 可以手动删除空格,但这会损害引用代码的可读性:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String code = """
               public void print(""" + type + """
@@ -1005,8 +782,7 @@ String code = """
 
 替代方法是使用 `String::replace` 或 `String::format`,如下所示:
 
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String code = """
               public void print($type o) {
@@ -1021,9 +797,7 @@ String code = String.format("""
 ----
 
 另一种选择是引入新的实例方法 `String::formatted`,该方法可以按如下方式使用:
-
-[source,java,indent=0,subs="verbatim,quotes",role="primary"]
-.Java 14
+[source,java]
 ----
 String source = """
                 public void print(%s object) {
