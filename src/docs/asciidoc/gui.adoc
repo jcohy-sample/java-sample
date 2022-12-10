@@ -1,0 +1,18 @@
+[[java-gui]]
+= Gui
+
+== Java 仿苹果计算器
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/gui/Calculator.java[]
+----
+
+== QQ 登陆界面模拟
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{java-code}/gui/QQLogin.java[]
+----
