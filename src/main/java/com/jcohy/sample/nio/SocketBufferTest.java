@@ -1,4 +1,4 @@
-package com.jcohy.sample.nio.sample;
+package com.jcohy.sample.nio;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * Created by jcohy on 2019/3/20. ClassName : com.jcohy.study.nio Description :
  */
-public class TestSocketBuffer {
+public class SocketBufferTest {
 
 	@Test
 	public void selector() throws IOException {
