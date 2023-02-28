@@ -758,7 +758,7 @@ Moveable 接口定义了方法 `move()`，并提供了默认实现。如果任�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/Moveable.java[]
+include::{java-code}/java8/function/Animal.java[]
 ----
 
 如果我们实现了 `move()` 方法，那么他将调用自己实现的方法。如下：
@@ -766,7 +766,7 @@ include::{java-code}/java8/function/Moveable.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/Moveable.java[]
+include::{java-code}/java8/function/Animal2.java[]
 ----
 
 静态默认方法：您可以在接口中定义静态默认方法，这些方法将适用于实现此接口的所有类实例。这使您可以更轻松地在库中组织助手方法；您可以将特定于同一接口的静态方法保留在同一接口中，而不是在单独的类中。这使您可以在类中定义方法，同时与所有子类共享。
@@ -838,7 +838,7 @@ Moveable.super.move();
 [[java-8-feature-date]]
 == 新时间日期 API
 
-新的日期和时间API/类（https://jcp.org/en/jsr/detail?id=310[JSR-310]），也称为 ThreeTen，只是改变了我们在 Java 应用程序中处理日期的方式。
+新的日期和时间 API/类（ https://jcp.org/en/jsr/detail?id=310[JSR-310] ），也称为 ThreeTen，只是改变了我们在 Java 应用程序中处理日期的方式。
 
 `Date` 类已经过时了。现在在替换 Date 类的新类是 `LocalDate`、`LocalTime` 和 `LocalDateTime`。
 
