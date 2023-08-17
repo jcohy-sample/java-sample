@@ -8,8 +8,6 @@ version = "1.0.0"
 
 repositories {
     maven { url = 'https://maven.aliyun.com/repository/central'}
-    maven { url = 'https://repo.spring.io/libs-milestone'}
-    maven { url = 'https://repo.spring.io/snapshot/'}
     mavenCentral()
 }
 
