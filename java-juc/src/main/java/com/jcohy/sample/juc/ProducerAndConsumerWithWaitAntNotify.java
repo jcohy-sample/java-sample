@@ -3,7 +3,7 @@ package com.jcohy.sample.juc;
 /*
  * 生产者和消费者案例
  */
-public class ProductorAndConsumerWithWaitAntNotify {
+public class ProducerAndConsumerWithWaitAntNotify {
 
 	public static void main(String[] args) {
 		Clerk clerk = new Clerk();

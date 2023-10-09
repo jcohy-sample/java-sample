@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright : 2017- www.jcohy.com Created by jcohy on 13:16 2019/4/19 Email:
- * jia_chao23@126.com ClassName: DeadLockDemo Description:
+ * jia_chao23@126.com ClassName: DeadLockDemo Description: 死锁示例代码
  **/
 
 class HoldLoadThread implements Runnable {

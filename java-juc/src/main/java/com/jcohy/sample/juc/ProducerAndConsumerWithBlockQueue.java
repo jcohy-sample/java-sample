@@ -105,7 +105,7 @@ class Consumer3 implements Runnable {
 
 }
 
-public class ProductorAndConsumerWithBlockQueue {
+public class ProducerAndConsumerWithBlockQueue {
 
 	public static void main(String[] args) {
 		BlockingQueue<String> blockingQueue = new ArrayBlockingQueue<>(10);

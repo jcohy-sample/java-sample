@@ -715,7 +715,7 @@ Found 1 deadlock.
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndConsumerWithWaitAntNotify.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProducerAndConsumerWithWaitAntNotify.java[]
 ----
 
 使用锁实现生产者消费者案例：
@@ -723,7 +723,7 @@ include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndC
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndConsumerWithLock.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProducerAndConsumerWithLock.java[]
 ----
 
 使用阻塞队列实现生产者消费者
@@ -731,7 +731,15 @@ include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndC
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndConsumerWithBlockQueue.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProducerAndConsumerWithBlockQueue.java[]
+----
+
+使用 Semaphore 实现生产者消费者
+
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
+----
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProducerAndConsumerWithSemaphore.java[]
 ----
 
 [[java-juc-sample2]]

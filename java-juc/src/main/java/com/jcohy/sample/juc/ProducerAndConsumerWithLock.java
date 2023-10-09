@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /*
  * 生产者消费者案例:
  */
-public class ProductorAndConsumerWithLock {
+public class ProducerAndConsumerWithLock {
 
 	public static void main(String[] args) {
 		Clerk2 clerk = new Clerk2();
