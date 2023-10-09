@@ -422,7 +422,7 @@ null-detail 消息的第一部分是根据弹出空值的字节码指令计算�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/RecordTest.java[tag=record]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/RecordTest.java[tag=record]
 ----
 
 当我们创建 EmployeeRecord 记录时，编译器会创建字节码并在生成的类文件中包含以下内容：
@@ -501,7 +501,7 @@ final class Data extends Record {
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/RecordTest.java[tag=record2]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/RecordTest.java[tag=record2]
 ----
 
 ==== 序列化
@@ -519,7 +519,7 @@ record 对象的序列化过程不能自定义；在序列化和反序列化过�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/RecordTest.java[tag=record3]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/RecordTest.java[tag=record3]
 ----
 
 ==== 额外的字段和方法
@@ -533,7 +533,7 @@ include::{java-code}/java14/RecordTest.java[tag=record3]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/RecordTest.java[tag=record4]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/RecordTest.java[tag=record4]
 ----
 
 ==== 紧凑的构造函数
@@ -547,7 +547,7 @@ include::{java-code}/java14/RecordTest.java[tag=record4]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/RecordTest.java[tag=record5]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/RecordTest.java[tag=record5]
 ----
 
 [[java-14-feature-switch]]
@@ -573,7 +573,7 @@ Switch 表达式
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/SwitchTest.java[tag=switch1]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/SwitchTest.java[tag=switch1]
 ----
 
 ==== 数组标签(Arrow labels)
@@ -582,7 +582,7 @@ include::{java-code}/java14/SwitchTest.java[tag=switch1]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/SwitchTest.java[tag=switch2]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/SwitchTest.java[tag=switch2]
 ----
 
 我们扩展 `switch` 语句,以便可以将其用作表达式. 例如,可以将上面的 `howMany` 方法重写为使用 switch 表达式,因此它仅使用单个 println.
@@ -590,7 +590,7 @@ include::{java-code}/java14/SwitchTest.java[tag=switch2]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 14
 ----
-include::{java-code}/java14/SwitchTest.java[tag=switch3]
+include::{rootProject}/java14/src/main/java/com/jcohy/sample/java14/SwitchTest.java[tag=switch3]
 ----
 
 在通常情况下,switch 表达式如下所示:

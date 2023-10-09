@@ -662,7 +662,7 @@ JDK-8203442 引入的一个小方法,它提供的函数作为输入提供给特�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-include::{java-code}/java12/StringTest.java[tag=transform]
+include::{rootProject}/java12/src/main/java/com/jcohy/sample/java12/StringTest.java[tag=transform]
 ----
 
 对应源码
@@ -700,7 +700,7 @@ public <R> R transform(Function<? super String, ? extends R> f) {
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-include::{java-code}/java12/StringTest.java[tag=transform2]
+include::{rootProject}/java12/src/main/java/com/jcohy/sample/java12/StringTest.java[tag=transform2]
 ----
 
 示例是对一个字符串连续转换了三遍,代码很简单.如果使用 Java 8 的 `Stream` 特性,可以如下实现:
@@ -708,7 +708,7 @@ include::{java-code}/java12/StringTest.java[tag=transform2]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-include::{java-code}/java12/StringTest.java[tag=transform3]
+include::{rootProject}/java12/src/main/java/com/jcohy/sample/java12/StringTest.java[tag=transform3]
 ----
 
 ==== String#indent
@@ -720,7 +720,7 @@ include::{java-code}/java12/StringTest.java[tag=transform3]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-include::{java-code}/java12/StringTest.java[tag=indent]
+include::{rootProject}/java12/src/main/java/com/jcohy/sample/java12/StringTest.java[tag=indent]
 ----
 
 换行符 `\n` 后向前缩进 `n` 个空格,为 `0` 或负数不缩进.
@@ -781,7 +781,7 @@ String 类还引入了两个额外的方法 `describeConstable()` 和 `resolveCo
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-include::{java-code}/java12/FileTest.java[tag=mismatch]
+include::{rootProject}/java12/src/main/java/com/jcohy/sample/java12/FileTest.java[tag=mismatch]
 ----
 
 [[java-12-feature-grama-collectors]]
@@ -795,7 +795,7 @@ include::{java-code}/java12/FileTest.java[tag=mismatch]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 12
 ----
-include::{java-code}/java12/StreamApi.java[tag=teeing]
+include::{rootProject}/java12/src/main/java/com/jcohy/sample/java12/StreamApi.java[tag=teeing]
 ----
 
 [[java-12-feature-other-others]]

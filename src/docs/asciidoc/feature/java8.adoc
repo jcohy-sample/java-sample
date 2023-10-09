@@ -1,6 +1,7 @@
 [[java-8-feature]]
 = Java 8 新特性
 
+
 - 速度更快
 - 代码更少(增加了新的语法Lambda 表达式)
 - 强大的 Stream API
@@ -13,12 +14,12 @@
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Employee
 ----
-include::{java-code}/java8/Employee.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/Employee.java[]
 ----
 [source,java,indent=0,subs="verbatim,quotes",role="secondary"]
 .Status
 ----
-include::{java-code}/java8/Status.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/Status.java[]
 ----
 
 [[java-8-feature-lambda]]
@@ -53,7 +54,7 @@ java 8 中引入了新的操作符 `->`,该操作符称为箭头操作符或者 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda1]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaTest.java[tag=lambda1]
 ----
 
 . 规则二: 有一个参数参数,无返回值: **(x) -> System.out.println(x)**;
@@ -61,7 +62,7 @@ include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda1]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda2]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaTest.java[tag=lambda2]
 ----
 
 . 规则三: 若只有一个参数,小括号可以省略不写
@@ -69,7 +70,7 @@ include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda2]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda3]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaTest.java[tag=lambda3]
 ----
 
 . 规则四: 有两个以上参数,并且有返回值,并且 Lambda 体中有多条语句
@@ -77,7 +78,7 @@ include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda3]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda4]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaTest.java[tag=lambda4]
 ----
 
 . 规则五: 若 Lambda 体中只有一条语句,return 和大括号都可以省略不写
@@ -85,7 +86,7 @@ include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda4]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda5]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaTest.java[tag=lambda5]
 ----
 
 . 规则六: Lambda 表达式的参数列表的数据类型可以省略不写,因为 JVM 编译器可以通过上下文推断,数据类型,即 "类型推断"
@@ -100,7 +101,7 @@ include::{java-code}/java8/lambda/LambdaTest.java[tag=lambda5]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction1]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaFunction.java[tag=lambdafunction1]
 ----
 
 2)、调用 `Collections.sort()` 方法,通过定制排序规则比较两个 `Employee` (先按年龄排序,年龄相同,按姓名排序),使用 Lambda
@@ -108,7 +109,7 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction1]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction2]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaFunction.java[tag=lambdafunction2]
 ----
 
 3)、声明函数式接口,接口中声明抽象方法 `public String getValue(String str)`; 声明类 `TestLambda`,类中编写方法使用接口作为参数,将一个字符串转换成大写,并作为返回值.再将一个字符串的第 `2` 个和第 `4` 个索引位置进行截取子串
@@ -116,13 +117,13 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction2]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/Func1.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/Func1.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction3]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaFunction.java[tag=lambdafunction3]
 ----
 
 4)、声明一个带两个泛型的函数式接口,泛型类型为 `<T,R>` `T` 为参数,`R` 为返回值. 接口中声明对应的抽象方法 在 TestLambda 类中声明方法,使用接口作为参数,计算两个 `long` 型参数的和再计算两个 `long` 型类型的乘积.
@@ -130,13 +131,13 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction3]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/Func2.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/Func2.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
 ----
 
 [[java-8-feature-function]]
@@ -163,7 +164,7 @@ include::{java-code}/java8/lambda/LambdaFunction.java[tag=lambdafunction4]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/MyFunctionInterface.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/MyFunctionInterface.java[]
 ----
 
 此外，默认方法和静态方法也不会被计算在内。也即函数式接口还可以具有以下方法：
@@ -210,7 +211,7 @@ include::{java-code}/java8/function/MyFunctionInterface.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/ConsumerTest.java[tag=consumer1]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/ConsumerTest.java[tag=consumer1]
 ----
 
 [[java-8-feature-function-inside-sample-supplier]]
@@ -221,7 +222,7 @@ include::{java-code}/java8/function/ConsumerTest.java[tag=consumer1]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/SupplierTest.java[tag=supplier]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/SupplierTest.java[tag=supplier]
 ----
 
 [[java-8-feature-function-inside-sample-function]]
@@ -232,7 +233,7 @@ include::{java-code}/java8/function/SupplierTest.java[tag=supplier]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/FunctionTest.java[tag=function]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/FunctionTest.java[tag=function]
 ----
 
 [[java-8-feature-function-inside-sample-predicate]]
@@ -243,7 +244,7 @@ include::{java-code}/java8/function/FunctionTest.java[tag=function]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/PredicateTest.java[tag=predicate]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/PredicateTest.java[tag=predicate]
 ----
 
 [[java-8-feature-function-other]]
@@ -301,7 +302,7 @@ include::{java-code}/java8/function/PredicateTest.java[tag=predicate]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/method/MethodTest.java[tag=method01]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/method/MethodTest.java[tag=method01]
 ----
 
 [[java-8-feature-method-constructor-reference]]
@@ -316,7 +317,7 @@ include::{java-code}/java8/method/MethodTest.java[tag=method01]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/method/MethodTest.java[tag=method02]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/method/MethodTest.java[tag=method02]
 ----
 
 [[java-8-feature-method-array-reference]]
@@ -327,7 +328,7 @@ include::{java-code}/java8/method/MethodTest.java[tag=method02]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/method/MethodTest.java[tag=method03]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/method/MethodTest.java[tag=method03]
 ----
 
 [[java-8-feature-stream]]
@@ -386,7 +387,7 @@ image::{oss-images}/java8/java-stream1.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/stream/CreateStream.java[tag=createStreamByList]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/stream/CreateStream.java[tag=createStreamByList]
 ----
 
 2)、由数组创建流
@@ -403,7 +404,7 @@ include::{java-code}/java8/stream/CreateStream.java[tag=createStreamByList]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/stream/CreateStream.java[tag=createStreamByArray]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/stream/CreateStream.java[tag=createStreamByArray]
 ----
 
 3)、由值创建流
@@ -418,7 +419,7 @@ include::{java-code}/java8/stream/CreateStream.java[tag=createStreamByArray]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/stream/CreateStream.java[tag=createStreamByValue]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/stream/CreateStream.java[tag=createStreamByValue]
 ----
 
 4)、由函数创建流: 创建无限流
@@ -436,7 +437,7 @@ include::{java-code}/java8/stream/CreateStream.java[tag=createStreamByValue]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/stream/CreateStream.java[tag=createStreamByFunction]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/stream/CreateStream.java[tag=createStreamByFunction]
 ----
 
 [[java-8-feature-stream-use-operator]]
@@ -626,7 +627,7 @@ Collector 接口中方法的实现决定了如何对流执行收集操作(如收
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/stream/EndStream.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/stream/EndStream.java[]
 ----
 
 [[java-8-feature-stream-type]]
@@ -656,13 +657,13 @@ image::{oss-images}/java8/java-fork-join.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/fork_join/ForkJoinCalculate.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/fork_join/ForkJoinCalculate.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/fork_join/TestForkJoin.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/fork_join/TestForkJoin.java[]
 ----
 
 [[java-8-feature-stream-exercise]]
@@ -673,7 +674,7 @@ include::{java-code}/java8/fork_join/TestForkJoin.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/Trader.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/sample/Trader.java[]
 ----
 
 交易类
@@ -681,7 +682,7 @@ include::{java-code}/java8/sample/Trader.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/Transaction.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/sample/Transaction.java[]
 ----
 
 测试类
@@ -689,7 +690,7 @@ include::{java-code}/java8/sample/Transaction.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/TestTransaction.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/sample/TestTransaction.java[]
 ----
 
 1)、给定一个数字列表,如何返回一个由每个数的平方构成的列表呢? 给定[1,2,3,4,5], 应该返回[1,4,9,16,25].
@@ -697,7 +698,7 @@ include::{java-code}/java8/sample/TestTransaction.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/LambdaTest.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/sample/LambdaTest.java[]
 ----
 
 2)、怎样用 map 和 reduce 方法数一数流中有多少个 Employee 呢?
@@ -705,7 +706,7 @@ include::{java-code}/java8/sample/LambdaTest.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/sample/MapReduce.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/sample/MapReduce.java[]
 ----
 
 [[java-8-feature-optional]]
@@ -726,7 +727,7 @@ include::{java-code}/java8/sample/MapReduce.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/optional/TestOptional.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/optional/TestOptional.java[]
 ----
 
 [[java-8-feature-default-method]]
@@ -750,7 +751,7 @@ Java 8 中,接口中允许添加静态方法
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/Moveable.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/Moveable.java[]
 ----
 
 Moveable 接口定义了方法 `move()`，并提供了默认实现。如果任何类实现此接口，则无需实现自己的 `move()` 方法。它可以直接调用 `instance.move()`。例如:
@@ -758,7 +759,7 @@ Moveable 接口定义了方法 `move()`，并提供了默认实现。如果任�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/Animal.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/Animal.java[]
 ----
 
 如果我们实现了 `move()` 方法，那么他将调用自己实现的方法。如下：
@@ -766,7 +767,7 @@ include::{java-code}/java8/function/Animal.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/function/Animal2.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/function/Animal2.java[]
 ----
 
 静态默认方法：您可以在接口中定义静态默认方法，这些方法将适用于实现此接口的所有类实例。这使您可以更轻松地在库中组织助手方法；您可以将特定于同一接口的静态方法保留在同一接口中，而不是在单独的类中。这使您可以在类中定义方法，同时与所有子类共享。
@@ -922,19 +923,19 @@ ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("Asia/Shanghai"));
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .TestLocalDate
 ----
-include::{java-code}/java8/date/TestLocalDate.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/TestLocalDate.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .TestLocalTime
 ----
-include::{java-code}/java8/date/TestLocalTime.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/TestLocalTime.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .TestLocalDateTime
 ----
-include::{java-code}/java8/date/TestLocalDateTime.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/TestLocalDateTime.java[]
 ----
 
 如果我们想将日期与时区一起使用，那么 Lambda 会为我们提供额外的三个与上述类似的类，即 `OffsetDate`、`OffsetTime` 和 `OffsetDateTime`。
@@ -943,7 +944,7 @@ include::{java-code}/java8/date/TestLocalDateTime.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/DateTest.java[tag=offsetDateTime]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/DateTest.java[tag=offsetDateTime]
 ----
 
 [[java-8-feature-date-instant]]
@@ -954,7 +955,7 @@ include::{java-code}/java8/date/DateTest.java[tag=offsetDateTime]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/InstantTest.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/InstantTest.java[]
 ----
 
 [[java-8-feature-date-duration]]
@@ -967,7 +968,7 @@ Period:用于计算两个 "日期" 间隔
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/DurationPeriod.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/DurationPeriod.java[]
 ----
 
 [[java-8-feature-date-operation]]
@@ -979,7 +980,7 @@ include::{java-code}/java8/date/DurationPeriod.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/TemporalAdjuster.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/TemporalAdjuster.java[]
 ----
 
 [[java-8-feature-date-format]]
@@ -1002,7 +1003,7 @@ of(id) : 用指定的时区信息获取ZoneId 对象
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/FormatDateTest.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/FormatDateTest.java[]
 ----
 
 [[java-8-feature-date-convert]]
@@ -1045,7 +1046,7 @@ include::{java-code}/java8/date/FormatDateTest.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/DateTest.java[tag=createDate]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/DateTest.java[tag=createDate]
 ----
 
 [[java-8-feature-clock]]
@@ -1058,7 +1059,7 @@ include::{java-code}/java8/date/DateTest.java[tag=createDate]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/date/TestClock.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/date/TestClock.java[]
 ----
 
 [[java-8-feature-timezone]]
@@ -1086,17 +1087,17 @@ Java 8 对注解处理提供了两点改进: 可重复的注解及可用于类�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/annotations/MyAnnotations.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/annotations/MyAnnotations.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/annotations/MyAnnotation.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/annotations/MyAnnotation.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java8/annotations/TestAnnotation.java[]
+include::{rootProject}/java8/src/main/java/com/jcohy/sample/java8/annotations/TestAnnotation.java[]
 ----

@@ -174,7 +174,7 @@ HTTP API 可以处理同步和异步通信。 让我们看一个简单的例子�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/SynchronousHttpClient.java[]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/SynchronousHttpClient.java[]
 ----
 
 异步请求的例子，使用 `sendAsync()` 方法：
@@ -182,7 +182,7 @@ include::{java-code}/java11/SynchronousHttpClient.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/AsynchronousHttpClient.java[]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/AsynchronousHttpClient.java[]
 ----
 
 [[java-11-feature-lambda]]
@@ -504,7 +504,7 @@ output.close();
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/StringApi.java[tag=repeat]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/StringApi.java[tag=repeat]
 ----
 +
 如果你使用的 JDK 版本小于 10，可以考虑使用以下方法：
@@ -512,7 +512,7 @@ include::{java-code}/java11/StringApi.java[tag=repeat]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/StringApi.java[tag=repeatWithRegex]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/StringApi.java[tag=repeatWithRegex]
 ----
 
 * String.isBlank()：判断给定字符串是否为空，它使用 `Character.isWhitespace(char)` 方法来确定一个空白字符
@@ -520,7 +520,7 @@ include::{java-code}/java11/StringApi.java[tag=repeatWithRegex]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/StringApi.java[tag=isBlank]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/StringApi.java[tag=isBlank]
 ----
 +
 .isBlank() vs isEmpty()
@@ -532,7 +532,7 @@ isBlank() 方法只检查非空白字符。它不检查字符串长度。
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java11/StringApi.java[tag=isEmpty]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/StringApi.java[tag=isEmpty]
 ----
 ****
 
@@ -544,7 +544,7 @@ include::{java-code}/java11/StringApi.java[tag=isEmpty]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/StringApi.java[tag=strip]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/StringApi.java[tag=strip]
 ----
 +
 如果您不使用 Java 11，则可以使用正则表达式来删除字符串周围的空白字符（包括制表符）
@@ -565,7 +565,7 @@ include::{java-code}/java11/StringApi.java[tag=strip]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/StringApi.java[tag=stripWithRegex]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/StringApi.java[tag=stripWithRegex]
 ----
 
 * String.lines(): lines() 方法是一个静态方法，返回多行文本中的每一行作为流返回，由行终止符分隔。行终止符可能为：换行符 (“\n”)，回车符 (“\r”)，回车换行符 (“\r\n”)。其顺序与在文本中出现的顺序一样
@@ -573,7 +573,7 @@ include::{java-code}/java11/StringApi.java[tag=stripWithRegex]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/StringApi.java[tag=lines]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/StringApi.java[tag=lines]
 ----
 
 [[java-11-feature-api-collection]]
@@ -586,7 +586,7 @@ include::{java-code}/java11/StringApi.java[tag=lines]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/CollectionApi.java[tag=toArray]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/CollectionApi.java[tag=toArray]
 ----
 
 [[java-11-feature-api-files]]
@@ -597,7 +597,7 @@ include::{java-code}/java11/CollectionApi.java[tag=toArray]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/FilesApi.java[tag=readString]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/FilesApi.java[tag=readString]
 ----
 
 * Files.writeString(): 将字符串写入文件中，他有两个重载方法。
@@ -605,7 +605,7 @@ include::{java-code}/java11/FilesApi.java[tag=readString]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/FilesApi.java[tag=writeString]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/FilesApi.java[tag=writeString]
 ----
 
 [[java-11-feature-api-optional]]
@@ -618,5 +618,5 @@ include::{java-code}/java11/FilesApi.java[tag=writeString]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 11
 ----
-include::{java-code}/java11/OptionalApi.java[tag=optional]
+include::{rootProject}/java11/src/main/java/com/jcohy/sample/java11/OptionalApi.java[tag=optional]
 ----

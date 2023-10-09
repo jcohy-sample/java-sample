@@ -242,5 +242,5 @@ Oracle Java 平台组的首席架构师 Mark Reinhold 在博客上介绍了有�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 10
 ----
-include::{java-code}/java10/VersionTest.java[]
+include::{rootProject}/java10/src/main/java/com/jcohy/sample/java10/VersionTest.java[]
 ----

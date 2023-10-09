@@ -127,7 +127,7 @@ Java 语言提供了一种稍弱的同步机制,即 `volatile` 变量.用来确�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/CompareAndSwapMock.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/CompareAndSwapMock.java[]
 ----
 
 [[java-juc-cas-atomic]]
@@ -238,7 +238,7 @@ public final int getAndAddInt(Object var1, long var2, int var4) {
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/AtomicDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/AtomicDemo.java[]
 ----
 
 [[java-juc-cas-disadvantages]]
@@ -250,7 +250,7 @@ include::{java-code}/juc/AtomicDemo.java[]
 
 .什么是 ABA 问题?
 ****
-假如一个线程想要对变量 `count` 进行修改,实际操作之前获取 `count` 的值为A,此时来了一个线程将 `count` 值修改为 B,又来一个线程获取 `count` 的值为 B并将 `count` 修改为A,此时第一个线程全然不知道 `count` 的值已经被修改两次了,虽然值还是 A,但是实际上数据已经是脏的.
+假如一个线程想要对变量 `count` 进行修改,实际操作之前获取 `count` 的值为 A,此时来了一个线程将 `count` 值修改为 B,又来一个线程获取 `count` 的值为 B并将 `count` 修改为A,此时第一个线程全然不知道 `count` 的值已经被修改两次了,虽然值还是 A,但是实际上数据已经是脏的.
 
 一个解决办法是,对 count 的每次操作都记录下当前的一个时间戳,这样当我们原子操作 `count` 之前,不仅查看 `count` 的最新数值,还记录下该 `count` 的时间戳,在实际操作的时候,只有在 `count` 的数值和时间戳都没有被更改的情况之下才完成修改操作.
 JUC 提供了一个类实现带版本号的原子引用.`AtomicStampedReference`
@@ -276,7 +276,7 @@ JUC 提供了一个类实现带版本号的原子引用.`AtomicStampedReference`
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/CountDownLatchDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/CountDownLatchDemo.java[]
 ----
 
 [[java-juc-cyclicbarrier]]
@@ -287,7 +287,7 @@ include::{java-code}/juc/CountDownLatchDemo.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/CyclicBarrierDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/CyclicBarrierDemo.java[]
 ----
 
 [[java-juc-semaphore]]
@@ -298,7 +298,7 @@ include::{java-code}/juc/CyclicBarrierDemo.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/SemaphoreDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/SemaphoreDemo.java[]
 ----
 
 [[java-juc-callable]]
@@ -311,7 +311,7 @@ include::{java-code}/juc/SemaphoreDemo.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/CallableDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/CallableDemo.java[]
 ----
 
 [[java-juc-lock]]
@@ -323,7 +323,7 @@ include::{java-code}/juc/CallableDemo.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/LockDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/LockDemo.java[]
 ----
 
 [[java-juc-condition]]
@@ -336,12 +336,12 @@ include::{java-code}/juc/LockDemo.java[]
 [[java-juc-loop]]
 === 线程按序交替
 
-编写一个程序,开启3 个线程,这三个线程的 ID 分别为 `A、B、C`,每个线程将自己的ID 在屏幕上打印 `10` 遍,要求输出的结果必须按顺序显示.如: ABCABCABC…… 依次递归
+编写一个程序,开启3 个线程,这三个线程的 ID 分别为 `A、B、C`,每个线程将自己的 ID 在屏幕上打印 `10` 遍,要求输出的结果必须按顺序显示.如: ABCABCABC…… 依次递归
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/ABCAlternateDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ABCAlternateDemo.java[]
 ----
 
 [[java-juc-readwritelock]]
@@ -353,13 +353,13 @@ include::{java-code}/juc/ABCAlternateDemo.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/ReadWriteLockDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ReadWriteLockDemo.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/ReadWriteLockDemo2.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ReadWriteLockDemo2.java[]
 ----
 
 [[java-juc-enight]]
@@ -391,7 +391,7 @@ include::{java-code}/juc/ReadWriteLockDemo2.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestThreadPool.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ThreadPoolDemo.java[]
 ----
 
 
@@ -560,7 +560,7 @@ image::{oss-images}/juc/java-juc-fork-join13.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/ForkJoinPoolDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ForkJoinPoolDemo.java[]
 ----
 
 [[java-juc-sample]]
@@ -573,7 +573,7 @@ include::{java-code}/juc/ForkJoinPoolDemo.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/DeadLockDemo.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/DeadLockDemo.java[]
 ----
 
 === 定位分析
@@ -715,7 +715,7 @@ Found 1 deadlock.
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestProductorAndConsumer.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndConsumerWithWaitAntNotify.java[]
 ----
 
 使用锁实现生产者消费者案例：
@@ -723,7 +723,7 @@ include::{java-code}/juc/TestProductorAndConsumer.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestProductorAndConsumerForLock.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndConsumerWithLock.java[]
 ----
 
 使用阻塞队列实现生产者消费者
@@ -731,7 +731,7 @@ include::{java-code}/juc/TestProductorAndConsumerForLock.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestProductorAndConsumerForBlockQueue.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/ProductorAndConsumerWithBlockQueue.java[]
 ----
 
 [[java-juc-sample2]]
@@ -741,5 +741,5 @@ include::{java-code}/juc/TestProductorAndConsumerForBlockQueue.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/juc/TestThread8Monitor.java[]
+include::{rootProject}/java-juc/src/main/java/com/jcohy/sample/juc/Thread8MonitorDemo.java[]
 ----

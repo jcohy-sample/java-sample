@@ -1,0 +1,15 @@
+plugins {
+    id "com.jcohy.module"
+}
+
+description = "Java Template Sample"
+
+dependencies {
+    implementation('org.junit.jupiter:junit-jupiter')
+    implementation('org.junit.jupiter:junit-jupiter-engine')
+}
+
+// 设置 Java 版本
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
+

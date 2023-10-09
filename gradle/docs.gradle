@@ -1,28 +1,12 @@
 apply plugin: "com.jcohy.docs"
 apply plugin: "com.jcohy.oss-upload"
 
-description = "Jcohy Study Algorithm Sample"
+description = "Jcohy Study Java Sample"
 
-
-asciidoctor {
-	sources {
-		include "index.singleadoc"
-	}
-}
-
-task asciidoctorMultipage(type: org.asciidoctor.gradle.jvm.AsciidoctorTask) {
-	sources {
-		include "*.adoc"
-	}
-}
-
-
-asciidoctorMultipage.dependsOn(asciidoctor)
-
-task aggregatedAsciidoctor(type: Copy) {
+tasks.register('aggregatedAsciidoctor', Copy) {
 	dependsOn rootProject.asciidoctor
 	dependsOn rootProject.asciidoctorPdf
-	dependsOn rootProject.asciidoctorMultipage
+	dependsOn rootProject.asciidoctorMultiPage
 
 	destinationDir = rootProject.file "${buildDir}"
 
@@ -30,7 +14,7 @@ task aggregatedAsciidoctor(type: Copy) {
 		into "generated/htmlsingle"
 	}
 
-	from(rootProject.asciidoctorMultipage.outputDir) {
+	from(rootProject.asciidoctorMultiPage.outputDir) {
 		into "generated/html5"
 	}
 
@@ -39,15 +23,16 @@ task aggregatedAsciidoctor(type: Copy) {
 	}
 }
 
+
 alioss {
 	accessKey = System.getenv("ACCESS_KEY")
 	secretKey = System.getenv("SECRET_KEY")
 }
 
-task zip(type: Zip) {
-	dependsOn aggregatedAsciidoctor
-	from("${buildDir}/generated")
-	archiveName 'jcohy-study-sample.zip'
+tasks.register('zip', Zip) {
+    dependsOn aggregatedAsciidoctor
+    from("${buildDir}/generated")
+    archiveName 'jcohy-study-sample.zip'
 }
 
 artifacts {

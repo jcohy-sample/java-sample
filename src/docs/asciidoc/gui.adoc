@@ -6,7 +6,7 @@
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/gui/Calculator.java[]
+include::{rootProject}/java-gui/src/main/java/com/jcohy/sample/gui/Calculator.java[]
 ----
 
 == QQ 登陆界面模拟
@@ -14,5 +14,5 @@ include::{java-code}/gui/Calculator.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/gui/QQLogin.java[]
+include::{rootProject}/java-gui/src/main/java/com/jcohy/sample/gui/QQLogin.java[]
 ----

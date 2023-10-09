@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"com.jcohy.sample.java18.snippets"},{"l":"所有程序包","u":"allpackages-index.html"}];updateSearchResults();

@@ -1,5 +1,6 @@
 [[java-9-feature]]
 = Java 9 新特性
+:java-code: {rootProject}/java9/src/main/java/com/jcohy/sample
 
 [[java-9-feature-overview]]
 == Java 9 新特性一览
@@ -503,7 +504,7 @@ Java 8 中规定接口中的方法除了抽象方法之外,还可以定义静态
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/PrivateInterface.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/PrivateInterface.java[]
 ----
 
 让我们再看一个例子来了解接口私有方法的用法。我们创建了一个 `CustomCalculator`  类，里面包含两个方法，第一个方法接收整数并添加所有偶数，第二个方法接收整数并添加所有奇数。
@@ -511,13 +512,13 @@ include::{java-code}/java9/PrivateInterface.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/CustomCalculator.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/CustomCalculator.java[]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Main.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Main.java[]
 ----
 
 ==== 总结
@@ -550,7 +551,7 @@ include::{java-code}/java9/Main.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 8
 ----
-include::{java-code}/java9/Tests.java[tag=interface1]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=interface1]
 ----
 
 编译报错信息: `'<>'` cannot be used with anonymous classes
@@ -563,7 +564,7 @@ include::{java-code}/java9/Tests.java[tag=interface1]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 8
 ----
-include::{java-code}/java9/Tests.java[tag=resource1]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=resource1]
 ----
 
 java 8 中,可以实现资源的自动关闭,但是要求执行后必须关闭的所有资源必须在 try 子句中初始化,否则编译不通过.如下例所示:
@@ -571,7 +572,7 @@ java 8 中,可以实现资源的自动关闭,但是要求执行后必须关闭�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 8
 ----
-include::{java-code}/java9/Tests.java[tag=resource2]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=resource2]
 ----
 
 java 9 中,用资源语句编写 `try` 将更容易,我们可以在 `try` 子句中使用已经初始化过的资源,此时的资源是 `final` 的:
@@ -579,7 +580,7 @@ java 9 中,用资源语句编写 `try` 将更容易,我们可以在 `try` 子句
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Tests.java[tag=resource3]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=resource3]
 ----
 
 [[java-9-feature-grammar-underscope]]
@@ -635,7 +636,7 @@ static <E> List<E>  of(E... elements)
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/ImmutableCollections.java[tag=list]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/ImmutableCollections.java[tag=list]
 ----
 
 ==== 不可变 Set
@@ -670,7 +671,7 @@ static <E> Set<E> of(E... elements)
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/ImmutableCollections.java[tag=list]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/ImmutableCollections.java[tag=list]
 ----
 
 ==== 创建不可变 Map
@@ -701,7 +702,7 @@ static <K,V> Map.Entry<K,V> entry(K k, V v)
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/ImmutableCollections.java[tag=list]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/ImmutableCollections.java[tag=list]
 ----
 
 [[java-9-feature-grammar-stream]]
@@ -717,7 +718,7 @@ Stream 中增加了新的方法 `ofNullable`、`dropWhile`、`takeWhile` 和 `it
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Tests.java[tag=takeWhile]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=takeWhile]
 ----
 
 `dropWhile` 方法与 `takeWhile` 方法相反。
@@ -728,7 +729,7 @@ include::{java-code}/java9/Tests.java[tag=takeWhile]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Tests.java[tag=dropWhile]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=dropWhile]
 ----
 
 在 如下代码中,流中包含了从 1 到 5 的 元素.断言检查元素是否为奇数.第一个元素 1 被删除,结果流中包含 4 个元素.
@@ -736,7 +737,7 @@ include::{java-code}/java9/Tests.java[tag=dropWhile]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Tests.java[tag=testDropWhile]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=testDropWhile]
 ----
 
 `iterate()` 方法用于创建以某个元素（种子）开头的流，随后该元素通过连续应用 UnaryOperator 运算生成。 其结果是无限流。如果要终止流，需要使用 `limit` 或其他一些短路函数，如 `findFirst` 或 `findAny`。
@@ -762,13 +763,13 @@ static Stream iterate(T seed, Predicate hasNext, UnaryOperator next)
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java9/IterateTest.java[tag=java8]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/IterateTest.java[tag=java8]
 ----
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/java9/IterateTest.java[tag=java9]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/IterateTest.java[tag=java9]
 ----
 
 在 Java 8 之前，流中不能有 `null` 值。 它会导致 `NullPointerException`。
@@ -778,7 +779,7 @@ include::{java-code}/java9/IterateTest.java[tag=java9]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Tests.java[tag=ofNullable]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=ofNullable]
 ----
 
 [[java-9-feature-grammar-stream-collectors]]
@@ -789,7 +790,7 @@ include::{java-code}/java9/Tests.java[tag=ofNullable]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Tests.java[tag=testFlatMapping]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=testFlatMapping]
 ----
 
 [[java-9-feature-grammar-stream-optional]]
@@ -800,7 +801,7 @@ include::{java-code}/java9/Tests.java[tag=testFlatMapping]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Tests.java[tag=testStream]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Tests.java[tag=testStream]
 ----
 
 [[java-9-feature-grammar-deprecated]]
@@ -993,7 +994,7 @@ JIT(Just-in-time)编译器可以在运行时将热点编译成本地代码,速�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Process.java[tag=process1]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Process.java[tag=process1]
 ----
 
 要获取新衍生进程的信息，请使用 `process.toHandle()` 方法获取 `ProcessHandle` 实例。其余的操作都和上面一样。
@@ -1001,7 +1002,7 @@ include::{java-code}/java9/Process.java[tag=process1]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Process.java[tag=process2]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Process.java[tag=process2]
 ----
 
 还使用 `ProcessHandle.allProcesses()` 获取系统中所有可用进程的 `ProcessHandle` 流。
@@ -1011,7 +1012,7 @@ include::{java-code}/java9/Process.java[tag=process2]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Process.java[tag=process3]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Process.java[tag=process3]
 ----
 
 下面代码 中给出了进程 API 的使用示例.
@@ -1020,7 +1021,7 @@ include::{java-code}/java9/Process.java[tag=process3]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/Process.java[tag=process]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/Process.java[tag=process]
 ----
 
 [[java-9-feature-loggerfinder]]
@@ -1082,7 +1083,7 @@ VarHandle 定义了以下五种访问模式，结合上面的一致性保证级�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/VarHandleTest.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/VarHandleTest.java[]
 ----
 
 累加器实现：
@@ -1090,12 +1091,12 @@ include::{java-code}/java9/VarHandleTest.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 8
 ----
-include::{java-code}/java9/CounterPlusWithJava8.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/CounterPlusWithJava8.java[]
 ----
 [source,java,indent=0,subs="verbatim,quotes",role="secondary"]
 .Java 9
 ----
-include::{java-code}/java9/CounterPlusWithJava9.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/CounterPlusWithJava9.java[]
 ----
 
 [[java-9-feature-method]]
@@ -1116,7 +1117,7 @@ include::{java-code}/java9/CounterPlusWithJava9.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/IteratedLoopTest.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/IteratedLoopTest.java[]
 ----
 
 [[java-9-feature-concurrency]]
@@ -1139,7 +1140,7 @@ include::{java-code}/java9/IteratedLoopTest.java[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/TestInputStream.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/TestInputStream.java[]
 ----
 
 `ObjectInputFilter` 可以对 `ObjectInputStream` 中包含的内容进行检查,来确保其中包含的数据是合法的.可以使用 `ObjectInputStream` 的方法 `setObjectInputFilter` 来设置.`ObjectInputFilter` 在进行检查时,可以检查如对象图的最大深度、对象引用的最大数量、输入流中的最大字节数和数组的最大长度等限制,也可以对包含的类的名称进行限制.
@@ -1152,7 +1153,7 @@ Java 9 新增了 4 个 `SHA-3` 哈希算法,`SHA3-224`、`SHA3-256`、`SHA3-384`
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java 9
 ----
-include::{java-code}/java9/SHA3.java[]
+include::{rootProject}/java9/src/main/java/com/jcohy/sample/java9/SHA3.java[]
 ----
 
 [[java-9-feature-desktop]]

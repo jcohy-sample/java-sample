@@ -144,7 +144,7 @@ image::{oss-images}/nio/java-nio-buffer3.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/nio/NioTest.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/NioTest.java[]
 ----
 
 [[java-nio-channels]]
@@ -255,7 +255,7 @@ image::{oss-images}/nio/java-nio-channel3.jpg[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/nio/FileChannelTest.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/FileChannelTest.java[]
 ----
 
 [[java-nio-blocking]]
@@ -358,14 +358,14 @@ Java NIO 中的 `ServerSocketChannel` 是一个可以监听新进来的 TCP 连�
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .传统的阻塞IO
 ----
-include::{java-code}/nio/ServerSide.java[]
-include::{java-code}/nio/ClientSide.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/ServerSide.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/ClientSide.java[]
 ----
 .非阻塞IO
 [source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
 ----
-include::{java-code}/nio/ServerSideWithNio.java[]
-include::{java-code}/nio/ClientSideWithNio.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/ServerSideWithNio.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/ClientSideWithNio.java[]
 ----
 
 [[java-nio-datagramchannel]]
@@ -381,7 +381,7 @@ Java NIO 中的 `DatagramChannel` 是一个能收发 UDP 包的通道.
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/nio/DatagramChannelTest.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/DatagramChannelTest.java[]
 ----
 
 [[java-nio-pipe]]
@@ -398,7 +398,7 @@ image::{oss-images}/nio/java-nio-pipe1.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/nio/PipeTest.java[]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/PipeTest.java[]
 ----
 
 [[java-nio-nio2]]
@@ -527,5 +527,5 @@ Java 7 增加了一个新特性,该特性提供了另外一种管理资源的方
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::{java-code}/nio/AutoCloseableTest.java[tag=close]
+include::{rootProject}/java-nio/src/main/java/com/jcohy/sample/nio/AutoCloseableTest.java[tag=close]
 ----
