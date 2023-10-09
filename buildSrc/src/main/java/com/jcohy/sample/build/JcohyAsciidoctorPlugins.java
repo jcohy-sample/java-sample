@@ -33,11 +33,7 @@ public class JcohyAsciidoctorPlugins implements Plugin<Project> {
         plugins.apply(AsciidoctorConventionsPlugin.class);
         plugins.apply(DeployedPlugin.class);
         configureJavaCompileConventions(project);
-        plugins.withType(AsciidoctorJPlugin.class,(asciidoctorPlugin) -> {
-            project.getTasks().withType(AbstractAsciidoctorTask.class, (asciidoctorTask) -> {
-                configureAsciidoctorTask(project, asciidoctorTask);
-            });
-        });
+        plugins.withType(AsciidoctorJPlugin.class,(asciidoctorPlugin) -> project.getTasks().withType(AbstractAsciidoctorTask.class, (asciidoctorTask) -> configureAsciidoctorTask(project, asciidoctorTask)));
     }
 
     private void configureJavaCompileConventions(Project project) {
@@ -58,6 +54,8 @@ public class JcohyAsciidoctorPlugins implements Plugin<Project> {
     }
 
     private void addAsciidoctorTaskAttributes(Project project,Map<String, Object> attributes) {
+        attributes.put("author", "Author: Jcohy ");
+        attributes.put("email", "Email: jia_chao23@126.com ");
         attributes.put("rootProject", project.getRootProject().getProjectDir());
         attributes.put("java-code", project.getRootProject().getProjectDir() + "/src/main/java/com/jcohy/sample");
         attributes.put("kotlin-code", project.getRootProject().getProjectDir() + "/src/main/kotlin/com/jcohy/sample");

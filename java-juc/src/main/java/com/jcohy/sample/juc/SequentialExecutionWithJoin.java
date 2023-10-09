@@ -66,6 +66,10 @@ public class SequentialExecutionWithJoin {
 //                throw new RuntimeException(e);
 //            }
 //        },"Thread3");
+//
+//        thread1.start();
+//        thread2.start();
+//        thread3.start();
     }
 
 
